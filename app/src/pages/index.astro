@@ -21,7 +21,7 @@ import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemory
 
 import type { Language } from '@domain/entities/Language';
 
-// Default to Spanish, but should redirect based on localStorage on client
+// Default to Spanish, language will be determined on client-side from localStorage
 const lang: Language = 'es';
 
 // Initialize repositories

@@ -1,8 +1,8 @@
 ---
-import Layout from '../../../presentation/layouts/Layout.astro';
-import Header from '../../../presentation/components/Header.astro';
-import Footer from '../../../presentation/components/Footer.astro';
-import { translate, supportedLanguages, defaultLanguage } from '@infrastructure/i18n';
+import Layout from '../../presentation/layouts/Layout.astro';
+import Header from '../../presentation/components/Header.astro';
+import Footer from '../../presentation/components/Footer.astro';
+import { translate } from '@infrastructure/i18n';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
 import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
@@ -16,19 +16,13 @@ export async function getStaticPaths() {
   const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
   const projects = await getAllProjectsUseCase.execute();
 
-  const paths: { params: { lang: string; id: string } }[] = [];
-  
-  supportedLanguages.forEach((lang) => {
-    projects.forEach((project) => {
-      paths.push({ params: { lang, id: project.id } });
-    });
-  });
-
-  return paths;
+  return projects.map((project) => ({
+    params: { id: project.id }
+  }));
 }
 
-const { lang, id } = Astro.params as { lang: string; id: string };
-const validLang: Language = (supportedLanguages.includes(lang as Language) ? lang : defaultLanguage) as Language;
+const { id } = Astro.params as { id: string };
+const lang: Language = 'es';
 
 const personalInfoRepository = new InMemoryPersonalInfoRepository();
 const projectRepository = new InMemoryProjectRepository();
@@ -40,30 +34,30 @@ const personalInfo = await getPersonalInfoUseCase.execute();
 const project = await getProjectByIdUseCase.execute(id);
 
 if (!project) {
-  return Astro.redirect(`/${validLang}`);
+  return Astro.redirect('/');
 }
 
 const typeLabels: Record<Project['type'], string> = {
-  'work': validLang === 'es' ? 'Proyecto Laboral' : 'Work Project',
-  'academic': validLang === 'es' ? 'Proyecto Académico' : 'Academic Project',
-  'personal': validLang === 'es' ? 'Proyecto Personal' : 'Personal Project'
+  'work': lang === 'es' ? 'Proyecto Laboral' : 'Work Project',
+  'academic': lang === 'es' ? 'Proyecto Académico' : 'Academic Project',
+  'personal': lang === 'es' ? 'Proyecto Personal' : 'Personal Project'
 };
 
 const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString(validLang === 'es' ? 'es-ES' : 'en-US', {
+  return new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
     year: 'numeric',
     month: 'long'
   });
 };
 ---
 
-<Layout lang={validLang} title={`${project.title} - ${personalInfo.name}`} description={project.description}>
-  <Header lang={validLang} personalInfo={personalInfo} />
+<Layout lang={lang} title={`${project.title} - ${personalInfo.name}`} description={project.description}>
+  <Header lang={lang} personalInfo={personalInfo} />
   
   <main class="project-detail-page">
     <div class="container">
       <div class="page-header">
-        <a href={`/${validLang}#projects`} class="back-link">← {translate(validLang, 'common.back')}</a>
+        <a href="/#projects" class="back-link">← {translate(lang, 'common.back')}</a>
         <div class="project-meta">
           <span class="type-badge" data-type={project.type}>{typeLabels[project.type]}</span>
           <span class="date">{formatDate(project.startDate)}</span>
@@ -83,7 +77,7 @@ const formatDate = (date: Date) => {
 
           {project.technologies && project.technologies.length > 0 && (
             <section class="technologies-section">
-              <h2>{validLang === 'es' ? 'Tecnologías Utilizadas' : 'Technologies Used'}</h2>
+              <h2>{lang === 'es' ? 'Tecnologías Utilizadas' : 'Technologies Used'}</h2>
               <div class="tech-list">
                 {project.technologies.map((tech) => (
                   <span class="tech-tag">{tech}</span>
@@ -95,12 +89,12 @@ const formatDate = (date: Date) => {
           <section class="links-section">
             {project.demoUrl && (
               <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                {validLang === 'es' ? 'Ver Demo' : 'View Demo'}
+                {lang === 'es' ? 'Ver Demo' : 'View Demo'}
               </a>
             )}
             {project.repoUrl && (
               <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                {validLang === 'es' ? 'Ver Código' : 'View Code'}
+                {lang === 'es' ? 'Ver Código' : 'View Code'}
               </a>
             )}
           </section>
@@ -109,7 +103,7 @@ const formatDate = (date: Date) => {
     </div>
   </main>
 
-  <Footer lang={validLang} />
+  <Footer lang={lang} />
 </Layout>
 
 <style>

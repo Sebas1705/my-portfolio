@@ -1,22 +1,16 @@
 ---
-import Layout from '../../presentation/layouts/Layout.astro';
-import Header from '../../presentation/components/Header.astro';
-import Footer from '../../presentation/components/Footer.astro';
-import { translate, supportedLanguages, defaultLanguage } from '@infrastructure/i18n';
+import Layout from '../presentation/layouts/Layout.astro';
+import Header from '../presentation/components/Header.astro';
+import Footer from '../presentation/components/Footer.astro';
+import { translate } from '@infrastructure/i18n';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllCoursesUseCase } from '@application/use-cases/GetAllCoursesUseCase';
 import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
 import { InMemoryCourseRepository } from '@infrastructure/repositories/InMemoryCourseRepository';
 import type { Language } from '@domain/entities/Language';
 
-export function getStaticPaths() {
-  return supportedLanguages.map(lang => ({
-    params: { lang }
-  }));
-}
-
-const { lang } = Astro.params as { lang: string };
-const validLang: Language = (supportedLanguages.includes(lang as Language) ? lang : defaultLanguage) as Language;
+// Use default language - will be overridden by client-side localStorage
+const lang: Language = 'es';
 
 const personalInfoRepository = new InMemoryPersonalInfoRepository();
 const courseRepository = new InMemoryCourseRepository();
@@ -35,29 +29,29 @@ const groupedCourses = courses.reduce((acc, course) => {
 }, {} as Record<string, typeof courses>);
 
 const categoryLabels: Record<string, string> = {
-  'online': validLang === 'es' ? 'Cursos en Línea' : 'Online Courses',
-  'certification': validLang === 'es' ? 'Certificaciones' : 'Certifications',
+  'online': lang === 'es' ? 'Cursos en Línea' : 'Online Courses',
+  'certification': lang === 'es' ? 'Certificaciones' : 'Certifications',
   'bootcamp': 'Bootcamp',
-  'workshop': validLang === 'es' ? 'Talleres' : 'Workshops'
+  'workshop': lang === 'es' ? 'Talleres' : 'Workshops'
 };
 
 const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString(validLang === 'es' ? 'es-ES' : 'en-US', {
+  return new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
     year: 'numeric',
     month: 'long'
   });
 };
 ---
 
-<Layout lang={validLang} title={`${validLang === 'es' ? 'Cursos' : 'Courses'} - ${personalInfo.name}`} description="All courses and certifications">
-  <Header lang={validLang} personalInfo={personalInfo} />
+<Layout lang={lang} title={`${lang === 'es' ? 'Cursos' : 'Courses'} - ${personalInfo.name}`} description="All courses and certifications">
+  <Header lang={lang} personalInfo={personalInfo} />
   
   <main class="courses-page">
     <div class="container">
       <div class="page-header">
-        <a href={`/${validLang}`} class="back-link">← {translate(validLang, 'common.back')}</a>
-        <h1>{validLang === 'es' ? 'Mis Cursos & Certificaciones' : 'My Courses & Certifications'}</h1>
-        <p class="page-subtitle">{translate(validLang, 'skills.subtitle')}</p>
+        <a href="/" class="back-link">← {translate(lang, 'common.back')}</a>
+        <h1>{lang === 'es' ? 'Mis Cursos & Certificaciones' : 'My Courses & Certifications'}</h1>
+        <p class="page-subtitle">{translate(lang, 'skills.subtitle')}</p>
       </div>
 
       {Object.entries(groupedCourses).map(([category, categoryCourses]) => (
@@ -80,7 +74,7 @@ const formatDate = (date: Date) => {
 
                   {course.skills && course.skills.length > 0 && (
                     <div class="course-skills">
-                      <span class="skills-label">{validLang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
+                      <span class="skills-label">{lang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
                       <div class="skill-tags">
                         {course.skills.map((skill) => (
                           <span class="skill-tag">{skill}</span>
@@ -92,12 +86,12 @@ const formatDate = (date: Date) => {
                   <div class="course-actions">
                     {course.url && (
                       <a href={course.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                        {validLang === 'es' ? 'Ver Curso' : 'View Course'}
+                        {lang === 'es' ? 'Ver Curso' : 'View Course'}
                       </a>
                     )}
                     {course.certificateUrl && (
                       <a href={course.certificateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                        {validLang === 'es' ? 'Certificado' : 'Certificate'}
+                        {lang === 'es' ? 'Certificado' : 'Certificate'}
                       </a>
                     )}
                   </div>
@@ -109,7 +103,7 @@ const formatDate = (date: Date) => {
     </div>
   </main>
 
-  <Footer lang={validLang} />
+  <Footer lang={lang} />
 </Layout>
 
 <style>

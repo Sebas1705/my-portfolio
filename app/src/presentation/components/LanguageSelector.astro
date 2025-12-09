@@ -191,20 +191,14 @@ const orderedLanguages = [
         // Save to localStorage
         localStorage.setItem('language', lang);
         
-        const currentPath = window.location.pathname;
-        const pathSegments = currentPath.split('/').filter(Boolean);
+        // Update HTML lang attribute
+        document.documentElement.setAttribute('lang', lang);
         
-        // Get the list of supported languages
-        const supportedLangs = ['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja'];
+        // Dispatch custom event for other components to listen to
+        window.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lang } }));
         
-        // Remove language prefix if it exists
-        if (supportedLangs.includes(pathSegments[0])) {
-          pathSegments.shift();
-        }
-        
-        // Navigate to the language-specific path
-        const newPath = `/${lang}${pathSegments.length > 0 ? '/' + pathSegments.join('/') : ''}`;
-        window.location.href = newPath;
+        // Reload page to reflect language changes
+        window.location.reload();
       }
     });
   });

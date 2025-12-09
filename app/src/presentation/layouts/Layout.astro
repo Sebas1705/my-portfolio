@@ -45,64 +45,34 @@ import '../styles/global.css';
       
       const theme = getThemePreference();
       document.documentElement.setAttribute('data-theme', theme);
-    </script>
-    
-    <script is:inline>
+      
       // Initialize language from localStorage
-      // Get the current language from the URL
-      const currentPath = window.location.pathname;
-      const pathSegments = currentPath.split('/').filter(Boolean);
       const supportedLanguages = ['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja'];
-      const currentUrlLang = pathSegments[0] && supportedLanguages.includes(pathSegments[0]) ? pathSegments[0] : null;
       
       // Get saved language from localStorage
       const savedLanguage = typeof localStorage !== 'undefined' ? localStorage.getItem('language') : null;
       
-      // Determine which language to use and whether to redirect
+      // Get browser language
       const browserLang = navigator.language.split('-')[0];
+      
       let targetLanguage = 'es'; // Default language
-      let shouldRedirect = false;
       
       if (savedLanguage && supportedLanguages.includes(savedLanguage)) {
         targetLanguage = savedLanguage;
-        // Redirect if the URL lang doesn't match the saved language
-        if (currentUrlLang !== savedLanguage) {
-          shouldRedirect = true;
-        }
       } else if (supportedLanguages.includes(browserLang)) {
         targetLanguage = browserLang;
-        // Save browser language preference
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('language', targetLanguage);
-        }
-        // Redirect if the URL lang doesn't match
-        if (currentUrlLang !== targetLanguage) {
-          shouldRedirect = true;
-        }
-      } else if (currentUrlLang) {
-        // If URL has a language, use and save it
-        targetLanguage = currentUrlLang;
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('language', targetLanguage);
-        }
-      } else {
-        // Save default language
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('language', targetLanguage);
-        }
       }
       
-      // Perform redirect if necessary
-      if (shouldRedirect && currentUrlLang !== targetLanguage) {
-        // Remove current language from path if present
-        let newPath = currentPath;
-        if (currentUrlLang) {
-          newPath = currentPath.replace(new RegExp(`^/${currentUrlLang}(/|$)`), '/');
-        }
-        // Add target language to path
-        const finalPath = `/${targetLanguage}${newPath === '/' ? '' : newPath}`;
-        window.location.href = finalPath;
+      // Save language preference
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('language', targetLanguage);
       }
+      
+      // Update HTML lang attribute
+      document.documentElement.setAttribute('lang', targetLanguage);
+      
+      // Store current language in window for components to access
+      window.__currentLanguage = targetLanguage;
     </script>
   </head>
   <body>
