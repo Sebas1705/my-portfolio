@@ -393,10 +393,12 @@ const stackFocus = ['TypeScript', 'React / Next', 'Node.js / Nest', 'React Nativ
     border-radius: 2rem;
     padding: 12px;
     background: conic-gradient(from 140deg, var(--color-primary), var(--color-secondary), var(--color-primary));
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: var(--shadow-xl);
     z-index: 2;
+    overflow: hidden;
   }
 
   .profile-pic {
