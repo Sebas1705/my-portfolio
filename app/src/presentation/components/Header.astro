@@ -79,15 +79,16 @@ const navItems = [
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.98);
     background-image: none;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 2px solid var(--color-primary);
     backdrop-filter: blur(10px);
   }
 
   [data-theme="dark"] .header {
-    background-color: rgba(15, 23, 42, 0.95);
+    background-color: rgba(15, 23, 42, 0.98);
     background-image: none;
+    border-bottom: 2px solid var(--color-primary);
   }
 
   .nav {
@@ -104,8 +105,12 @@ const navItems = [
     gap: var(--spacing-md);
     font-weight: 700;
     font-size: 1.125rem;
-    color: var(--color-text-primary);
+    color: var(--color-primary);
     text-decoration: none;
+  }
+
+  [data-theme="dark"] .nav-brand {
+    color: var(--color-primary);
   }
 
   .profile-image {
@@ -146,7 +151,7 @@ const navItems = [
   }
 
   .nav-link {
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     font-weight: 500;
     font-size: 0.9375rem;
     transition: color var(--transition-fast);
@@ -163,7 +168,7 @@ const navItems = [
   }
 
   [data-theme="dark"] .nav-link {
-    color: #cbd5e1;
+    color: #f1f5f9;
   }
 
   [data-theme="dark"] .nav-link:hover {
@@ -180,7 +185,7 @@ const navItems = [
     bottom: -0.5rem;
     left: 0;
     width: 0;
-    height: 2px;
+    height: 3px;
     background-color: var(--color-primary);
     transition: width var(--transition-fast);
   }
@@ -199,24 +204,30 @@ const navItems = [
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-primary);
-    background: none;
-    border: none;
+    color: var(--color-primary);
+    background-color: var(--color-bg-secondary);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
     cursor: pointer;
     padding: 0.5rem;
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
+    font-weight: 600;
   }
 
   .mobile-menu-toggle:hover {
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
   }
 
   [data-theme="dark"] .mobile-menu-toggle {
-    color: #f1f5f9;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
   }
 
   [data-theme="dark"] .mobile-menu-toggle:hover {
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
   }
 
   @media (min-width: 1024px) {

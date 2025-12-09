@@ -54,9 +54,9 @@ const orderedLanguages = [
     gap: var(--spacing-xs);
     padding: 0.5rem 0.75rem;
     border-radius: var(--radius-md);
-    background-color: transparent;
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
     font-weight: 600;
     font-size: 0.875rem;
     transition: all var(--transition-fast);
@@ -64,16 +64,19 @@ const orderedLanguages = [
   }
 
   .language-button:hover {
-    background-color: var(--color-bg-secondary);
-    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
   }
 
   [data-theme="dark"] .language-button {
-    color: #f1f5f9;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
   }
 
   [data-theme="dark"] .language-button:hover {
-    background-color: #1e293b;
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
   }
 
   .language-dropdown {
@@ -81,7 +84,7 @@ const orderedLanguages = [
     top: calc(100% + 0.5rem);
     right: 0;
     background-color: var(--color-bg-primary);
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--color-primary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
     min-width: 180px;
@@ -92,7 +95,7 @@ const orderedLanguages = [
 
   [data-theme="dark"] .language-dropdown {
     background-color: #1e293b;
-    border-color: #334155;
+    border: 2px solid var(--color-primary);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   }
 
@@ -113,14 +116,18 @@ const orderedLanguages = [
     border: none;
     cursor: pointer;
     font-family: var(--font-sans);
+    font-weight: 500;
   }
 
   .language-option:hover {
     background-color: var(--color-bg-secondary);
+    color: var(--color-primary);
   }
 
   .language-option[data-active="true"] {
-    background-color: var(--color-primary-bg, rgba(59, 130, 246, 0.1));
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
+    font-weight: 600;
   }
 
   [data-theme="dark"] .language-option {
@@ -129,10 +136,12 @@ const orderedLanguages = [
 
   [data-theme="dark"] .language-option:hover {
     background-color: #334155;
+    color: var(--color-primary);
   }
 
   [data-theme="dark"] .language-option[data-active="true"] {
-    background-color: rgba(59, 130, 246, 0.2);
+    background-color: var(--color-primary);
+    color: var(--color-bg-primary);
   }
 
   .lang-code {
