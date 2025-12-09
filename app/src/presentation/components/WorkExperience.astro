@@ -1,0 +1,335 @@
+---
+import type { Language } from '@domain/entities/Language';
+import type { WorkExperience } from '@domain/entities/WorkExperience';
+import type { Project } from '@domain/entities/Project';
+import { translate } from '@infrastructure/i18n';
+
+interface Props {
+  lang: Language;
+  experiences: WorkExperience[];
+  projects: Project[];
+}
+
+const { lang, experiences, projects } = Astro.props;
+
+const formatDate = (date: Date, endDate?: Date, lang: Language = 'es') => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short' };
+  const start = date.toLocaleDateString(lang, options);
+  const end = endDate 
+    ? endDate.toLocaleDateString(lang, options) 
+    : translate(lang, 'work.current');
+  return `${start} - ${end}`;
+};
+
+const getRelatedProjects = (experienceId: string) => {
+  return projects.filter(p => p.relatedTo === experienceId);
+};
+---
+
+<section id="work" class="section work-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{translate(lang, 'work.title')}</h2>
+      <p class="section-subtitle">{translate(lang, 'work.subtitle')}</p>
+    </div>
+
+    <div class="timeline">
+      {experiences.map((experience, index) => {
+        const relatedProjects = getRelatedProjects(experience.id);
+        return (
+          <div class="timeline-item" data-index={index}>
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <div class="experience-header">
+                <div>
+                  <h3 class="experience-position">{experience.position}</h3>
+                  <p class="experience-company">{experience.company}</p>
+                </div>
+                <div class="experience-meta">
+                  <span class="experience-date">
+                    {formatDate(experience.startDate, experience.endDate, lang)}
+                  </span>
+                  <span class="experience-location">{experience.location}</span>
+                </div>
+              </div>
+
+              <p class="experience-description">{experience.description}</p>
+
+              <div class="experience-technologies">
+                {experience.technologies.map(tech => (
+                  <span class="tech-tag">{tech}</span>
+                ))}
+              </div>
+
+              {experience.achievements.length > 0 && (
+                <div class="experience-achievements">
+                  <h4 class="achievements-title">{translate(lang, 'work.achievements')}</h4>
+                  <ul class="achievements-list">
+                    {experience.achievements.map(achievement => (
+                      <li>{achievement}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {relatedProjects.length > 0 && (
+                <div class="related-projects">
+                  <h4 class="related-projects-title">{translate(lang, 'work.projects')}</h4>
+                  <div class="projects-grid">
+                    {relatedProjects.map(project => (
+                      <div class="mini-project-card">
+                        <h5 class="project-title">{project.title}</h5>
+                        <p class="project-description">{project.description}</p>
+                        <div class="project-links">
+                          {project.demoUrl && (
+                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
+                              Demo
+                            </a>
+                          )}
+                          {project.repoUrl && (
+                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
+                              Code
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-section {
+    background-color: var(--color-bg-secondary);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+  }
+
+  @media (min-width: 768px) {
+    .timeline::before {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-3xl);
+    padding-left: 60px;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-item {
+      width: 50%;
+      padding-left: 0;
+      padding-right: var(--spacing-2xl);
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-left: 50%;
+      padding-right: 0;
+      padding-left: var(--spacing-2xl);
+    }
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: 12px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    border: 3px solid var(--color-bg-primary);
+    z-index: 2;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-marker {
+      left: auto;
+      right: -8px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-marker {
+      right: auto;
+      left: -8px;
+    }
+  }
+
+  .timeline-content {
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .timeline-content:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .experience-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  @media (min-width: 640px) {
+    .experience-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .experience-position {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .experience-company {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .experience-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .experience-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .experience-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .tech-tag {
+    padding: 0.375rem 0.75rem;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-primary);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .experience-achievements {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .achievements-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .achievements-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .achievements-list li {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    position: relative;
+  }
+
+  .achievements-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-success);
+    font-weight: 700;
+  }
+
+  .related-projects-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .projects-grid {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .mini-project-card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .mini-project-card .project-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .mini-project-card .project-description {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .project-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .project-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,252 @@
+---
+import Layout from '../../presentation/layouts/Layout.astro';
+import Header from '../../presentation/components/Header.astro';
+import Footer from '../../presentation/components/Footer.astro';
+import { translate } from '@infrastructure/i18n';
+import { getSkillIcon } from '@presentation/utils/skillIcons';
+import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
+import { GetAllSkillsUseCase } from '@application/use-cases/GetAllSkillsUseCase';
+import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
+import { InMemorySkillRepository } from '@infrastructure/repositories/InMemorySkillRepository';
+import type { Language } from '@domain/entities/Language';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } }
+  ];
+}
+
+const { lang } = Astro.params as { lang: string };
+const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+
+const personalInfoRepository = new InMemoryPersonalInfoRepository();
+const skillRepository = new InMemorySkillRepository();
+
+const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
+const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
+
+const personalInfo = await getPersonalInfoUseCase.execute();
+const skills = await getAllSkillsUseCase.execute();
+
+// Group skills by category
+const groupedSkills = skills.reduce((acc, skill) => {
+  if (!acc[skill.category]) acc[skill.category] = [];
+  acc[skill.category].push(skill);
+  return acc;
+}, {} as Record<string, typeof skills>);
+
+const categoryLabels: Record<string, string> = {
+  'frontend': 'Frontend',
+  'backend': 'Backend',
+  'mobile': 'Mobile',
+  'tools': validLang === 'es' ? 'Herramientas' : 'Tools',
+  'languages': validLang === 'es' ? 'Lenguajes' : 'Languages'
+};
+
+const renderStars = (level: number) => '★'.repeat(level) + '☆'.repeat(5 - level);
+---
+
+<Layout lang={validLang} title={`${translate(validLang, 'skills.title')} - ${personalInfo.name}`} description="All technologies and skills">
+  <Header lang={validLang} personalInfo={personalInfo} />
+  
+  <main class="technologies-page">
+    <div class="container">
+      <div class="page-header">
+        <a href={`/${validLang}`} class="back-link">← {translate(validLang, 'common.back')}</a>
+        <h1>{translate(validLang, 'skills.title')}</h1>
+        <p class="page-subtitle">{translate(validLang, 'skills.subtitle')}</p>
+      </div>
+
+      {Object.entries(groupedSkills).map(([category, categorySkills]) => (
+        <section class="skill-category-section">
+          <h2>{categoryLabels[category]}</h2>
+          <div class="skills-grid">
+            {categorySkills
+              .sort((a, b) => b.level - a.level || b.yearsOfExperience - a.yearsOfExperience)
+              .map((skill) => (
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <Fragment set:html={getSkillIcon(skill.id)} />
+                  </div>
+                  
+                  <h3>{skill.name}</h3>
+                  
+                  <div class="skill-meta">
+                    <span class="skill-stars" title={`${skill.level}/5`}>
+                      {renderStars(skill.level)}
+                    </span>
+                    <span class="skill-experience">
+                      {skill.yearsOfExperience === 1 
+                        ? validLang === 'es' ? '1 año' : '1 year'
+                        : validLang === 'es' ? `${skill.yearsOfExperience}a` : `${skill.yearsOfExperience}y`
+                      }
+                    </span>
+                  </div>
+
+                  {skill.description && <p class="skill-description">{skill.description}</p>}
+                </div>
+              ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+
+  <Footer lang={validLang} />
+</Layout>
+
+<style>
+  .technologies-page {
+    min-height: 100vh;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .page-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .skill-category-section {
+    margin-bottom: 4rem;
+  }
+
+  .skill-category-section h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .skill-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+    transform: translateY(-8px);
+  }
+
+  .skill-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    transition: all var(--transition-base);
+  }
+
+  .skill-card:hover .skill-icon {
+    transform: scale(1.15);
+  }
+
+  .skill-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.3;
+  }
+
+  .skill-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .skill-stars {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+  }
+
+  .skill-experience {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+  }
+
+  .skill-description {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .skill-category-section h2 {
+      font-size: 1.4rem;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      padding: 1rem;
+    }
+
+    .skill-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.9rem;
+    }
+  }
+</style>

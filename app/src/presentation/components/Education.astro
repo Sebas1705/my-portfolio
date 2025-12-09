@@ -1,0 +1,288 @@
+---
+import type { Language } from '@domain/entities/Language';
+import type { AcademicExperience } from '@domain/entities/AcademicExperience';
+import type { Project } from '@domain/entities/Project';
+import { translate } from '@infrastructure/i18n';
+
+interface Props {
+  lang: Language;
+  experiences: AcademicExperience[];
+  projects: Project[];
+}
+
+const { lang, experiences, projects } = Astro.props;
+
+const formatDate = (date: Date, endDate?: Date, lang: Language = 'es') => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short' };
+  const start = date.toLocaleDateString(lang, options);
+  const end = endDate 
+    ? endDate.toLocaleDateString(lang, options) 
+    : translate(lang, 'work.current');
+  return `${start} - ${end}`;
+};
+
+const getRelatedProjects = (experienceId: string) => {
+  return projects.filter(p => p.relatedTo === experienceId);
+};
+---
+
+<section id="education" class="section education-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{translate(lang, 'education.title')}</h2>
+      <p class="section-subtitle">{translate(lang, 'education.subtitle')}</p>
+    </div>
+
+    <div class="education-grid">
+      {experiences.map((experience, index) => {
+        const relatedProjects = getRelatedProjects(experience.id);
+        return (
+          <div class="education-card" data-index={index}>
+            <div class="card-header">
+              <div class="degree-info">
+                <h3 class="degree-title">{experience.degree}</h3>
+                <p class="degree-field">{experience.field}</p>
+                <p class="institution">{experience.institution}</p>
+              </div>
+              <div class="education-meta">
+                <span class="education-date">
+                  {formatDate(experience.startDate, experience.endDate, lang)}
+                </span>
+                <span class="education-location">{experience.location}</span>
+                {experience.gpa && (
+                  <span class="education-gpa">GPA: {experience.gpa}</span>
+                )}
+              </div>
+            </div>
+
+            <p class="education-description">{experience.description}</p>
+
+            {experience.achievements.length > 0 && (
+              <div class="education-achievements">
+                <h4 class="achievements-title">{translate(lang, 'education.achievements')}</h4>
+                <ul class="achievements-list">
+                  {experience.achievements.map(achievement => (
+                    <li>{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {relatedProjects.length > 0 && (
+              <div class="related-projects">
+                <h4 class="related-projects-title">{translate(lang, 'education.projects')}</h4>
+                <div class="projects-list">
+                  {relatedProjects.map(project => (
+                    <div class="mini-project-card">
+                      <h5 class="project-title">{project.title}</h5>
+                      <p class="project-description">{project.description}</p>
+                      <div class="project-tech">
+                        {project.technologies.slice(0, 3).map(tech => (
+                          <span class="tech-badge">{tech}</span>
+                        ))}
+                      </div>
+                      <div class="project-links">
+                        {project.demoUrl && (
+                          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
+                            Demo
+                          </a>
+                        )}
+                        {project.repoUrl && (
+                          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
+                            Código
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .education-section {
+    background-color: var(--color-bg-primary);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .education-grid {
+    display: grid;
+    gap: var(--spacing-2xl);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .education-card {
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    border: 1px solid var(--color-border);
+  }
+
+  .education-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .card-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .degree-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .degree-field {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .institution {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .education-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .education-gpa {
+    font-weight: 600;
+    color: var(--color-success);
+  }
+
+  .education-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .education-achievements {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .achievements-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .achievements-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .achievements-list li {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    position: relative;
+  }
+
+  .achievements-list li::before {
+    content: '🎓';
+    position: absolute;
+    left: 0;
+  }
+
+  .related-projects-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .projects-list {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .mini-project-card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-secondary);
+  }
+
+  .mini-project-card .project-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .mini-project-card .project-description {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .tech-badge {
+    padding: 0.25rem 0.5rem;
+    background-color: var(--color-bg-secondary);
+    color: var(--color-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .project-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .project-link:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+</style>

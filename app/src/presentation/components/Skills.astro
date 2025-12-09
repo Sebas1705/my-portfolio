@@ -1,0 +1,219 @@
+---
+import type { Language } from '@domain/entities/Language';
+import type { Skill } from '@domain/entities/Skill';
+import { translate } from '@infrastructure/i18n';
+import { getSkillIcon } from '../utils/skillIcons';
+
+interface Props {
+  lang: Language;
+  skills: Skill[];
+  featured?: number; // Show top N skills
+}
+
+const { lang, skills, featured = 12 } = Astro.props;
+
+// Sort by level and get top featured
+const topSkills = skills
+  .sort((a, b) => b.level - a.level || b.yearsOfExperience - a.yearsOfExperience)
+  .slice(0, featured);
+
+const renderStars = (level: number) => {
+  const filled = '★';
+  const empty = '☆';
+  return filled.repeat(level) + empty.repeat(5 - level);
+};
+---
+
+<section id="skills" class="skills section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{translate(lang, 'skills.title')}</h2>
+      <p class="section-subtitle">{translate(lang, 'skills.subtitle')}</p>
+    </div>
+
+    <!-- Featured Skills Grid -->
+    <div class="featured-skills">
+      <div class="skills-grid">
+        {topSkills.map((skill) => (
+          <div class="skill-item" title={skill.description || skill.name}>
+            <div class="skill-icon">
+              <Fragment set:html={getSkillIcon(skill.id)} />
+            </div>
+            <h3 class="skill-name">{skill.name}</h3>
+            <div class="skill-rating">
+              <span class="skill-stars" aria-label={`${skill.level} de 5 estrellas`}>
+                {renderStars(skill.level)}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Link to Full Skills Page -->
+    <div class="skills-footer">
+      <a href={`/${lang}/tecnologias`} class="btn btn-secondary">
+        {translate(lang, 'skills.viewAll')}
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+    padding: var(--spacing-lg) 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Skills Grid */
+  .featured-skills {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: help;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .skill-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+  }
+
+  .skill-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    transition: all var(--transition-base);
+  }
+
+  .skill-item:hover .skill-icon {
+    transform: scale(1.1);
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .skill-rating {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .skill-stars {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  /* Footer with Link */
+  .skills-footer {
+    text-align: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+  }
+
+  .btn-secondary {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+
+  .btn-arrow {
+    transition: transform var(--transition-base);
+  }
+
+  .btn-secondary:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .skill-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .skill-name {
+      font-size: 0.85rem;
+    }
+
+    .skill-stars {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+

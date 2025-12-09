@@ -1,0 +1,68 @@
+---
+import Layout from '../presentation/layouts/Layout.astro';
+import Header from '../presentation/components/Header.astro';
+import Hero from '../presentation/components/Hero.astro';
+import About from '../presentation/components/About.astro';
+import WorkExperience from '../presentation/components/WorkExperience.astro';
+import Education from '../presentation/components/Education.astro';
+import Projects from '../presentation/components/Projects.astro';
+import Contact from '../presentation/components/Contact.astro';
+import Footer from '../presentation/components/Footer.astro';
+
+import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
+import { GetWorkExperiencesUseCase } from '@application/use-cases/GetWorkExperiencesUseCase';
+import { GetAcademicExperiencesUseCase } from '@application/use-cases/GetAcademicExperiencesUseCase';
+import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
+
+import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
+import { InMemoryWorkExperienceRepository } from '@infrastructure/repositories/InMemoryWorkExperienceRepository';
+import { InMemoryAcademicExperienceRepository } from '@infrastructure/repositories/InMemoryAcademicExperienceRepository';
+import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
+
+import type { Language } from '@domain/entities/Language';
+
+// Default to Spanish, but should redirect based on localStorage on client
+const lang: Language = 'es';
+
+// Initialize repositories
+const personalInfoRepository = new InMemoryPersonalInfoRepository();
+const workExperienceRepository = new InMemoryWorkExperienceRepository();
+const academicExperienceRepository = new InMemoryAcademicExperienceRepository();
+const projectRepository = new InMemoryProjectRepository();
+
+// Initialize use cases
+const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
+const getWorkExperiencesUseCase = new GetWorkExperiencesUseCase(workExperienceRepository);
+const getAcademicExperiencesUseCase = new GetAcademicExperiencesUseCase(academicExperienceRepository);
+const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
+
+// Fetch data
+const personalInfo = await getPersonalInfoUseCase.execute();
+const workExperiences = await getWorkExperiencesUseCase.execute();
+const academicExperiences = await getAcademicExperiencesUseCase.execute();
+const projects = await getAllProjectsUseCase.execute();
+---
+
+<Layout lang={lang} title={`${personalInfo.name} - ${personalInfo.title}`} description={personalInfo.bio}>
+  <Header lang={lang} personalInfo={personalInfo} />
+  
+  <main>
+    <Hero lang={lang} personalInfo={personalInfo} />
+    <About lang={lang} personalInfo={personalInfo} />
+    <WorkExperience lang={lang} experiences={workExperiences} projects={projects} />
+    <Education lang={lang} experiences={academicExperiences} projects={projects} />
+    <Projects lang={lang} projects={projects} />
+    <Contact lang={lang} personalInfo={personalInfo} />
+  </main>
+
+  <Footer lang={lang} />
+</Layout>
+
+<script>
+  // Redirect to language-specific route if language preference is stored
+  const savedLang = localStorage.getItem('language');
+  if (savedLang && savedLang !== 'es') {
+    window.location.href = `/${savedLang}/`;
+  }
+</script>
+</Layout>

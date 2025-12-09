@@ -1,0 +1,73 @@
+---
+import Layout from '../presentation/layouts/Layout.astro';
+import Header from '../presentation/components/Header.astro';
+import Hero from '../presentation/components/Hero.astro';
+import Skills from '../presentation/components/Skills.astro';
+import About from '../presentation/components/About.astro';
+import WorkExperience from '../presentation/components/WorkExperience.astro';
+import Education from '../presentation/components/Education.astro';
+import Projects from '../presentation/components/Projects.astro';
+import Contact from '../presentation/components/Contact.astro';
+import Footer from '../presentation/components/Footer.astro';
+
+import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
+import { GetWorkExperiencesUseCase } from '@application/use-cases/GetWorkExperiencesUseCase';
+import { GetAcademicExperiencesUseCase } from '@application/use-cases/GetAcademicExperiencesUseCase';
+import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
+import { GetAllSkillsUseCase } from '@application/use-cases/GetAllSkillsUseCase';
+
+import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
+import { InMemoryWorkExperienceRepository } from '@infrastructure/repositories/InMemoryWorkExperienceRepository';
+import { InMemoryAcademicExperienceRepository } from '@infrastructure/repositories/InMemoryAcademicExperienceRepository';
+import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
+import { InMemorySkillRepository } from '@infrastructure/repositories/InMemorySkillRepository';
+
+import type { Language } from '@domain/entities/Language';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } }
+  ];
+}
+
+const { lang } = Astro.params as { lang: string };
+const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+
+// Initialize repositories
+const personalInfoRepository = new InMemoryPersonalInfoRepository();
+const workExperienceRepository = new InMemoryWorkExperienceRepository();
+const academicExperienceRepository = new InMemoryAcademicExperienceRepository();
+const projectRepository = new InMemoryProjectRepository();
+const skillRepository = new InMemorySkillRepository();
+
+// Initialize use cases
+const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
+const getWorkExperiencesUseCase = new GetWorkExperiencesUseCase(workExperienceRepository);
+const getAcademicExperiencesUseCase = new GetAcademicExperiencesUseCase(academicExperienceRepository);
+const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
+const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
+
+// Fetch data
+const personalInfo = await getPersonalInfoUseCase.execute();
+const workExperiences = await getWorkExperiencesUseCase.execute();
+const academicExperiences = await getAcademicExperiencesUseCase.execute();
+const projects = await getAllProjectsUseCase.execute();
+const skills = await getAllSkillsUseCase.execute();
+---
+
+<Layout lang={validLang} title={`${personalInfo.name} - ${personalInfo.title}`} description={personalInfo.bio}>
+  <Header lang={validLang} personalInfo={personalInfo} />
+  
+  <main>
+    <Hero lang={validLang} personalInfo={personalInfo} />
+    <Skills lang={validLang} skills={skills} />
+    <About lang={validLang} personalInfo={personalInfo} />
+    <WorkExperience lang={validLang} experiences={workExperiences} projects={projects} />
+    <Education lang={validLang} experiences={academicExperiences} projects={projects} />
+    <Projects lang={validLang} projects={projects} />
+    <Contact lang={validLang} personalInfo={personalInfo} />
+  </main>
+
+  <Footer lang={validLang} />
+</Layout>

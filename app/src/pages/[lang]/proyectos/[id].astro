@@ -1,0 +1,301 @@
+---
+import Layout from '../../../presentation/layouts/Layout.astro';
+import Header from '../../../presentation/components/Header.astro';
+import Footer from '../../../presentation/components/Footer.astro';
+import { translate } from '@infrastructure/i18n';
+import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
+import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
+import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
+import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
+import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
+import type { Language } from '@domain/entities/Language';
+import type { Project } from '@domain/entities/Project';
+
+export async function getStaticPaths() {
+  const projectRepository = new InMemoryProjectRepository();
+  const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
+  const projects = await getAllProjectsUseCase.execute();
+
+  const paths: { params: { lang: string; id: string } }[] = [];
+  
+  ['es', 'en'].forEach((lang) => {
+    projects.forEach((project) => {
+      paths.push({ params: { lang, id: project.id } });
+    });
+  });
+
+  return paths;
+}
+
+const { lang, id } = Astro.params as { lang: string; id: string };
+const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+
+const personalInfoRepository = new InMemoryPersonalInfoRepository();
+const projectRepository = new InMemoryProjectRepository();
+
+const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
+const getProjectByIdUseCase = new GetProjectByIdUseCase(projectRepository);
+
+const personalInfo = await getPersonalInfoUseCase.execute();
+const project = await getProjectByIdUseCase.execute(id);
+
+if (!project) {
+  return Astro.redirect(`/${validLang}`);
+}
+
+const typeLabels: Record<Project['type'], string> = {
+  'work': validLang === 'es' ? 'Proyecto Laboral' : 'Work Project',
+  'academic': validLang === 'es' ? 'Proyecto Académico' : 'Academic Project',
+  'personal': validLang === 'es' ? 'Proyecto Personal' : 'Personal Project'
+};
+
+const formatDate = (date: Date) => {
+  return new Date(date).toLocaleDateString(validLang === 'es' ? 'es-ES' : 'en-US', {
+    year: 'numeric',
+    month: 'long'
+  });
+};
+---
+
+<Layout lang={validLang} title={`${project.title} - ${personalInfo.name}`} description={project.description}>
+  <Header lang={validLang} personalInfo={personalInfo} />
+  
+  <main class="project-detail-page">
+    <div class="container">
+      <div class="page-header">
+        <a href={`/${validLang}#projects`} class="back-link">← {translate(validLang, 'common.back')}</a>
+        <div class="project-meta">
+          <span class="type-badge" data-type={project.type}>{typeLabels[project.type]}</span>
+          <span class="date">{formatDate(project.startDate)}</span>
+        </div>
+      </div>
+
+      <div class="project-content">
+        {project.imageUrl && (
+          <div class="project-image">
+            <img src={project.imageUrl} alt={project.title} loading="lazy" />
+          </div>
+        )}
+
+        <article class="project-article">
+          <h1>{project.title}</h1>
+          <p class="project-description">{project.description}</p>
+
+          {project.technologies && project.technologies.length > 0 && (
+            <section class="technologies-section">
+              <h2>{validLang === 'es' ? 'Tecnologías Utilizadas' : 'Technologies Used'}</h2>
+              <div class="tech-list">
+                {project.technologies.map((tech) => (
+                  <span class="tech-tag">{tech}</span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section class="links-section">
+            {project.demoUrl && (
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                {validLang === 'es' ? 'Ver Demo' : 'View Demo'}
+              </a>
+            )}
+            {project.repoUrl && (
+              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                {validLang === 'es' ? 'Ver Código' : 'View Code'}
+              </a>
+            )}
+          </section>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={validLang} />
+</Layout>
+
+<style>
+  .project-detail-page {
+    min-height: 100vh;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  }
+
+  .page-header {
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .type-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .type-badge[data-type="work"] {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--color-primary);
+  }
+
+  .type-badge[data-type="academic"] {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+
+  .type-badge[data-type="personal"] {
+    background: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+  }
+
+  .date {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .project-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .project-image {
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .project-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-article {
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+  }
+
+  .project-article h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text-primary);
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .technologies-section {
+    margin-bottom: 2rem;
+  }
+
+  .technologies-section h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .tech-tag {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
+    color: var(--color-text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .links-section {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .project-article {
+      padding: 1.5rem;
+    }
+
+    .project-article h1 {
+      font-size: 1.8rem;
+    }
+
+    .links-section {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
