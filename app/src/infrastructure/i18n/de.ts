@@ -31,7 +31,8 @@ export const de: Translations = {
   },
   about: {
     title: 'Über Mich',
-    subtitle: 'Erfahren Sie mehr über meinen Werdegang'
+    subtitle: 'Lerne meine Geschichte kennen',
+    description: 'Ich bin ein Full-Stack-Entwickler, der sich leidenschaftlich für die Erstellung innovativer und wirkungsvoller Technologielösungen einsetzt. Mit mehr als 5 Jahren Erfahrung in der Web- und Mobile-Entwicklung habe ich an Projekten gearbeitet, die von komplexen Unternehmensanwendungen bis hin zu agilen Startups reichen.\n\nMein Ansatz ist es, Best Practices der Softwareentwicklung mit außergewöhnlicher Benutzererfahrung zu kombinieren. Ich glaube, dass Technologie zugänglich, effizient und schön sein sollte. Spezialisiert auf saubere Architekturen, widme ich mich der Erstellung wartbaren, skalierbaren Codes mit ausgezeichneter Testabdeckung.\n\nJenseits des Codes genieße ich es, andere Entwickler zu mentorieren, zu Open-Source-Projekten beizutragen und mich über die neuesten Technologietrends auf dem Laufenden zu halten. Wenn ich nicht programmiere, finden Sie mich beim Erkunden neuer Technologien, beim Lesen über Designmuster oder beim Teilen von Wissen mit der Entwickler-Community.'
   },
   work: {
     title: 'Berufserfahrung',

@@ -31,7 +31,8 @@ export const en: Translations = {
   },
   about: {
     title: 'About Me',
-    subtitle: 'Learn more about my journey'
+    subtitle: 'Get to know my story',
+    description: 'I\'m a full stack developer passionate about creating innovative and impactful technology solutions. With over 5 years of experience in web and mobile development, I\'ve worked on projects ranging from complex enterprise applications to agile startups.\n\nMy approach is to combine best practices in software engineering with exceptional user experience. I believe technology should be accessible, efficient, and beautiful. Specialized in clean architectures, I\'m dedicated to writing maintainable, scalable code with excellent test coverage.\n\nBeyond coding, I enjoy mentoring fellow developers, contributing to open source projects, and staying up-to-date with the latest technology trends. When I\'m not programming, you\'ll find me exploring new technologies, reading about design patterns, or sharing knowledge with the development community.'
   },
   work: {
     title: 'Work Experience',

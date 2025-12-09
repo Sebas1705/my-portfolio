@@ -31,7 +31,8 @@ export const es: Translations = {
   },
   about: {
     title: 'Sobre Mí',
-    subtitle: 'Conoce más sobre mi trayectoria'
+    subtitle: 'Conoce mi historia',
+    description: 'Soy un desarrollador full stack apasionado por crear soluciones tecnológicas innovadoras y de impacto. Con más de 5 años de experiencia en desarrollo web y móvil, he trabajado en proyectos que van desde aplicaciones empresariales complejas hasta startups ágiles.\n\nMi enfoque es combinar las mejores prácticas de ingeniería de software con una experiencia de usuario excepcional. Creo que la tecnología debe ser accesible, eficiente y hermosa. Especializado en arquitecturas limpias, me dedico a escribir código mantenible, escalable y con excelente cobertura de pruebas.\n\nMás allá del código, disfruto mentorar a otros desarrolladores, contribuir a proyectos open source y estar al día con las últimas tendencias tecnológicas. Cuando no estoy programando, me encontrarás explorando nuevas tecnologías, leyendo sobre patrones de diseño, o compartiendo conocimiento en la comunidad de desarrollo.'
   },
   work: {
     title: 'Experiencia Laboral',

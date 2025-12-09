@@ -30,7 +30,53 @@ const { lang, personalInfo } = Astro.props;
       <div class="about-text">
         <h3 class="about-name">{personalInfo.name}</h3>
         <p class="about-title">{personalInfo.title}</p>
-        <p class="about-bio">{personalInfo.bio}</p>
+        
+        <div class="about-description">
+          <div class="description-content">
+            {translate(lang, 'about.description').split('\n\n').map((paragraph) => (
+              <p class="description-paragraph">{paragraph}</p>
+            ))}
+          </div>
+          
+          <div class="tech-icons">
+            <span class="icon-item" title="TypeScript">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <rect x="4" y="4" width="40" height="40" rx="2" fill="#1E40AF"/>
+                <text x="24" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="white" font-family="Arial">TS</text>
+              </svg>
+            </span>
+            <span class="icon-item" title="React">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <circle cx="24" cy="24" r="20" fill="none" stroke="#61DAFB" stroke-width="2"/>
+                <circle cx="24" cy="24" r="3" fill="#61DAFB"/>
+                <circle cx="18" cy="18" r="3" fill="#61DAFB"/>
+                <circle cx="30" cy="18" r="3" fill="#61DAFB"/>
+                <circle cx="24" cy="30" r="3" fill="#61DAFB"/>
+              </svg>
+            </span>
+            <span class="icon-item" title="Node.js">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 3c9.39 0 17 7.61 17 17s-7.61 17-17 17-17-7.61-17-17 7.61-17 17-17zm-2 7v12h4V14zm-6 2l-3 8 3 8h4l-2-8 2-8zm12 0l2 8-2 8h4l3-8-3-8z" fill="#68A063"/>
+              </svg>
+            </span>
+            <span class="icon-item" title="Tailwind">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4m-8 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m16 0c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4m-8 10c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6" fill="#06B6D4"/>
+              </svg>
+            </span>
+            <span class="icon-item" title="Docker">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4m-6 20c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m4-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m4 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m4-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2" fill="#2496ED"/>
+              </svg>
+            </span>
+            <span class="icon-item" title="Git">
+              <svg viewBox="0 0 48 48" width="28" height="28">
+                <circle cx="24" cy="24" r="20" fill="none" stroke="#F05033" stroke-width="2.5"/>
+                <path d="M24 8L32 28H16L24 8" fill="#F05033"/>
+              </svg>
+            </span>
+          </div>
+        </div>
 
         <div class="about-details">
           <div class="detail-item">
@@ -157,6 +203,75 @@ const { lang, personalInfo } = Astro.props;
     color: var(--color-text-secondary);
     line-height: 1.7;
     margin-bottom: var(--spacing-2xl);
+  }
+
+  .about-description {
+    text-align: left;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .description-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .description-paragraph {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-lg);
+    text-align: justify;
+  }
+
+  .description-paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  .tech-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-2xl);
+    justify-content: center;
+  }
+
+  @media (min-width: 1024px) {
+    .tech-icons {
+      justify-content: flex-start;
+    }
+  }
+
+  .icon-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-fast);
+    opacity: 0.7;
+  }
+
+  .icon-item:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-bg-secondary) 90%);
+  }
+
+  .icon-item svg {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%);
+    opacity: 0.8;
+  }
+
+  .icon-item:hover svg {
+    filter: grayscale(0%);
+    opacity: 1;
   }
 
   .about-details {
