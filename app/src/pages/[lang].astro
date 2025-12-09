@@ -23,16 +23,16 @@ import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemory
 import { InMemorySkillRepository } from '@infrastructure/repositories/InMemorySkillRepository';
 
 import type { Language } from '@domain/entities/Language';
+import { supportedLanguages, defaultLanguage } from '@infrastructure/i18n';
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'es' } },
-    { params: { lang: 'en' } }
-  ];
+  return supportedLanguages.map(lang => ({
+    params: { lang }
+  }));
 }
 
 const { lang } = Astro.params as { lang: string };
-const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+const validLang: Language = (supportedLanguages.includes(lang as Language) ? lang : defaultLanguage) as Language;
 
 // Initialize repositories
 const personalInfoRepository = new InMemoryPersonalInfoRepository();

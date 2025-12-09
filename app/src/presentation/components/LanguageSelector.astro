@@ -1,11 +1,18 @@
 ---
 import type { Language } from '@domain/entities/Language';
+import { supportedLanguages, languageNames } from '@infrastructure/i18n';
 
 interface Props {
   currentLang: Language;
 }
 
 const { currentLang } = Astro.props;
+
+// Sort languages with current language first
+const orderedLanguages = [
+  currentLang,
+  ...supportedLanguages.filter(lang => lang !== currentLang)
+];
 ---
 
 <div class="language-selector">
@@ -22,14 +29,17 @@ const { currentLang } = Astro.props;
   </button>
   
   <div id="language-dropdown" class="language-dropdown" hidden>
-    <button class="language-option" data-lang="es">
-      <span class="lang-code">ES</span>
-      <span class="lang-name">Español</span>
-    </button>
-    <button class="language-option" data-lang="en">
-      <span class="lang-code">EN</span>
-      <span class="lang-name">English</span>
-    </button>
+    {orderedLanguages.map((lang) => (
+      <button class="language-option" data-lang={lang} data-active={lang === currentLang ? 'true' : 'false'}>
+        <span class="lang-code">{lang.toUpperCase()}</span>
+        <span class="lang-name">{languageNames[lang]}</span>
+        {lang === currentLang && (
+          <svg class="lang-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        )}
+      </button>
+    ))}
   </div>
 </div>
 
@@ -74,9 +84,10 @@ const { currentLang } = Astro.props;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
-    min-width: 150px;
+    min-width: 180px;
+    max-height: 400px;
+    overflow-y: auto;
     z-index: 100;
-    overflow: hidden;
   }
 
   [data-theme="dark"] .language-dropdown {
@@ -108,6 +119,10 @@ const { currentLang } = Astro.props;
     background-color: var(--color-bg-secondary);
   }
 
+  .language-option[data-active="true"] {
+    background-color: var(--color-primary-bg, rgba(59, 130, 246, 0.1));
+  }
+
   [data-theme="dark"] .language-option {
     color: #f1f5f9;
   }
@@ -116,13 +131,24 @@ const { currentLang } = Astro.props;
     background-color: #334155;
   }
 
+  [data-theme="dark"] .language-option[data-active="true"] {
+    background-color: rgba(59, 130, 246, 0.2);
+  }
+
   .lang-code {
     font-weight: 700;
     color: var(--color-primary);
+    min-width: 30px;
   }
 
   .lang-name {
     font-size: 0.875rem;
+    flex: 1;
+  }
+
+  .lang-check {
+    color: var(--color-primary);
+    margin-left: auto;
   }
 </style>
 
@@ -153,12 +179,17 @@ const { currentLang } = Astro.props;
     option.addEventListener('click', () => {
       const lang = option.getAttribute('data-lang');
       if (lang) {
+        // Save to localStorage
         localStorage.setItem('language', lang);
+        
         const currentPath = window.location.pathname;
         const pathSegments = currentPath.split('/').filter(Boolean);
         
+        // Get the list of supported languages
+        const supportedLangs = ['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja'];
+        
         // Remove language prefix if it exists
-        if (['es', 'en'].includes(pathSegments[0])) {
+        if (supportedLangs.includes(pathSegments[0])) {
           pathSegments.shift();
         }
         

@@ -2,7 +2,7 @@
 import Layout from '../../presentation/layouts/Layout.astro';
 import Header from '../../presentation/components/Header.astro';
 import Footer from '../../presentation/components/Footer.astro';
-import { translate } from '@infrastructure/i18n';
+import { translate, supportedLanguages, defaultLanguage } from '@infrastructure/i18n';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllCoursesUseCase } from '@application/use-cases/GetAllCoursesUseCase';
 import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
@@ -10,14 +10,13 @@ import { InMemoryCourseRepository } from '@infrastructure/repositories/InMemoryC
 import type { Language } from '@domain/entities/Language';
 
 export function getStaticPaths() {
-  return [
-    { params: { lang: 'es' } },
-    { params: { lang: 'en' } }
-  ];
+  return supportedLanguages.map(lang => ({
+    params: { lang }
+  }));
 }
 
 const { lang } = Astro.params as { lang: string };
-const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+const validLang: Language = (supportedLanguages.includes(lang as Language) ? lang : defaultLanguage) as Language;
 
 const personalInfoRepository = new InMemoryPersonalInfoRepository();
 const courseRepository = new InMemoryCourseRepository();

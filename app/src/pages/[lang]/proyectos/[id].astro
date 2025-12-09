@@ -2,7 +2,7 @@
 import Layout from '../../../presentation/layouts/Layout.astro';
 import Header from '../../../presentation/components/Header.astro';
 import Footer from '../../../presentation/components/Footer.astro';
-import { translate } from '@infrastructure/i18n';
+import { translate, supportedLanguages, defaultLanguage } from '@infrastructure/i18n';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
 import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
   const paths: { params: { lang: string; id: string } }[] = [];
   
-  ['es', 'en'].forEach((lang) => {
+  supportedLanguages.forEach((lang) => {
     projects.forEach((project) => {
       paths.push({ params: { lang, id: project.id } });
     });
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 }
 
 const { lang, id } = Astro.params as { lang: string; id: string };
-const validLang: Language = (lang === 'en' ? 'en' : 'es') as Language;
+const validLang: Language = (supportedLanguages.includes(lang as Language) ? lang : defaultLanguage) as Language;
 
 const personalInfoRepository = new InMemoryPersonalInfoRepository();
 const projectRepository = new InMemoryProjectRepository();
