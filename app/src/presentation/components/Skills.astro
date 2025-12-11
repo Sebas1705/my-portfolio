@@ -4,6 +4,7 @@ import type { Skill } from '@domain/entities/Skill';
 import { translate } from '@infrastructure/i18n';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { SKILL_ICONS } from '@presentation/utils/constants';
+import { getSkillIconUrl, renderStars, sortByLevelAndExperience, limitSkills } from '@presentation/utils/helpers';
 
 interface Props {
   lang: Language;
@@ -14,21 +15,7 @@ interface Props {
 const { lang, skills, featured = 12 } = Astro.props;
 
 // Sort by level and get top featured
-const topSkills = skills
-  .sort((a, b) => b.level - a.level || b.yearsOfExperience - a.yearsOfExperience)
-  .slice(0, featured);
-
-// Mapeo de IDs a nombres de skillicons.dev
-const getSkillIconUrl = (skillId: string) => {
-  const iconName = SKILL_ICONS[skillId] || skillId;
-  return `https://skillicons.dev/icons?i=${iconName}`;
-};
-
-const renderStars = (level: number) => {
-  const filled = '★';
-  const empty = '☆';
-  return filled.repeat(level) + empty.repeat(5 - level);
-};
+const topSkills = limitSkills(sortByLevelAndExperience(skills), featured);
 ---
 
 <section id="skills" class="skills section">

@@ -6,6 +6,7 @@ import { translate } from '@infrastructure/i18n';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { formatDateRange } from '@presentation/utils/date';
 import { COMPANY_LINKS } from '@presentation/utils/constants';
+import { filterRelatedProjects } from '@presentation/utils/helpers';
 
 interface Props {
   lang: Language;
@@ -15,12 +16,7 @@ interface Props {
 
 const { lang, experiences, projects } = Astro.props;
 
-// deprecated local formatter removed; using formatDateRange from utils/date
-
-const getRelatedProjects = (experienceId: string) => {
-  return projects.filter(p => p.relatedTo === experienceId);
-};
-
+// Helper to linkify company names with URLs from constants
 const linkifyCompanies = (text: string): string => {
   let result = text;
   for (const [company, url] of Object.entries(COMPANY_LINKS)) {
@@ -40,7 +36,7 @@ const linkifyCompanies = (text: string): string => {
 
     <div class="timeline">
       {experiences.map((experience, index) => {
-        const relatedProjects = getRelatedProjects(experience.id);
+        const relatedProjects = filterRelatedProjects(projects, experience.id);
         
         // Extract translated values from Translations objects
         const position = getStringFromTranslations(experience.position, lang);

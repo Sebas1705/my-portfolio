@@ -5,6 +5,7 @@ import type { Project } from '@domain/entities/Project';
 import { translate } from '@infrastructure/i18n';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { formatDateRange } from '@presentation/utils/date';
+import { filterRelatedProjects, limitSkills } from '@presentation/utils/helpers';
 
 interface Props {
   lang: Language;
@@ -15,10 +16,6 @@ interface Props {
 const { lang, experiences, projects } = Astro.props;
 
 // deprecated local formatter removed; using formatDateRange from utils/date
-
-const getRelatedProjects = (experienceId: string) => {
-  return projects.filter(p => p.relatedTo === experienceId);
-};
 ---
 
 <section id="education" class="section education-section">
@@ -30,7 +27,7 @@ const getRelatedProjects = (experienceId: string) => {
 
     <div class="education-grid">
       {experiences.map((experience, index) => {
-        const relatedProjects = getRelatedProjects(experience.id);
+        const relatedProjects = filterRelatedProjects(projects, experience.id);
         
         // Extract translated values from Translations objects
         const degree = getStringFromTranslations(experience.degree, lang);
@@ -80,7 +77,7 @@ const getRelatedProjects = (experienceId: string) => {
                       <h5 class="project-title">{project.title}</h5>
                       <p class="project-description">{project.description}</p>
                       <div class="project-tech">
-                        {project.technologies.slice(0, 3).map(tech => (
+                        {limitSkills(project.technologies, 3).map(tech => (
                           <span class="tech-badge">{tech}</span>
                         ))}
                       </div>
