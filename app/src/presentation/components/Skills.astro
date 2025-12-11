@@ -2,6 +2,8 @@
 import type { Language } from '@domain/entities/Language';
 import type { Skill } from '@domain/entities/Skill';
 import { translate } from '@infrastructure/i18n';
+import { getStringFromTranslations } from '@presentation/utils/translations';
+import { SKILL_ICONS } from '@presentation/utils/constants';
 
 interface Props {
   lang: Language;
@@ -11,63 +13,14 @@ interface Props {
 
 const { lang, skills, featured = 12 } = Astro.props;
 
-// Helper to get string from Translations
-const getString = (value: any): string => {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'object' && value !== null) {
-    return value[lang] || Object.values(value)[0] || '';
-  }
-  return '';
-};
-
 // Sort by level and get top featured
 const topSkills = skills
   .sort((a, b) => b.level - a.level || b.yearsOfExperience - a.yearsOfExperience)
   .slice(0, featured);
 
 // Mapeo de IDs a nombres de skillicons.dev
-const skillIconsMap: Record<string, string> = {
-  // Languages
-  'typescript': 'ts',
-  'javascript': 'js',
-  'python': 'python',
-  'swift': 'swift',
-  'java': 'java',
-  // Frameworks
-  'react': 'react',
-  'nextjs': 'nextjs',
-  'nodejs': 'nodejs',
-  'nestjs': 'nestjs',
-  'express': 'express',
-  'reactnative': 'react',
-  'expo': 'expo',
-  'tailwind': 'tailwind',
-  // Tools
-  'docker': 'docker',
-  'git': 'git',
-  'github': 'github',
-  'gitlab': 'gitlab',
-  'postgresql': 'postgres',
-  'mongodb': 'mongodb',
-  'redis': 'redis',
-  'aws': 'aws',
-  'firebase': 'firebase',
-  'figma': 'figma',
-  'jest': 'jest',
-  'vitest': 'vitest',
-  // IDEs
-  'vscode': 'vscode',
-  'webstorm': 'webstorm',
-  'androidstudio': 'androidstudio',
-  'xcode': 'xcode',
-  // OS
-  'windows': 'windows',
-  'linux': 'linux',
-  'macos': 'apple'
-};
-
 const getSkillIconUrl = (skillId: string) => {
-  const iconName = skillIconsMap[skillId] || skillId;
+  const iconName = SKILL_ICONS[skillId] || skillId;
   return `https://skillicons.dev/icons?i=${iconName}`;
 };
 
@@ -89,7 +42,7 @@ const renderStars = (level: number) => {
     <div class="featured-skills">
       <div class="skills-grid">
         {topSkills.map((skill) => {
-          const description = getString(skill.description);
+          const description = getStringFromTranslations(skill.description, lang);
           
           return (
             <div class="skill-item" title={description}>

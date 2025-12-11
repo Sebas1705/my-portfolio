@@ -4,13 +4,14 @@ import Header from '../../presentation/components/Header.astro';
 import Footer from '../../presentation/components/Footer.astro';
 import { translate } from '@infrastructure/i18n';
 import { formatMonthYear } from '@presentation/utils/date';
+import { getStringFromTranslations } from '@presentation/utils/translations';
+import { PROJECT_TYPE_LABELS } from '@presentation/utils/constants';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
 import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
 import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
 import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
 import type { Language } from '@domain/entities/Language';
-import type { Project } from '@domain/entities/Project';
 
 export async function getStaticPaths() {
   const projectRepository = new InMemoryProjectRepository();
@@ -38,23 +39,9 @@ if (!project) {
   return Astro.redirect('/');
 }
 
-const typeLabels: Record<Project['type'], string> = {
-  'work': lang === 'es' ? 'Proyecto Laboral' : 'Work Project',
-  'academic': lang === 'es' ? 'Proyecto Académico' : 'Academic Project',
-  'personal': lang === 'es' ? 'Proyecto Personal' : 'Personal Project'
-};
-
-// deprecated local formatter removed; using formatMonthYear from utils/date
-
-// Helper to extract string from Translations or return string
-const getString = (value: any): string => {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'object' && value !== null) return value[lang] || Object.values(value)[0] || '';
-  return '';
-};
-
-const projectTitle = getString(project.title);
-const projectDescription = getString(project.description);
+// Project type labels from shared constants
+const projectTitle = getStringFromTranslations(project.title, lang);
+const projectDescription = getStringFromTranslations(project.description, lang);
 const projectImageUrl = typeof project.imageUrl === 'string' ? project.imageUrl : (typeof project.imageUrl === 'object' && project.imageUrl[lang] ? project.imageUrl[lang] : '');
 ---
 
@@ -66,7 +53,7 @@ const projectImageUrl = typeof project.imageUrl === 'string' ? project.imageUrl 
       <div class="page-header">
         <a href="/#projects" class="back-link">← {translate(lang, 'common.back')}</a>
         <div class="project-meta">
-          <span class="type-badge" data-type={project.type}>{typeLabels[project.type]}</span>
+          <span class="type-badge" data-type={project.type}>{PROJECT_TYPE_LABELS[lang][project.type]}</span>
           <span class="date">{formatMonthYear(project.startDate, lang)}</span>
         </div>
       </div>

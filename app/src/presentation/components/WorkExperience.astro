@@ -5,6 +5,7 @@ import type { Project } from '@domain/entities/Project';
 import { translate } from '@infrastructure/i18n';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { formatDateRange } from '@presentation/utils/date';
+import { COMPANY_LINKS } from '@presentation/utils/constants';
 
 interface Props {
   lang: Language;
@@ -14,14 +15,6 @@ interface Props {
 
 const { lang, experiences, projects } = Astro.props;
 
-const companyLinks: Record<string, string> = {
-  'Solusoft': 'https://www.solusoft.es/',
-  'AGEDI': 'https://www.agedi.es/',
-  'Sisley': 'https://www.sisley.com/',
-  'SISLEY': 'https://www.sisley.com/',
-  'Iberext': 'https://www.iberext.es/'
-};
-
 // deprecated local formatter removed; using formatDateRange from utils/date
 
 const getRelatedProjects = (experienceId: string) => {
@@ -30,7 +23,7 @@ const getRelatedProjects = (experienceId: string) => {
 
 const linkifyCompanies = (text: string): string => {
   let result = text;
-  for (const [company, url] of Object.entries(companyLinks)) {
+  for (const [company, url] of Object.entries(COMPANY_LINKS)) {
     const regex = new RegExp(`\\b${company}\\b`, 'g');
     result = result.replace(regex, `<a href="${url}" target="_blank" rel="noopener noreferrer" class="company-mention">${company}</a>`);
   }
