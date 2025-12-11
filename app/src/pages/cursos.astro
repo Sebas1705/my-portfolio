@@ -3,6 +3,8 @@ import Layout from '../presentation/layouts/Layout.astro';
 import Header from '../presentation/components/Header.astro';
 import Footer from '../presentation/components/Footer.astro';
 import { translate } from '@infrastructure/i18n';
+import { getStringFromTranslations } from '@presentation/utils/translations';
+import { formatMonthYear } from '@presentation/utils/date';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllCoursesUseCase } from '@application/use-cases/GetAllCoursesUseCase';
 import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
@@ -21,26 +23,9 @@ const getAllCoursesUseCase = new GetAllCoursesUseCase(courseRepository);
 const personalInfo = await getPersonalInfoUseCase.execute();
 const courses = await getAllCoursesUseCase.execute();
 
-// Group courses by category
-const groupedCourses = courses.reduce((acc, course) => {
-  if (!acc[course.category]) acc[course.category] = [];
-  acc[course.category].push(course);
-  return acc;
-}, {} as Record<string, typeof courses>);
+const getString = (value: any): string => getStringFromTranslations(value, lang);
 
-const categoryLabels: Record<string, string> = {
-  'online': lang === 'es' ? 'Cursos en Línea' : 'Online Courses',
-  'certification': lang === 'es' ? 'Certificaciones' : 'Certifications',
-  'bootcamp': 'Bootcamp',
-  'workshop': lang === 'es' ? 'Talleres' : 'Workshops'
-};
-
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
-    year: 'numeric',
-    month: 'long'
-  });
-};
+const formatDate = (date: Date) => formatMonthYear(date, lang);
 ---
 
 <Layout lang={lang} title={`${lang === 'es' ? 'Cursos' : 'Courses'} - ${personalInfo.name}`} description="All courses and certifications">
@@ -54,52 +39,52 @@ const formatDate = (date: Date) => {
         <p class="page-subtitle">{translate(lang, 'skills.subtitle')}</p>
       </div>
 
-      {Object.entries(groupedCourses).map(([category, categoryCourses]) => (
-        <section class="course-category-section">
-          <h2>{categoryLabels[category]}</h2>
-          <div class="courses-list">
-            {categoryCourses
-              .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
-              .map((course) => (
-                <article class="course-card">
-                  <div class="course-header">
-                    <div>
-                      <h3>{course.title}</h3>
-                      <p class="institution">{course.institution}</p>
-                    </div>
-                    <span class="completion-date">{formatDate(course.completionDate)}</span>
+      <div class="courses-list">
+        {courses
+          .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
+          .map((course) => (
+            <article class="course-card">
+              <div class="course-header">
+                <div>
+                  <h3 data-translation-field={JSON.stringify(course.title)}>{getString(course.title)}</h3>
+                  <p class="institution" data-translation-field={JSON.stringify(course.institution)}>{getString(course.institution)}</p>
+                </div>
+                <span class="completion-date">{formatDate(course.completionDate)}</span>
+              </div>
+
+              <p class="course-description" data-translation-field={JSON.stringify(course.description)}>{getString(course.description)}</p>
+
+              {course.skills && course.skills.length > 0 && (
+                <div class="course-skills">
+                  <span class="skills-label">{lang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
+                  <div class="skill-tags">
+                    {course.skills.map((skill) => (
+                      <span class="skill-tag">{skill}</span>
+                    ))}
                   </div>
+                </div>
+              )}
 
-                  <p class="course-description">{course.description}</p>
+              <div class="course-actions">
+                {course.url && (
+                  <a href={course.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    {lang === 'es' ? 'Ver Curso' : 'View Course'}
+                  </a>
+                )}
+                {course.certificateUrl && (
+                  <a href={course.certificateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    {lang === 'es' ? 'Certificado' : 'Certificate'}
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+      </div>
+    </div>
+  </main>
 
-                  {course.skills && course.skills.length > 0 && (
-                    <div class="course-skills">
-                      <span class="skills-label">{lang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
-                      <div class="skill-tags">
-                        {course.skills.map((skill) => (
-                          <span class="skill-tag">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <div class="course-actions">
-                    {course.url && (
-                      <a href={course.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                        {lang === 'es' ? 'Ver Curso' : 'View Course'}
-                      </a>
-                    )}
-                    {course.certificateUrl && (
-                      <a href={course.certificateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                        {lang === 'es' ? 'Certificado' : 'Certificate'}
-                      </a>
-                    )}
-                  </div>
-                </article>
-              ))}
-          </div>
-        </section>
-      ))}
+  <Footer lang={lang} />
+</Layout>
     </div>
   </main>
 
@@ -143,19 +128,6 @@ const formatDate = (date: Date) => {
     color: var(--color-text-secondary);
     max-width: 600px;
     margin: 0 auto;
-  }
-
-  .course-category-section {
-    margin-bottom: 4rem;
-  }
-
-  .course-category-section h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--color-border);
   }
 
   .courses-list {

@@ -1,9 +1,11 @@
+import type { Translations } from "./Language";
+
 // Domain Entity: Project
 export interface Project {
   id: string;
-  title: string;
-  description: string;
-  technologies: string[];
+  title: Translations;
+  description: Translations;
+  technologies: string[]; // List of technology IDs used
   imageUrl?: string;
   demoUrl?: string;
   repoUrl?: string;

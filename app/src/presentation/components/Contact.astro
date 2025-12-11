@@ -14,13 +14,13 @@ const { lang, personalInfo } = Astro.props;
 <section id="contact" class="section contact-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">{translate(lang, 'contact.title')}</h2>
-      <p class="section-subtitle">{translate(lang, 'contact.subtitle')}</p>
+      <h2 class="section-title" data-i18n-key="contact.title">{translate(lang, 'contact.title')}</h2>
+      <p class="section-subtitle" data-i18n-key="contact.subtitle">{translate(lang, 'contact.subtitle')}</p>
     </div>
 
     <div class="contact-content">
-      <div class="contact-info">
-        <p class="contact-message">{translate(lang, 'contact.message')}</p>
+      <div class="contact-intro">
+        <p class="contact-message" data-i18n-key="contact.message">{translate(lang, 'contact.message')}</p>
 
         <div class="contact-methods">
           <div class="contact-method">
@@ -31,7 +31,7 @@ const { lang, personalInfo } = Astro.props;
               </svg>
             </div>
             <div class="method-details">
-              <h3 class="method-title">{translate(lang, 'contact.email')}</h3>
+              <h3 class="method-title" data-i18n-key="contact.email">{translate(lang, 'contact.email')}</h3>
               <a href={`mailto:${personalInfo.email}`} class="method-link">
                 {personalInfo.email}
               </a>
@@ -46,7 +46,7 @@ const { lang, personalInfo } = Astro.props;
                 </svg>
               </div>
               <div class="method-details">
-                <h3 class="method-title">{translate(lang, 'contact.phone')}</h3>
+                <h3 class="method-title" data-i18n-key="contact.phone">{translate(lang, 'contact.phone')}</h3>
                 <a href={`tel:${personalInfo.phone}`} class="method-link">
                   {personalInfo.phone}
                 </a>
@@ -62,14 +62,14 @@ const { lang, personalInfo } = Astro.props;
               </svg>
             </div>
             <div class="method-details">
-              <h3 class="method-title">{translate(lang, 'contact.location')}</h3>
+              <h3 class="method-title" data-i18n-key="contact.location">{translate(lang, 'contact.location')}</h3>
               <p class="method-text">{personalInfo.location}</p>
             </div>
           </div>
         </div>
 
         <div class="social-section">
-          <h3 class="social-title">{translate(lang, 'contact.social')}</h3>
+          <h3 class="social-title" data-i18n-key="contact.social">{translate(lang, 'contact.social')}</h3>
           <div class="social-links">
             {personalInfo.socialLinks.github && (
               <a href={personalInfo.socialLinks.github} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">

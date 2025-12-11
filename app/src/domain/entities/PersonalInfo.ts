@@ -1,8 +1,10 @@
+import type { Translations } from "./Language";
+
 // Domain Entity: Personal Info
 export interface PersonalInfo {
   name: string;
-  title: string;
-  bio: string;
+  title: Translations;
+  bio: Translations;
   email: string;
   phone?: string;
   location: string;

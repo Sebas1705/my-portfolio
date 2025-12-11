@@ -2,7 +2,6 @@
 import type { Language } from '@domain/entities/Language';
 import type { Skill } from '@domain/entities/Skill';
 import { translate } from '@infrastructure/i18n';
-import { getSkillIcon } from '../utils/skillIcons';
 
 interface Props {
   lang: Language;
@@ -12,10 +11,65 @@ interface Props {
 
 const { lang, skills, featured = 12 } = Astro.props;
 
+// Helper to get string from Translations
+const getString = (value: any): string => {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value !== null) {
+    return value[lang] || Object.values(value)[0] || '';
+  }
+  return '';
+};
+
 // Sort by level and get top featured
 const topSkills = skills
   .sort((a, b) => b.level - a.level || b.yearsOfExperience - a.yearsOfExperience)
   .slice(0, featured);
+
+// Mapeo de IDs a nombres de skillicons.dev
+const skillIconsMap: Record<string, string> = {
+  // Languages
+  'typescript': 'ts',
+  'javascript': 'js',
+  'python': 'python',
+  'swift': 'swift',
+  'java': 'java',
+  // Frameworks
+  'react': 'react',
+  'nextjs': 'nextjs',
+  'nodejs': 'nodejs',
+  'nestjs': 'nestjs',
+  'express': 'express',
+  'reactnative': 'react',
+  'expo': 'expo',
+  'tailwind': 'tailwind',
+  // Tools
+  'docker': 'docker',
+  'git': 'git',
+  'github': 'github',
+  'gitlab': 'gitlab',
+  'postgresql': 'postgres',
+  'mongodb': 'mongodb',
+  'redis': 'redis',
+  'aws': 'aws',
+  'firebase': 'firebase',
+  'figma': 'figma',
+  'jest': 'jest',
+  'vitest': 'vitest',
+  // IDEs
+  'vscode': 'vscode',
+  'webstorm': 'webstorm',
+  'androidstudio': 'androidstudio',
+  'xcode': 'xcode',
+  // OS
+  'windows': 'windows',
+  'linux': 'linux',
+  'macos': 'apple'
+};
+
+const getSkillIconUrl = (skillId: string) => {
+  const iconName = skillIconsMap[skillId] || skillId;
+  return `https://skillicons.dev/icons?i=${iconName}`;
+};
 
 const renderStars = (level: number) => {
   const filled = '★';
@@ -34,25 +88,35 @@ const renderStars = (level: number) => {
     <!-- Featured Skills Grid -->
     <div class="featured-skills">
       <div class="skills-grid">
-        {topSkills.map((skill) => (
-          <div class="skill-item" title={skill.description || skill.name}>
-            <div class="skill-icon">
-              <Fragment set:html={getSkillIcon(skill.id)} />
+        {topSkills.map((skill) => {
+          const description = getString(skill.description);
+          
+          return (
+            <div class="skill-item" title={description}>
+              <div class="skill-icon">
+                <img 
+                  src={getSkillIconUrl(skill.id)} 
+                  alt={skill.name}
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="skill-name" data-translation-field={JSON.stringify(skill.description)}>{skill.name}</h3>
+              <div class="skill-rating">
+                <span class="skill-stars" aria-label={`${skill.level} de 5 estrellas`}>
+                  {renderStars(skill.level)}
+                </span>
+              </div>
             </div>
-            <h3 class="skill-name">{skill.name}</h3>
-            <div class="skill-rating">
-              <span class="skill-stars" aria-label={`${skill.level} de 5 estrellas`}>
-                {renderStars(skill.level)}
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
 
     <!-- Link to Full Skills Page -->
     <div class="skills-footer">
-      <a href={`/${lang}/tecnologias`} class="btn btn-secondary">
+      <a href="/tecnologias" class="btn btn-secondary">
         {translate(lang, 'skills.viewAll')}
         <span class="btn-arrow">→</span>
       </a>
@@ -123,8 +187,13 @@ const renderStars = (level: number) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary);
     transition: all var(--transition-base);
+  }
+
+  .skill-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .skill-item:hover .skill-icon {

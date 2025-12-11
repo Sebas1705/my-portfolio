@@ -51,7 +51,18 @@ export const es: Translations = {
     title: 'Tecnologías & Habilidades',
     subtitle: 'Dominio de tecnologías modernas con años de experiencia',
     allSkills: 'Todas las Tecnologías',
-    viewAll: 'Ver Todas las Tecnologías'
+    viewAll: 'Ver Todas las Tecnologías',
+    categories: {
+      frontend: 'Frontend',
+      backend: 'Backend',
+      mobile: 'Mobile',
+      tools: 'Herramientas',
+      languages: 'Lenguajes'
+    }
+  },
+  softSkills: {
+    title: 'Habilidades Blandas',
+    subtitle: 'Competencias interpersonales y profesionales que complementan mi expertise técnico'
   },
   projects: {
     title: 'Proyectos',

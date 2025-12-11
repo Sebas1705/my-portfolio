@@ -10,7 +10,7 @@ import { pl } from './pl';
 import { ru } from './ru';
 import { ja } from './ja';
 
-const translations: Record<Language, Translations> = {
+export const translations: Record<Language, Translations> = {
   es,
   en,
   fr,

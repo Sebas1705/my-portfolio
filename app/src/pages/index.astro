@@ -2,6 +2,8 @@
 import Layout from '../presentation/layouts/Layout.astro';
 import Header from '../presentation/components/Header.astro';
 import Hero from '../presentation/components/Hero.astro';
+import Skills from '../presentation/components/Skills.astro';
+import SoftSkills from '../presentation/components/SoftSkills.astro';
 import About from '../presentation/components/About.astro';
 import WorkExperience from '../presentation/components/WorkExperience.astro';
 import Education from '../presentation/components/Education.astro';
@@ -13,41 +15,61 @@ import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUs
 import { GetWorkExperiencesUseCase } from '@application/use-cases/GetWorkExperiencesUseCase';
 import { GetAcademicExperiencesUseCase } from '@application/use-cases/GetAcademicExperiencesUseCase';
 import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
+import { GetSkillsUseCase } from '@application/use-cases/GetSkillsUseCase';
+import { GetSoftSkillsUseCase } from '@application/use-cases/GetSoftSkillsUseCase';
 
 import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
 import { InMemoryWorkExperienceRepository } from '@infrastructure/repositories/InMemoryWorkExperienceRepository';
 import { InMemoryAcademicExperienceRepository } from '@infrastructure/repositories/InMemoryAcademicExperienceRepository';
 import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
+import { InMemorySkillRepository } from '@infrastructure/repositories/InMemorySkillRepository';
+import { InMemorySoftSkillRepository } from '@infrastructure/repositories/InMemorySoftSkillRepository';
 
 import type { Language } from '@domain/entities/Language';
 
 // Default to Spanish, language will be determined on client-side from localStorage
 const lang: Language = 'es';
 
+const getString = (value: any): string => {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value !== null) {
+    return value[lang] || Object.values(value)[0] || '';
+  }
+  return '';
+};
+
 // Initialize repositories
 const personalInfoRepository = new InMemoryPersonalInfoRepository();
 const workExperienceRepository = new InMemoryWorkExperienceRepository();
 const academicExperienceRepository = new InMemoryAcademicExperienceRepository();
 const projectRepository = new InMemoryProjectRepository();
+const skillRepository = new InMemorySkillRepository();
+const softSkillRepository = new InMemorySoftSkillRepository();
 
 // Initialize use cases
 const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
 const getWorkExperiencesUseCase = new GetWorkExperiencesUseCase(workExperienceRepository);
 const getAcademicExperiencesUseCase = new GetAcademicExperiencesUseCase(academicExperienceRepository);
 const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
+const getSkillsUseCase = new GetSkillsUseCase(skillRepository);
+const getSoftSkillsUseCase = new GetSoftSkillsUseCase(softSkillRepository);
 
 // Fetch data
 const personalInfo = await getPersonalInfoUseCase.execute();
 const workExperiences = await getWorkExperiencesUseCase.execute();
 const academicExperiences = await getAcademicExperiencesUseCase.execute();
 const projects = await getAllProjectsUseCase.execute();
+const skills = await getSkillsUseCase.execute();
+const softSkills = await getSoftSkillsUseCase.execute();
 ---
 
-<Layout lang={lang} title={`${personalInfo.name} - ${personalInfo.title}`} description={personalInfo.bio}>
+<Layout lang={lang} title={`${personalInfo.name} - ${getString(personalInfo.title)}`} description={getString(personalInfo.bio)}>
   <Header lang={lang} personalInfo={personalInfo} />
   
   <main>
     <Hero lang={lang} personalInfo={personalInfo} />
+    <Skills lang={lang} skills={skills} />
+    <SoftSkills lang={lang} softSkills={softSkills} />
     <About lang={lang} personalInfo={personalInfo} />
     <WorkExperience lang={lang} experiences={workExperiences} projects={projects} />
     <Education lang={lang} experiences={academicExperiences} projects={projects} />
@@ -56,13 +78,4 @@ const projects = await getAllProjectsUseCase.execute();
   </main>
 
   <Footer lang={lang} />
-</Layout>
-
-<script>
-  // Redirect to language-specific route if language preference is stored
-  const savedLang = localStorage.getItem('language');
-  if (savedLang && savedLang !== 'es') {
-    window.location.href = `/${savedLang}/`;
-  }
-</script>
 </Layout>

@@ -3,6 +3,8 @@ import type { Language } from '@domain/entities/Language';
 import type { AcademicExperience } from '@domain/entities/AcademicExperience';
 import type { Project } from '@domain/entities/Project';
 import { translate } from '@infrastructure/i18n';
+import { getStringFromTranslations } from '@presentation/utils/translations';
+import { formatDateRange } from '@presentation/utils/date';
 
 interface Props {
   lang: Language;
@@ -12,14 +14,7 @@ interface Props {
 
 const { lang, experiences, projects } = Astro.props;
 
-const formatDate = (date: Date, endDate?: Date, lang: Language = 'es') => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short' };
-  const start = date.toLocaleDateString(lang, options);
-  const end = endDate 
-    ? endDate.toLocaleDateString(lang, options) 
-    : translate(lang, 'work.current');
-  return `${start} - ${end}`;
-};
+// deprecated local formatter removed; using formatDateRange from utils/date
 
 const getRelatedProjects = (experienceId: string) => {
   return projects.filter(p => p.relatedTo === experienceId);
@@ -29,40 +24,48 @@ const getRelatedProjects = (experienceId: string) => {
 <section id="education" class="section education-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">{translate(lang, 'education.title')}</h2>
-      <p class="section-subtitle">{translate(lang, 'education.subtitle')}</p>
+      <h2 class="section-title" data-i18n-key="education.title">{translate(lang, 'education.title')}</h2>
+      <p class="section-subtitle" data-i18n-key="education.subtitle">{translate(lang, 'education.subtitle')}</p>
     </div>
 
     <div class="education-grid">
       {experiences.map((experience, index) => {
         const relatedProjects = getRelatedProjects(experience.id);
+        
+        // Extract translated values from Translations objects
+        const degree = getStringFromTranslations(experience.degree, lang);
+        const field = getStringFromTranslations(experience.field, lang);
+        const description = getStringFromTranslations(experience.description, lang);
+        const institution = getStringFromTranslations(experience.institution, lang);
+        const location = getStringFromTranslations(experience.location, lang);
+        const achievements = Array.isArray(experience.achievements)
+          ? experience.achievements.map((a: any) => getStringFromTranslations(a, lang))
+          : [];
+        
         return (
           <div class="education-card" data-index={index}>
             <div class="card-header">
               <div class="degree-info">
-                <h3 class="degree-title">{experience.degree}</h3>
-                <p class="degree-field">{experience.field}</p>
-                <p class="institution">{experience.institution}</p>
+                <h3 class="degree-title" data-translation-field={JSON.stringify(experience.degree)}>{degree}</h3>
+                <p class="degree-field" data-translation-field={JSON.stringify(experience.field)}>{field}</p>
+                <p class="institution" data-translation-field={JSON.stringify(experience.institution)}>{institution}</p>
               </div>
               <div class="education-meta">
                 <span class="education-date">
-                  {formatDate(experience.startDate, experience.endDate, lang)}
+                  {formatDateRange(experience.startDate, experience.endDate, lang, translate(lang, 'work.current'))}
                 </span>
-                <span class="education-location">{experience.location}</span>
-                {experience.gpa && (
-                  <span class="education-gpa">GPA: {experience.gpa}</span>
-                )}
+                <span class="education-location" data-translation-field={JSON.stringify(experience.location)}>{location}</span>
               </div>
             </div>
 
-            <p class="education-description">{experience.description}</p>
+            <p class="education-description" data-translation-field={JSON.stringify(experience.description)}>{description}</p>
 
-            {experience.achievements.length > 0 && (
+            {achievements.length > 0 && (
               <div class="education-achievements">
-                <h4 class="achievements-title">{translate(lang, 'education.achievements')}</h4>
+                <h4 class="achievements-title" data-i18n-key="education.achievements">{translate(lang, 'education.achievements')}</h4>
                 <ul class="achievements-list">
-                  {experience.achievements.map(achievement => (
-                    <li>{achievement}</li>
+                  {achievements.map((achievement: any, idx: number) => (
+                    <li data-translation-field={JSON.stringify(experience.achievements[idx])}>{typeof achievement === 'string' ? achievement : achievement[lang] || achievement}</li>
                   ))}
                 </ul>
               </div>
@@ -70,7 +73,7 @@ const getRelatedProjects = (experienceId: string) => {
 
             {relatedProjects.length > 0 && (
               <div class="related-projects">
-                <h4 class="related-projects-title">{translate(lang, 'education.projects')}</h4>
+                <h4 class="related-projects-title" data-i18n-key="education.projects">{translate(lang, 'education.projects')}</h4>
                 <div class="projects-list">
                   {relatedProjects.map(project => (
                     <div class="mini-project-card">
@@ -179,11 +182,6 @@ const getRelatedProjects = (experienceId: string) => {
     gap: var(--spacing-xs);
     font-size: 0.875rem;
     color: var(--color-text-secondary);
-  }
-
-  .education-gpa {
-    font-weight: 600;
-    color: var(--color-success);
   }
 
   .education-description {

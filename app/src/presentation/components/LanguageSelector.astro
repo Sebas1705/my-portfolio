@@ -33,11 +33,9 @@ const orderedLanguages = [
       <button class="language-option" data-lang={lang} data-active={lang === currentLang ? 'true' : 'false'}>
         <span class="lang-code">{lang.toUpperCase()}</span>
         <span class="lang-name">{languageNames[lang]}</span>
-        {lang === currentLang && (
-          <svg class="lang-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        )}
+        <svg class="lang-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
       </button>
     ))}
   </div>
@@ -150,6 +148,10 @@ const orderedLanguages = [
     min-width: 30px;
   }
 
+  .language-option[data-active="true"] .lang-code {
+    color: var(--color-bg-primary);
+  }
+
   .lang-name {
     font-size: 0.875rem;
     flex: 1;
@@ -158,6 +160,12 @@ const orderedLanguages = [
   .lang-check {
     color: var(--color-primary);
     margin-left: auto;
+    display: none;
+  }
+
+  .language-option[data-active="true"] .lang-check {
+    display: block;
+    color: var(--color-bg-primary);
   }
 </style>
 
@@ -165,6 +173,28 @@ const orderedLanguages = [
   const languageToggle = document.getElementById('language-toggle');
   const languageDropdown = document.getElementById('language-dropdown');
   const languageOptions = document.querySelectorAll('.language-option');
+  const currentLangDisplay = languageToggle?.querySelector('.current-lang');
+
+  // Update the displayed language on page load from localStorage
+  function updateLanguageDisplay() {
+    const savedLang = localStorage.getItem('language') || 'es';
+    if (currentLangDisplay) {
+      currentLangDisplay.textContent = savedLang.toUpperCase();
+    }
+    
+    // Update active state in dropdown
+    languageOptions.forEach(option => {
+      const optionLang = option.getAttribute('data-lang');
+      if (optionLang === savedLang) {
+        option.setAttribute('data-active', 'true');
+      } else {
+        option.setAttribute('data-active', 'false');
+      }
+    });
+  }
+
+  // Initialize display on page load
+  updateLanguageDisplay();
 
   if (languageToggle && languageDropdown) {
     languageToggle.addEventListener('click', () => {
@@ -194,11 +224,28 @@ const orderedLanguages = [
         // Update HTML lang attribute
         document.documentElement.setAttribute('lang', lang);
         
-        // Dispatch custom event for other components to listen to
-        window.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lang } }));
+        // Update the display immediately
+        if (currentLangDisplay) {
+          currentLangDisplay.textContent = lang.toUpperCase();
+        }
         
-        // Reload page to reflect language changes
-        window.location.reload();
+        // Update active state
+        languageOptions.forEach(opt => {
+          opt.setAttribute('data-active', opt.getAttribute('data-lang') === lang ? 'true' : 'false');
+        });
+        
+        // Import and call client-side translation update
+        import('@presentation/scripts/i18n-client').then(({ updateAllTranslations }) => {
+          updateAllTranslations(lang as any);
+          
+          // Dispatch custom event after updating translations
+          window.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lang } }));
+          
+          // Close dropdown
+          if (languageDropdown) {
+            languageDropdown.setAttribute('hidden', '');
+          }
+        });
       }
     });
   });

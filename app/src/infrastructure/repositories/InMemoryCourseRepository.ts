@@ -12,12 +12,4 @@ export class InMemoryCourseRepository implements ICourseRepository {
   async getById(id: string): Promise<Course | null> {
     return this.courses.find((course) => course.id === id) || null;
   }
-
-  async getByCategory(category: string): Promise<Course[]> {
-    return this.courses.filter((course) => course.category === category);
-  }
-
-  async getByInstitution(institution: string): Promise<Course[]> {
-    return this.courses.filter((course) => course.institution === institution);
-  }
 }

@@ -1,13 +1,14 @@
+import type { Translations } from '@domain/entities/Language';
+
 // Domain Entity: Academic Experience
 export interface AcademicExperience {
   id: string;
-  institution: string;
-  degree: string;
-  field: string;
-  description: string;
+  institution: Translations;
+  degree: Translations;
+  field: Translations;
+  description: Translations;
   startDate: Date;
   endDate?: Date;
-  location: string;
-  gpa?: string;
-  achievements: string[];
+  location: Translations;
+  achievements: Translations[];
 }

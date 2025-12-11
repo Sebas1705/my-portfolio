@@ -18,7 +18,7 @@ describe('i18n', () => {
     });
 
     it('should fallback to Spanish for unsupported language', () => {
-      const translations = getTranslations('fr' as any);
+      const translations = getTranslations('xyz' as any);
       const spanishTranslations = getTranslations('es');
       expect(translations).toEqual(spanishTranslations);
     });
@@ -52,9 +52,17 @@ describe('i18n', () => {
     });
 
     it('should have correct supported languages', () => {
-      expect(supportedLanguages).toEqual(['es', 'en']);
+      expect(supportedLanguages).toEqual(['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja']);
       expect(supportedLanguages).toContain('es');
       expect(supportedLanguages).toContain('en');
+      expect(supportedLanguages).toContain('fr');
+      expect(supportedLanguages).toContain('de');
+      expect(supportedLanguages).toContain('it');
+      expect(supportedLanguages).toContain('pt');
+      expect(supportedLanguages).toContain('nl');
+      expect(supportedLanguages).toContain('pl');
+      expect(supportedLanguages).toContain('ru');
+      expect(supportedLanguages).toContain('ja');
     });
   });
 

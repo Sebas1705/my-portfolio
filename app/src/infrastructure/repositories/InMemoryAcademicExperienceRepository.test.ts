@@ -6,7 +6,7 @@ describe('InMemoryAcademicExperienceRepository', () => {
     const repository = new InMemoryAcademicExperienceRepository();
     const experiences = await repository.getAll();
     
-    expect(experiences).toHaveLength(2);
+    expect(experiences).toHaveLength(3);
     expect(experiences[0].startDate > experiences[1].startDate).toBe(true);
   });
 

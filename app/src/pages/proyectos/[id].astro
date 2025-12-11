@@ -3,6 +3,7 @@ import Layout from '../../presentation/layouts/Layout.astro';
 import Header from '../../presentation/components/Header.astro';
 import Footer from '../../presentation/components/Footer.astro';
 import { translate } from '@infrastructure/i18n';
+import { formatMonthYear } from '@presentation/utils/date';
 import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
 import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
 import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
@@ -43,15 +44,21 @@ const typeLabels: Record<Project['type'], string> = {
   'personal': lang === 'es' ? 'Proyecto Personal' : 'Personal Project'
 };
 
-const formatDate = (date: Date) => {
-  return new Date(date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', {
-    year: 'numeric',
-    month: 'long'
-  });
+// deprecated local formatter removed; using formatMonthYear from utils/date
+
+// Helper to extract string from Translations or return string
+const getString = (value: any): string => {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value !== null) return value[lang] || Object.values(value)[0] || '';
+  return '';
 };
+
+const projectTitle = getString(project.title);
+const projectDescription = getString(project.description);
+const projectImageUrl = typeof project.imageUrl === 'string' ? project.imageUrl : (typeof project.imageUrl === 'object' && project.imageUrl[lang] ? project.imageUrl[lang] : '');
 ---
 
-<Layout lang={lang} title={`${project.title} - ${personalInfo.name}`} description={project.description}>
+<Layout lang={lang} title={`${projectTitle} - ${personalInfo.name}`} description={projectDescription}>
   <Header lang={lang} personalInfo={personalInfo} />
   
   <main class="project-detail-page">
@@ -60,20 +67,20 @@ const formatDate = (date: Date) => {
         <a href="/#projects" class="back-link">← {translate(lang, 'common.back')}</a>
         <div class="project-meta">
           <span class="type-badge" data-type={project.type}>{typeLabels[project.type]}</span>
-          <span class="date">{formatDate(project.startDate)}</span>
+          <span class="date">{formatMonthYear(project.startDate, lang)}</span>
         </div>
       </div>
 
       <div class="project-content">
-        {project.imageUrl && (
+        {projectImageUrl && (
           <div class="project-image">
-            <img src={project.imageUrl} alt={project.title} loading="lazy" />
+            <img src={projectImageUrl} alt={projectTitle} loading="lazy" />
           </div>
         )}
 
         <article class="project-article">
-          <h1>{project.title}</h1>
-          <p class="project-description">{project.description}</p>
+          <h1>{projectTitle}</h1>
+          <p class="project-description">{projectDescription}</p>
 
           {project.technologies && project.technologies.length > 0 && (
             <section class="technologies-section">

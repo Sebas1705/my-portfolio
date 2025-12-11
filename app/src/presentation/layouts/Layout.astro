@@ -77,5 +77,10 @@ import '../styles/global.css';
   </head>
   <body>
     <slot />
+    
+    <script>
+      import { initI18n } from '@presentation/scripts/i18n-client';
+      initI18n();
+    </script>
   </body>
 </html>

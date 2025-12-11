@@ -14,14 +14,6 @@ interface Props {
 
 const { lang, personalInfo } = Astro.props;
 
-const navItems = [
-  { href: '#home', label: translate(lang, 'nav.home') },
-  { href: '#about', label: translate(lang, 'nav.about') },
-  { href: '#work', label: translate(lang, 'nav.work') },
-  { href: '#education', label: translate(lang, 'nav.education') },
-  { href: '#projects', label: translate(lang, 'nav.projects') },
-  { href: '#contact', label: translate(lang, 'nav.contact') }
-];
 ---
 
 <header class="header">
@@ -35,7 +27,12 @@ const navItems = [
           width="40"
           height="40"
         />
-        <span class="brand-name">{personalInfo.name}</span>
+        <span class="brand-name">
+          <span class="name-short">Sebas</span>
+          <span class="name-medium">Sebastián</span>
+          <span class="name-long">Sebastián Entrerrios García</span>
+          <span class="name-full">Sebastián Ramiro Entrerrios García</span>
+        </span>
       </div>
 
       <button 
@@ -55,13 +52,36 @@ const navItems = [
       </button>
 
       <ul class="nav-links" id="nav-links">
-        {navItems.map(item => (
-          <li>
-            <a href={item.href} class="nav-link">
-              {item.label}
-            </a>
-          </li>
-        ))}
+        <li>
+          <a href="/#home" class="nav-link" data-i18n-key="nav.home">
+            {translate(lang, 'nav.home')}
+          </a>
+        </li>
+        <li>
+          <a href="/#about" class="nav-link" data-i18n-key="nav.about">
+            {translate(lang, 'nav.about')}
+          </a>
+        </li>
+        <li>
+          <a href="/#work" class="nav-link" data-i18n-key="nav.work">
+            {translate(lang, 'nav.work')}
+          </a>
+        </li>
+        <li>
+          <a href="/#education" class="nav-link" data-i18n-key="nav.education">
+            {translate(lang, 'nav.education')}
+          </a>
+        </li>
+        <li>
+          <a href="/#projects" class="nav-link" data-i18n-key="nav.projects">
+            {translate(lang, 'nav.projects')}
+          </a>
+        </li>
+        <li>
+          <a href="/#contact" class="nav-link" data-i18n-key="nav.contact">
+            {translate(lang, 'nav.contact')}
+          </a>
+        </li>
       </ul>
 
       <div class="nav-actions">
@@ -134,10 +154,71 @@ const navItems = [
 
   .brand-name {
     display: none;
+    max-width: 200px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   @media (min-width: 640px) {
     .brand-name {
+      display: -webkit-box;
+    }
+  }
+
+  /* Ocultar todos los nombres por defecto */
+  .brand-name .name-short,
+  .brand-name .name-medium,
+  .brand-name .name-long,
+  .brand-name .name-full {
+    display: none;
+  }
+
+  /* Mobile/Tablet: Mostrar "Sebas" */
+  @media (min-width: 640px) {
+    .brand-name .name-short {
+      display: inline;
+    }
+  }
+
+  /* Tablet grande: Mostrar "Sebastián" */
+  @media (min-width: 768px) {
+    .brand-name {
+      max-width: 250px;
+    }
+    .brand-name .name-short {
+      display: none;
+    }
+    .brand-name .name-medium {
+      display: inline;
+    }
+  }
+
+  /* Desktop pequeño: Mostrar "Sebastián Entrerrios García" */
+  @media (min-width: 1024px) {
+    .brand-name {
+      max-width: 300px;
+    }
+    .brand-name .name-medium {
+      display: none;
+    }
+    .brand-name .name-long {
+      display: inline;
+    }
+  }
+
+  /* Desktop grande: Mostrar "Sebastián Ramiro Entrerrios García" */
+  @media (min-width: 1280px) {
+    .brand-name {
+      max-width: 350px;
+    }
+    .brand-name .name-long {
+      display: none;
+    }
+    .brand-name .name-full {
       display: inline;
     }
   }
@@ -162,6 +243,9 @@ const navItems = [
     font-size: 0.9375rem;
     transition: color var(--transition-fast);
     position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .nav-link:hover {
