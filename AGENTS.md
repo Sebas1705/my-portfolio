@@ -22,9 +22,9 @@ src/
 │   ├── repositories/   # Implementaciones de repositorios
 │   └── i18n/           # Sistema de internacionalización
 └── presentation/        # Capa de Presentación (UI/UX)
-    ├── components/     # Componentes Astro
-    ├── layouts/        # Layouts de página
-    └── styles/         # Estilos globales
+        ├── components/     # Componentes Astro
+        ├── layouts/        # Layouts de página
+        └── styles/         # Estilos globales
 ```
 
 ### Principios de Dependencias
@@ -37,8 +37,8 @@ src/
 
 ```
 Usuario → Presentación → Casos de Uso → Repositorios → Datos
-                ↓              ↓              ↓
-            Astro      Application      Infrastructure
+                                ↓              ↓              ↓
+                        Astro      Application      Infrastructure
 ```
 
 ## 🎨 Tecnologías y Herramientas
@@ -146,7 +146,7 @@ Usuario → Presentación → Casos de Uso → Repositorios → Datos
 import type { Props } from './types';
 
 interface Props {
-  data: string;
+    data: string;
 }
 
 const { data } = Astro.props;
@@ -154,19 +154,19 @@ const { data } = Astro.props;
 
 <!-- Template (HTML) -->
 <div class="component">
-  {data}
+    {data}
 </div>
 
 <style>
-  /* Estilos con scope local */
-  .component {
-    color: var(--color-primary);
-  }
+    /* Estilos con scope local */
+    .component {
+        color: var(--color-primary);
+    }
 </style>
 
 <script>
-  // JavaScript del cliente
-  console.log('Hydrated');
+    // JavaScript del cliente
+    console.log('Hydrated');
 </script>
 ```
 
@@ -181,11 +181,11 @@ const { data } = Astro.props;
 
 ```
 src/pages/
-  index.astro          → /
-  about.astro          → /about
-  blog/
-    index.astro        → /blog
-    [slug].astro       → /blog/:slug
+    index.astro          → /
+    about.astro          → /about
+    blog/
+        index.astro        → /blog
+        [slug].astro       → /blog/:slug
 ```
 
 ### 3. Importaciones
@@ -222,21 +222,21 @@ import Header from '@presentation/components/Header.astro';
 **Variables CSS**:
 ```css
 :root {
-  /* Colores */
-  --color-primary: #3b82f6;
-  --color-bg-primary: #ffffff;
-  --color-text-primary: #0f172a;
-  
-  /* Espaciado */
-  --spacing-md: 1rem;
-  
-  /* Transiciones */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Colores */
+    --color-primary: #3b82f6;
+    --color-bg-primary: #ffffff;
+    --color-text-primary: #0f172a;
+    
+    /* Espaciado */
+    --spacing-md: 1rem;
+    
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] {
-  --color-bg-primary: #0f172a;
-  --color-text-primary: #f1f5f9;
+    --color-bg-primary: #0f172a;
+    --color-text-primary: #f1f5f9;
 }
 ```
 
@@ -244,13 +244,13 @@ import Header from '@presentation/components/Header.astro';
 ```css
 /* Mobile First */
 .container {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 @media (min-width: 768px) {
-  .container {
-    padding: 2rem;
-  }
+    .container {
+        padding: 2rem;
+    }
 }
 ```
 
@@ -284,24 +284,24 @@ import Header from '@presentation/components/Header.astro';
 1. **Tests Unitarios** (Use Cases y Repositorios)
 ```typescript
 describe('GetProjectsUseCase', () => {
-  it('should return all projects', async () => {
-    const repository = new InMemoryProjectRepository();
-    const useCase = new GetProjectsUseCase(repository);
-    
-    const projects = await useCase.execute();
-    
-    expect(projects).toBeDefined();
-    expect(projects.length).toBeGreaterThan(0);
-  });
+    it('should return all projects', async () => {
+        const repository = new InMemoryProjectRepository();
+        const useCase = new GetProjectsUseCase(repository);
+        
+        const projects = await useCase.execute();
+        
+        expect(projects).toBeDefined();
+        expect(projects.length).toBeGreaterThan(0);
+    });
 });
 ```
 
 2. **Tests de Integración** (i18n, Flujos completos)
 ```typescript
 describe('i18n', () => {
-  it('should translate keys correctly', () => {
-    expect(translate('es', 'nav.home')).toBe('Inicio');
-  });
+    it('should translate keys correctly', () => {
+        expect(translate('es', 'nav.home')).toBe('Inicio');
+    });
 });
 ```
 
@@ -324,9 +324,9 @@ npm test
 
 ```typescript
 src/infrastructure/i18n/
-  es.ts    # Traducciones en español
-  en.ts    # Traducciones en inglés
-  index.ts # Utilidades y funciones
+    es.ts    # Traducciones en español
+    en.ts    # Traducciones en inglés
+    index.ts # Utilidades y funciones
 ```
 
 ### Uso
@@ -356,9 +356,9 @@ const greeting = translate('es', 'hero.greeting'); // "Hola, soy"
 **Agregar nuevo tema**:
 ```css
 [data-theme="nuevo-tema"] {
-  --color-primary: #...;
-  --color-bg-primary: #...;
-  /* ... más variables */
+    --color-primary: #...;
+    --color-bg-primary: #...;
+    /* ... más variables */
 }
 ```
 

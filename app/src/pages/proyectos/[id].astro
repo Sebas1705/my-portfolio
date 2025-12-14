@@ -2,42 +2,49 @@
 import Layout from '../../presentation/layouts/Layout.astro';
 import Header from '../../presentation/components/Header.astro';
 import Footer from '../../presentation/components/Footer.astro';
-import { translate } from '@infrastructure/i18n';
 import { formatMonthYear } from '@presentation/utils/date';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { PROJECT_TYPE_LABELS } from '@presentation/utils/constants';
-import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
-import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
-import { GetProjectByIdUseCase } from '@application/use-cases/GetProjectByIdUseCase';
-import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
-import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
-import type { Language } from '@domain/entities/Language';
+import type { Language } from '@domain/models';
+
+// Use domain use-cases + infrastructure repositories
+import { GetProjectByIdUseCase, GetPersonalInfoUseCase, GetCommonLabelsUseCase, GetProjectLabelsUseCase } from '@domain/use-cases';
+import { InMemoryProjectRepository, InMemoryPersonalInfoRepository } from '@data/repositories';
+import { GetAllProjectsUseCase } from '@domain/use-cases';
+import { InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository } from '@data/repositories';
 
 export async function getStaticPaths() {
-  const projectRepository = new InMemoryProjectRepository();
-  const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
-  const projects = await getAllProjectsUseCase.execute();
-
-  return projects.map((project) => ({
-    params: { id: project.id }
-  }));
+    const projRepo = new InMemoryProjectRepository();
+    const getAllProj = new GetAllProjectsUseCase(projRepo);
+    const projects = await getAllProj.execute();
+    return projects.map((project) => ({ params: { id: project.id } }));
 }
 
 const { id } = Astro.params as { id: string };
 const lang: Language = 'es';
 
-const personalInfoRepository = new InMemoryPersonalInfoRepository();
-const projectRepository = new InMemoryProjectRepository();
+// instantiate repositories and use-cases
 
-const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
-const getProjectByIdUseCase = new GetProjectByIdUseCase(projectRepository);
+const projectRepo = new InMemoryProjectRepository();
+const personalRepo = new InMemoryPersonalInfoRepository();
+const commonLabelsRepo = new InMemoryCommonLabelsRepository();
+const projectLabelsRepo = new InMemoryProjectLabelsRepository();
 
-const personalInfo = await getPersonalInfoUseCase.execute();
-const project = await getProjectByIdUseCase.execute(id);
+const projectUseCase = new GetProjectByIdUseCase(projectRepo);
+const personalUseCase = new GetPersonalInfoUseCase(personalRepo);
+const commonLabelsUseCase = new GetCommonLabelsUseCase(commonLabelsRepo);
+const projectLabelsUseCase = new GetProjectLabelsUseCase(projectLabelsRepo);
+
+const personalInfo = await personalUseCase.execute();
+const project = await projectUseCase.execute(id);
 
 if (!project) {
-  return Astro.redirect('/');
+    return Astro.redirect('/');
 }
+
+// fetch labels
+const commonLabels = await commonLabelsUseCase.execute();
+const projectLabels = await projectLabelsUseCase.execute();
 
 // Project type labels from shared constants
 const projectTitle = getStringFromTranslations(project.title, lang);
@@ -46,244 +53,245 @@ const projectImageUrl = typeof project.imageUrl === 'string' ? project.imageUrl 
 ---
 
 <Layout lang={lang} title={`${projectTitle} - ${personalInfo.name}`} description={projectDescription}>
-  <Header lang={lang} personalInfo={personalInfo} />
-  
-  <main class="project-detail-page">
-    <div class="container">
-      <div class="page-header">
-        <a href="/#projects" class="back-link">← {translate(lang, 'common.back')}</a>
-        <div class="project-meta">
-          <span class="type-badge" data-type={project.type}>{PROJECT_TYPE_LABELS[lang][project.type]}</span>
-          <span class="date">{formatMonthYear(project.startDate, lang)}</span>
+    <Header lang={lang} personalInfo={personalInfo} />
+    
+    <main class="project-detail-page">
+        <div class="container">
+            <div class="page-header">
+                <a href="/#projects" class="back-link">← {translate(lang, 'common.back')}</a>
+                    <a href="/#projects" class="back-link">← {translate(commonLabels.back, lang)}</a>
+                <div class="project-meta">
+                    <span class="type-badge" data-type={project.type}>{PROJECT_TYPE_LABELS[lang][project.type]}</span>
+                    <span class="date">{formatMonthYear(project.startDate, lang)}</span>
+                </div>
+            </div>
+
+            <div class="project-content">
+                {projectImageUrl && (
+                    <div class="project-image">
+                        <img src={projectImageUrl} alt={projectTitle} loading="lazy" />
+                    </div>
+                )}
+
+                <article class="project-article">
+                    <h1>{projectTitle}</h1>
+                    <p class="project-description">{projectDescription}</p>
+
+                    {project.technologies && project.technologies.length > 0 && (
+                        <section class="technologies-section">
+                            <h2>{projectLabels ? translate(projectLabels.projectTechnologies, lang) : (lang === 'es' ? 'Tecnologías Utilizadas' : 'Technologies Used')}</h2>
+                            <div class="tech-list">
+                                {project.technologies.map((tech) => (
+                                    <span class="tech-tag">{tech}</span>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    <section class="links-section">
+                        {project.demoUrl && (
+                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                {projectLabels ? translate(projectLabels.projectViewDemo, lang) : (lang === 'es' ? 'Ver Demo' : 'View Demo')}
+                            </a>
+                        )}
+                        {project.repoUrl && (
+                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                {projectLabels ? translate(projectLabels.projectViewCode, lang) : (lang === 'es' ? 'Ver Código' : 'View Code')}
+                            </a>
+                        )}
+                    </section>
+                </article>
+            </div>
         </div>
-      </div>
+    </main>
 
-      <div class="project-content">
-        {projectImageUrl && (
-          <div class="project-image">
-            <img src={projectImageUrl} alt={projectTitle} loading="lazy" />
-          </div>
-        )}
-
-        <article class="project-article">
-          <h1>{projectTitle}</h1>
-          <p class="project-description">{projectDescription}</p>
-
-          {project.technologies && project.technologies.length > 0 && (
-            <section class="technologies-section">
-              <h2>{lang === 'es' ? 'Tecnologías Utilizadas' : 'Technologies Used'}</h2>
-              <div class="tech-list">
-                {project.technologies.map((tech) => (
-                  <span class="tech-tag">{tech}</span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section class="links-section">
-            {project.demoUrl && (
-              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                {lang === 'es' ? 'Ver Demo' : 'View Demo'}
-              </a>
-            )}
-            {project.repoUrl && (
-              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                {lang === 'es' ? 'Ver Código' : 'View Code'}
-              </a>
-            )}
-          </section>
-        </article>
-      </div>
-    </div>
-  </main>
-
-  <Footer lang={lang} />
+    <Footer lang={lang} />
 </Layout>
 
 <style>
-  .project-detail-page {
-    min-height: 100vh;
-    padding: 4rem 0;
-    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
-  }
+    .project-detail-page {
+        min-height: 100vh;
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+    }
 
-  .page-header {
-    margin-bottom: 3rem;
-  }
+    .page-header {
+        margin-bottom: 3rem;
+    }
 
-  .back-link {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all var(--transition-base);
-  }
+    .back-link {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all var(--transition-base);
+    }
 
-  .back-link:hover {
-    transform: translateX(-4px);
-  }
+    .back-link:hover {
+        transform: translateX(-4px);
+    }
 
-  .project-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+    .project-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
 
-  .type-badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+    .type-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-md);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
 
-  .type-badge[data-type="work"] {
-    background: rgba(59, 130, 246, 0.2);
-    color: var(--color-primary);
-  }
+    .type-badge[data-type="work"] {
+        background: rgba(59, 130, 246, 0.2);
+        color: var(--color-primary);
+    }
 
-  .type-badge[data-type="academic"] {
-    background: rgba(34, 197, 94, 0.2);
-    color: #22c55e;
-  }
+    .type-badge[data-type="academic"] {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+    }
 
-  .type-badge[data-type="personal"] {
-    background: rgba(168, 85, 247, 0.2);
-    color: #a855f7;
-  }
+    .type-badge[data-type="personal"] {
+        background: rgba(168, 85, 247, 0.2);
+        color: #a855f7;
+    }
 
-  .date {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-  }
+    .date {
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+    }
 
-  .project-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
+    .project-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
 
-  .project-image {
-    background: var(--color-bg-tertiary);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-  }
+    .project-image {
+        background: var(--color-bg-tertiary);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+    }
 
-  .project-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+    .project-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 
-  .project-article {
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 3rem;
-  }
-
-  .project-article h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--color-text-primary);
-  }
-
-  .project-description {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: var(--color-text-secondary);
-    margin-bottom: 2rem;
-  }
-
-  .technologies-section {
-    margin-bottom: 2rem;
-  }
-
-  .technologies-section h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 1rem;
-  }
-
-  .tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .tech-tag {
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
-    color: var(--color-text-primary);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-full);
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-
-  .links-section {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-base);
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-
-  .btn-primary {
-    background: var(--color-primary);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-primary-dark);
-    transform: translateY(-2px);
-  }
-
-  .btn-secondary {
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  @media (max-width: 768px) {
     .project-article {
-      padding: 1.5rem;
+        background: var(--color-bg-tertiary);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: 3rem;
     }
 
     .project-article h1 {
-      font-size: 1.8rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--color-text-primary);
+    }
+
+    .project-description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--color-text-secondary);
+        margin-bottom: 2rem;
+    }
+
+    .technologies-section {
+        margin-bottom: 2rem;
+    }
+
+    .technologies-section h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        margin-bottom: 1rem;
+    }
+
+    .tech-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .tech-tag {
+        background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
+        color: var(--color-text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 
     .links-section {
-      flex-direction: column;
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--color-border);
     }
 
     .btn {
-      width: 100%;
-      justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all var(--transition-base);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
     }
-  }
+
+    .btn-primary {
+        background: var(--color-primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--color-primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+        border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+        .project-article {
+            padding: 1.5rem;
+        }
+
+        .project-article h1 {
+            font-size: 1.8rem;
+        }
+
+        .links-section {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 </style>

@@ -2,280 +2,278 @@
 import Layout from '../presentation/layouts/Layout.astro';
 import Header from '../presentation/components/Header.astro';
 import Footer from '../presentation/components/Footer.astro';
-import { translate } from '@infrastructure/i18n';
+import { translate } from '@/domain';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 import { formatMonthYear } from '@presentation/utils/date';
-import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
-import { GetAllCoursesUseCase } from '@application/use-cases/GetAllCoursesUseCase';
-import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
-import { InMemoryCourseRepository } from '@infrastructure/repositories/InMemoryCourseRepository';
+import personalInfoData from '../data/datasources/personalInfoData.json';
+import coursesData from '../data/datasources/coursesData.json';
+import navigationLabelsData from '../data/datasources/labels/navigationLabels.json';
+import commonLabelsData from '../data/datasources/labels/commonLabels.json';
+import courseLabelsData from '../data/datasources/labels/courseLabels.json';
+import footerLabelsData from '../data/datasources/labels/footerLabels.json';
 import type { Language } from '@domain/entities/Language';
 
 // Use default language - will be overridden by client-side localStorage
 const lang: Language = 'es';
 
-const personalInfoRepository = new InMemoryPersonalInfoRepository();
-const courseRepository = new InMemoryCourseRepository();
 
-const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
-const getAllCoursesUseCase = new GetAllCoursesUseCase(courseRepository);
-
-const personalInfo = await getPersonalInfoUseCase.execute();
-const courses = await getAllCoursesUseCase.execute();
-
+const personalInfo = personalInfoData;
+const courses = coursesData;
 const getString = (value: any): string => getStringFromTranslations(value, lang);
+
+const labels = {
+    ...navigationLabelsData,
+    ...commonLabelsData,
+    ...courseLabelsData,
+    ...footerLabelsData
+};
 
 const formatDate = (date: Date) => formatMonthYear(date, lang);
 ---
 
-<Layout lang={lang} title={`${lang === 'es' ? 'Cursos' : 'Courses'} - ${personalInfo.name}`} description="All courses and certifications">
-  <Header lang={lang} personalInfo={personalInfo} />
-  
-  <main class="courses-page">
-    <div class="container">
-      <div class="page-header">
-        <a href="/" class="back-link">← {translate(lang, 'common.back')}</a>
-        <h1>{lang === 'es' ? 'Mis Cursos & Certificaciones' : 'My Courses & Certifications'}</h1>
-        <p class="page-subtitle">{translate(lang, 'skills.subtitle')}</p>
-      </div>
+    <Layout lang={lang} title={`${translate(labels.coursePageTitle, lang)} - ${personalInfo.name}`} description="All courses and certifications">
+    <Header lang={lang} personalInfo={personalInfo} />
+    
+    <main class="courses-page">
+        <div class="container">
+            <div class="page-header">
+                <a href="/" class="back-link">← {translate(labels.back, lang)}</a>
+                <h1>{translate(labels.coursePageTitle, lang)}</h1>
+                <p class="page-subtitle">{translate(labels.skillsSubtitle, lang)}</p>
+            </div>
 
-      <div class="courses-list">
-        {courses
-          .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
-          .map((course) => (
-            <article class="course-card">
-              <div class="course-header">
-                <div>
-                  <h3 data-translation-field={JSON.stringify(course.title)}>{getString(course.title)}</h3>
-                  <p class="institution" data-translation-field={JSON.stringify(course.institution)}>{getString(course.institution)}</p>
-                </div>
-                <span class="completion-date">{formatDate(course.completionDate)}</span>
-              </div>
+            <div class="courses-list">
+                {courses
+                    .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
+                    .map((course) => (
+                        <article class="course-card">
+                            <div class="course-header">
+                                <div>
+                                    <h3>{getString(course.title)}</h3>
+                                    <p class="institution">{getString(course.institution)}</p>
+                                </div>
+                                <span class="completion-date">{formatDate(course.completionDate)}</span>
+                            </div>
 
-              <p class="course-description" data-translation-field={JSON.stringify(course.description)}>{getString(course.description)}</p>
+                            <p class="course-description">{getString(course.description)}</p>
 
-              {course.skills && course.skills.length > 0 && (
-                <div class="course-skills">
-                  <span class="skills-label">{lang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
-                  <div class="skill-tags">
-                    {course.skills.map((skill) => (
-                      <span class="skill-tag">{skill}</span>
+                            {course.skills && course.skills.length > 0 && (
+                                <div class="course-skills">
+                                    <span class="skills-label">{lang === 'es' ? 'Habilidades:' : 'Skills:'}</span>
+                                    <div class="skill-tags">
+                                        {course.skills.map((skill) => (
+                                            <span class="skill-tag">{skill}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div class="course-actions">
+                                {course.url && (
+                                    <a href={course.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                        {lang === 'es' ? 'Ver Curso' : 'View Course'}
+                                    </a>
+                                )}
+                                {course.certificateUrl && (
+                                    <a href={course.certificateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                        {lang === 'es' ? 'Certificado' : 'Certificate'}
+                                    </a>
+                                )}
+                            </div>
+                        </article>
                     ))}
-                  </div>
-                </div>
-              )}
+            </div>
+        </div>
+    </main>
 
-              <div class="course-actions">
-                {course.url && (
-                  <a href={course.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                    {lang === 'es' ? 'Ver Curso' : 'View Course'}
-                  </a>
-                )}
-                {course.certificateUrl && (
-                  <a href={course.certificateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-                    {lang === 'es' ? 'Certificado' : 'Certificate'}
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-      </div>
-    </div>
-  </main>
-
-  <Footer lang={lang} />
-</Layout>
-    </div>
-  </main>
-
-  <Footer lang={lang} />
+    <Footer lang={lang} />
 </Layout>
 
 <style>
-  .courses-page {
-    min-height: 100vh;
-    padding: 4rem 0;
-    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
-  }
-
-  .page-header {
-    text-align: center;
-    margin-bottom: 4rem;
-  }
-
-  .back-link {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all var(--transition-base);
-  }
-
-  .back-link:hover {
-    transform: translateX(-4px);
-  }
-
-  .page-header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-primary);
-  }
-
-  .page-subtitle {
-    font-size: 1.2rem;
-    color: var(--color-text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .courses-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .course-card {
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    transition: all var(--transition-base);
-  }
-
-  .course-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
-    transform: translateY(-4px);
-  }
-
-  .course-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .course-card h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin: 0 0 0.5rem 0;
-  }
-
-  .institution {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-    font-weight: 500;
-  }
-
-  .completion-date {
-    color: var(--color-primary);
-    font-weight: 600;
-    white-space: nowrap;
-    font-size: 0.9rem;
-  }
-
-  .course-description {
-    color: var(--color-text-secondary);
-    margin: 1rem 0;
-    line-height: 1.6;
-  }
-
-  .course-skills {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin: 1.5rem 0;
-    flex-wrap: wrap;
-  }
-
-  .skills-label {
-    font-weight: 600;
-    color: var(--color-text-primary);
-    font-size: 0.9rem;
-  }
-
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .skill-tag {
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
-    color: var(--color-text-primary);
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-
-  .course-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.65rem 1.25rem;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-base);
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
-  }
-
-  .btn-primary {
-    background: var(--color-primary);
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-primary-dark);
-    transform: translateY(-2px);
-  }
-
-  .btn-secondary {
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  @media (max-width: 768px) {
-    .page-header h1 {
-      font-size: 2rem;
+    .courses-page {
+        min-height: 100vh;
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
     }
 
-    .course-category-section h2 {
-      font-size: 1.4rem;
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all var(--transition-base);
+    }
+
+    .back-link:hover {
+        transform: translateX(-4px);
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--color-text-primary);
+    }
+
+    .page-subtitle {
+        font-size: 1.2rem;
+        color: var(--color-text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .courses-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .course-card {
+        background: var(--color-bg-tertiary);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        transition: all var(--transition-base);
+    }
+
+    .course-card:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+        transform: translateY(-4px);
     }
 
     .course-header {
-      flex-direction: column;
-      gap: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .course-card h3 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .institution {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .completion-date {
+        color: var(--color-primary);
+        font-weight: 600;
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+
+    .course-description {
+        color: var(--color-text-secondary);
+        margin: 1rem 0;
+        line-height: 1.6;
+    }
+
+    .course-skills {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        flex-wrap: wrap;
+    }
+
+    .skills-label {
+        font-weight: 600;
+        color: var(--color-text-primary);
+        font-size: 0.9rem;
+    }
+
+    .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .skill-tag {
+        background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
+        color: var(--color-text-primary);
+        padding: 0.35rem 0.75rem;
+        border-radius: var(--radius-full);
+        font-size: 0.85rem;
+        font-weight: 500;
     }
 
     .course-actions {
-      flex-wrap: wrap;
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
     }
 
     .btn {
-      flex: 1;
-      min-width: 150px;
-      justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.65rem 1.25rem;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all var(--transition-base);
+        font-size: 0.9rem;
+        border: none;
+        cursor: pointer;
     }
-  }
+
+    .btn-primary {
+        background: var(--color-primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--color-primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+        border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2rem;
+        }
+
+        .course-category-section h2 {
+            font-size: 1.4rem;
+        }
+
+        .course-header {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .course-actions {
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            justify-content: center;
+        }
+    }
 </style>

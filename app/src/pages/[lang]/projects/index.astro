@@ -1,0 +1,239 @@
+---
+import Layout from '@/presentation/layouts/Layout.astro';
+import Header from '@/presentation/components/Header.astro';
+import Footer from '@/presentation/components/Footer.astro';
+import { BackLink, PageHeader } from '@/presentation/components/ui';
+
+import type { Language } from '@/domain/models/Language';
+import personalInfoData from '../../data/datasources/personalInfoData.json';
+import projectsData from '../../data/datasources/projectsData.json';
+import navigationLabelsData from '../../data/datasources/labels/navigationLabels.json';
+import projectLabelsData from '../../data/datasources/labels/projectLabels.json';
+import footerLabelsData from '../../data/datasources/labels/footerLabels.json';
+import commonLabelsData from '../../data/datasources/labels/commonLabels.json';
+import { supportedLanguages, translate } from '@domain/models/Language';
+
+export async function getStaticPaths() {
+    return supportedLanguages.map((lang) => ({ params: { lang } }));
+}
+
+const paramsLang = Astro.params.lang as Language | undefined;
+const lang: Language = supportedLanguages.includes(paramsLang as Language) ? (paramsLang as Language) : 'en';
+
+const getStringFromTranslations = (value: any, lang: Language) => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') return value[lang] || Object.values(value)[0] || '';
+    return '';
+};
+
+const personalInfo = personalInfoData;
+const allProjects = projectsData;
+const projectLabels = projectLabelsData;
+const navigationLabels = navigationLabelsData;
+const footerLabels = footerLabelsData;
+const commonLabels = commonLabelsData;
+
+// Combine labels needed for this page
+const labels = { 
+    ...navigationLabels,
+    ...projectLabels,
+    ...footerLabels,
+    ...commonLabels
+};
+
+// Group projects by type
+const projectsByType = {
+    personal: allProjects.filter((p: Project) => p.type === 'personal'),
+    work: allProjects.filter((p: Project) => p.type === 'work'),
+    academic: allProjects.filter((p: Project) => p.type === 'academic')
+};
+
+const typeLabels = {
+    personal: { es: 'Proyectos Personales', en: 'Personal Projects', fr: 'Projets Personnels', de: 'Persönliche Projekte', it: 'Progetti Personali', pt: 'Projetos Pessoais', nl: 'Persoonlijke Projecten', pl: 'Projekty Osobiste', ru: 'Личные Проекты', ja: '個人プロジェクト' },
+    work: { es: 'Proyectos Laborales', en: 'Work Projects', fr: 'Projets Professionnels', de: 'Arbeitsprojekte', it: 'Progetti di Lavoro', pt: 'Projetos de Trabalho', nl: 'Werkprojecten', pl: 'Projekty Zawodowe', ru: 'Рабочие Проекты', ja: '仕事プロジェクト' },
+    academic: { es: 'Proyectos Académicos', en: 'Academic Projects', fr: 'Projets Académiques', de: 'Akademische Projekte', it: 'Progetti Accademici', pt: 'Projetos Acadêmicos', nl: 'Academische Projecten', pl: 'Projekty Akademickie', ru: 'Академические Проекты', ja: 'アカデミックプロジェクト' }
+};
+---
+
+<Layout lang={lang} title={`${translate(labels.projectTitle, lang)} - ${personalInfo.name}`} description={translate(labels.projectSubtitle, lang)}>
+    <Header labels={labels} lang={lang} personalInfo={personalInfo} />
+    
+    <main class="projects-page">
+        <div class="container">
+            <BackLink href={`/${lang}/#projects`} text={translate(labels.back, lang)} />
+            <PageHeader 
+                title={translate(labels.projectTitle, lang)}
+                subtitle={translate(labels.projectSubtitle, lang)}
+            />
+
+            {Object.entries(projectsByType).map(([type, projects]) => (
+                projects.length > 0 && (
+                    <section class="project-category-section">
+                        <h2>{getStringFromTranslations(typeLabels[type as keyof typeof typeLabels], lang)}</h2>
+                        <div class="projects-grid">
+                            {projects.map((project: any) => (
+                                <article class="project-card">
+                                    {project.imageUrl && project.imageUrl !== '' && (
+                                        <div class="project-image">
+                                            <img src={typeof project.imageUrl === 'string' ? project.imageUrl : (project.imageUrl?.[lang] || '')} alt={getStringFromTranslations(project.title, lang)} loading="lazy" />
+                                        </div>
+                                    )}
+                                    
+                                    <div class="project-content">
+                                        <h3>{getStringFromTranslations(project.title, lang)}</h3>
+                                        <p class="project-description">{getStringFromTranslations(project.description, lang)}</p>
+                                        
+                                        {project.technologies && project.technologies.length > 0 && (
+                                            <div class="project-tech">
+                                                {project.technologies.slice(0, 5).map((tech: string) => (
+                                                    <span class="tech-badge">{tech}</span>
+                                                ))}
+                                                {project.technologies.length > 5 && (
+                                                    <span class="tech-badge more">+{project.technologies.length - 5}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                        
+                                        <div class="project-actions">
+                                            <a href={`/${lang}/projects/${project.id}`} class="btn-view-more">
+                                                {`${lang === 'es' ? 'Ver Más' : lang === 'fr' ? 'Voir Plus' : lang === 'de' ? 'Mehr Anzeigen' : lang === 'it' ? 'Visualizza Di Più' : lang === 'pt' ? 'Ver Mais' : lang === 'nl' ? 'Meer Weergeven' : lang === 'pl' ? 'Pokaż Więcej' : lang === 'ru' ? 'Посмотреть Больше' : lang === 'ja' ? 'さらに表示' : 'View More'}`}
+                                                →
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+                )
+            ))}
+        </div>
+    </main>
+
+    <Footer labels={labels} lang={lang} />
+</Layout>
+
+<style>
+    .projects-page {
+        min-height: 100vh;
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+    }
+
+    .project-category-section {
+        margin-bottom: 4rem;
+    }
+
+    .project-category-section h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--color-border);
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+
+    .project-card {
+        background: var(--color-bg-tertiary);
+        overflow: hidden;
+        transform: translateY(-4px);
+    }
+
+    .project-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: var(--color-bg-secondary);
+    }
+
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-base);
+    }
+
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+
+    .project-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .project-content h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin: 0 0 1rem 0;
+    }
+
+    .project-description {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+
+    .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tech-badge {
+        background: var(--color-primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .tech-badge.more {
+        background: var(--color-secondary);
+    }
+
+    .project-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-view-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+        color: white;
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all var(--transition-base);
+    }
+
+    .btn-view-more:hover {
+        transform: translateX(4px);
+        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2rem;
+        }
+
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

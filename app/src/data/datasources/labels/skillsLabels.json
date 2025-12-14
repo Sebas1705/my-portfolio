@@ -1,0 +1,185 @@
+{
+    "title": {
+        "es": "Tecnologías",
+        "en": "Technologies",
+        "fr": "Technologies",
+        "de": "Technologien",
+        "it": "Tecnologie",
+        "pt": "Tecnologias",
+        "nl": "Technologieën",
+        "pl": "Technologie",
+        "ru": "Технологии",
+        "ja": "テクノロジー"
+    },
+    "subtitle": {
+        "es": "Herramientas y tecnologías que domino",
+        "en": "Tools and technologies I master",
+        "fr": "Outils et technologies que je maîtrise",
+        "de": "Werkzeuge und Technologien, die ich beherrsche",
+        "it": "Strumenti e tecnologie che padroneggio",
+        "pt": "Ferramentas e tecnologias que domino",
+        "nl": "Tools en technologieën die ik beheers",
+        "pl": "Narzędzia i technologie, które opanowałem",
+        "ru": "Инструменты и технологии, которыми я владею",
+        "ja": "マスターしているツールとテクノロジー"
+    },
+
+
+    "categoryLanguages": {
+        "es": "Lenguajes",
+        "en": "Languages",
+        "fr": "Langages",
+        "de": "Sprachen",
+        "it": "Linguaggi",
+        "pt": "Linguagens",
+        "nl": "Talen",
+        "pl": "Języki",
+        "ru": "Языки",
+        "ja": "言語"
+    },
+    "categoryFrameworks": {
+        "es": "Frameworks",
+        "en": "Frameworks",
+        "fr": "Frameworks",
+        "de": "Frameworks",
+        "it": "Framework",
+        "pt": "Frameworks",
+        "nl": "Frameworks",
+        "pl": "Frameworki",
+        "ru": "Фреймворки",
+        "ja": "フレームワーク"
+    },
+    "categoryTools": {
+        "es": "Herramientas",
+        "en": "Tools",
+        "fr": "Outils",
+        "de": "Werkzeuge",
+        "it": "Strumenti",
+        "pt": "Ferramentas",
+        "nl": "Gereedschappen",
+        "pl": "Narzędzia",
+        "ru": "Инструменты",
+        "ja": "ツール"
+    },
+    "categoryDatabases": {
+        "es": "Bases de Datos",
+        "en": "Databases",
+        "fr": "Bases de Données",
+        "de": "Datenbanken",
+        "it": "Database",
+        "pt": "Bancos de Dados",
+        "nl": "Databases",
+        "pl": "Bazy Danych",
+        "ru": "Базы Данных",
+        "ja": "データベース"
+    },
+    "categoryCloud": {
+        "es": "Cloud",
+        "en": "Cloud",
+        "fr": "Cloud",
+        "de": "Cloud",
+        "it": "Cloud",
+        "pt": "Cloud",
+        "nl": "Cloud",
+        "pl": "Chmura",
+        "ru": "Облако",
+        "ja": "クラウド"
+    },
+    "categoryMethodologies": {
+        "es": "Metodologías",
+        "en": "Methodologies",
+        "fr": "Méthodologies",
+        "de": "Methodologien",
+        "it": "Metodologie",
+        "pt": "Metodologias",
+        "nl": "Methodologieën",
+        "pl": "Metodologie",
+        "ru": "Методологии",
+        "ja": "方法論"
+    },
+    "categoryAI": {
+        "es": "Inteligencia Artificial",
+        "en": "Artificial Intelligence",
+        "fr": "Intelligence Artificielle",
+        "de": "Künstliche Intelligenz",
+        "it": "Intelligenza Artificiale",
+        "pt": "Inteligência Artificial",
+        "nl": "Kunstmatige Intelligentie",
+        "pl": "Sztuczna Inteligencja",
+        "ru": "Искусственный Интеллект",
+        "ja": "人工知能"
+    },
+    "categoryArchitecture": {
+        "es": "Arquitectura",
+        "en": "Architecture",
+        "fr": "Architecture",
+        "de": "Architektur",
+        "it": "Architettura",
+        "pt": "Arquitetura",
+        "nl": "Architectuur",
+        "pl": "Architektura",
+        "ru": "Архитектура",
+        "ja": "アーキテクチャ"
+    },
+
+    "tierBasic": {
+        "es": "Básico",
+        "en": "Basic",
+        "fr": "Basique",
+        "de": "Grundlegend",
+        "it": "Base",
+        "pt": "Básico",
+        "nl": "Basis",
+        "pl": "Podstawowy",
+        "ru": "Базовый",
+        "ja": "基本"
+    },
+    "tierBeginner": {
+        "es": "Principiante",
+        "en": "Beginner",
+        "fr": "Débutant",
+        "de": "Anfänger",
+        "it": "Principiante",
+        "pt": "Iniciante",
+        "nl": "Beginner",
+        "pl": "Początkujący",
+        "ru": "Начинающий",
+        "ja": "初心者"
+    },
+    "tierIntermediate": {
+        "es": "Intermedio",
+        "en": "Intermediate",
+        "fr": "Intermédiaire",
+        "de": "Mittelstufe",
+        "it": "Intermedio",
+        "pt": "Intermediário",
+        "nl": "Gemiddeld",
+        "pl": "Średniozaawansowany",
+        "ru": "Средний",
+        "ja": "中級"
+    },
+    "tierAdvanced": {
+        "es": "Avanzado",
+        "en": "Advanced",
+        "fr": "Avancé",
+        "de": "Fortgeschritten",
+        "it": "Avanzato",
+        "pt": "Avançado",
+        "nl": "Gevorderd",
+        "pl": "Zaawansowany",
+        "ru": "Продвинутый",
+        "ja": "上級"
+    },
+    "tierExpert": {
+        "es": "Experto",
+        "en": "Expert",
+        "fr": "Expert",
+        "de": "Experte",
+        "it": "Esperto",
+        "pt": "Especialista",
+        "nl": "Expert",
+        "pl": "Ekspert",
+        "ru": "Эксперт",
+        "ja": "エキスパート"
+    }
+}

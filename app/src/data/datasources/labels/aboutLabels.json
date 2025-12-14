@@ -1,0 +1,38 @@
+{
+    "title": {
+        "es": "Sobre Mí",
+        "en": "About Me",
+        "fr": "À Propos de Moi",
+        "de": "Über Mich",
+        "it": "Chi Sono",
+        "pt": "Sobre Mim",
+        "nl": "Over Mij",
+        "pl": "O Mnie",
+        "ru": "Обо Мне",
+        "ja": "自己紹介"
+    },
+    "subtitle": {
+        "es": "Conoce mi historia",
+        "en": "Get to know my story",
+        "fr": "Découvrez mon histoire",
+        "de": "Lernen Sie meine Geschichte kennen",
+        "it": "Scopri la mia storia",
+        "pt": "Conheça minha história",
+        "nl": "Leer mijn verhaal kennen",
+        "pl": "Poznaj moją historię",
+        "ru": "Узнайте мою историю",
+        "ja": "私のストーリーを知る"
+    },
+    "greeting": {
+        "es": "Hola, soy",
+        "en": "Hi, I'm",
+        "fr": "Salut, je suis",
+        "de": "Hallo, ich bin",
+        "it": "Ciao, sono",
+        "pt": "Olá, eu sou",
+        "nl": "Hoi, ik ben",
+        "pl": "Cześć, jestem",
+        "ru": "Привет, я",
+        "ja": "こんにちは、私は"
+    }
+}

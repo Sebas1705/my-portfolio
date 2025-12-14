@@ -11,71 +11,88 @@ import Projects from '../presentation/components/Projects.astro';
 import Contact from '../presentation/components/Contact.astro';
 import Footer from '../presentation/components/Footer.astro';
 
-import { GetPersonalInfoUseCase } from '@application/use-cases/GetPersonalInfoUseCase';
-import { GetWorkExperiencesUseCase } from '@application/use-cases/GetWorkExperiencesUseCase';
-import { GetAcademicExperiencesUseCase } from '@application/use-cases/GetAcademicExperiencesUseCase';
-import { GetAllProjectsUseCase } from '@application/use-cases/GetAllProjectsUseCase';
-import { GetSkillsUseCase } from '@application/use-cases/GetSkillsUseCase';
-import { GetSoftSkillsUseCase } from '@application/use-cases/GetSoftSkillsUseCase';
+import { GetPersonalInfoUseCase } from '@domain/use-cases';
+import { GetWorkExperiencesUseCase } from '@domain/use-cases';
+import { GetAcademicExperiencesUseCase } from '@domain/use-cases';
+import { GetAllProjectsUseCase } from '@domain/use-cases';
+import { GetAllSkillsUseCase } from '@domain/use-cases';
+import { GetSoftSkillsUseCase } from '@domain/use-cases';
+import { GetWorkLabelsUseCase, GetProjectLabelsUseCase, GetSkillsLabelsUseCase, GetAboutLabelsUseCase, GetSoftSkillsLabelsUseCase, GetContactLabelsUseCase } from '@domain/use-cases';
 
-import { InMemoryPersonalInfoRepository } from '@infrastructure/repositories/InMemoryPersonalInfoRepository';
-import { InMemoryWorkExperienceRepository } from '@infrastructure/repositories/InMemoryWorkExperienceRepository';
-import { InMemoryAcademicExperienceRepository } from '@infrastructure/repositories/InMemoryAcademicExperienceRepository';
-import { InMemoryProjectRepository } from '@infrastructure/repositories/InMemoryProjectRepository';
-import { InMemorySkillRepository } from '@infrastructure/repositories/InMemorySkillRepository';
-import { InMemorySoftSkillRepository } from '@infrastructure/repositories/InMemorySoftSkillRepository';
+import { InMemoryPersonalInfoRepository, InMemoryWorkExperienceRepository, InMemoryAcademicExperienceRepository, InMemoryProjectRepository, InMemorySkillRepository, InMemorySoftSkillRepository, InMemoryWorkLabelsRepository, InMemoryProjectLabelsRepository, InMemorySkillsLabelsRepository, InMemoryAboutLabelsRepository, InMemorySoftSkillsLabelsRepository, InMemoryContactLabelsRepository } from '@data/repositories';
 
-import type { Language } from '@domain/entities/Language';
+import type { Language } from '@domain/models';
 
 // Default to Spanish, language will be determined on client-side from localStorage
 const lang: Language = 'es';
 
 const getString = (value: any): string => {
-  if (typeof value === 'string') return value;
-  if (typeof value === 'object' && value !== null) {
-    return value[lang] || Object.values(value)[0] || '';
-  }
-  return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object' && value !== null) {
+        return value[lang] || Object.values(value)[0] || '';
+    }
+    return '';
 };
 
-// Initialize repositories
-const personalInfoRepository = new InMemoryPersonalInfoRepository();
-const workExperienceRepository = new InMemoryWorkExperienceRepository();
-const academicExperienceRepository = new InMemoryAcademicExperienceRepository();
-const projectRepository = new InMemoryProjectRepository();
-const skillRepository = new InMemorySkillRepository();
-const softSkillRepository = new InMemorySoftSkillRepository();
+// Fetch data via use-cases + repositories (clean architecture)
+const personalRepo = new InMemoryPersonalInfoRepository();
+const workRepo = new InMemoryWorkExperienceRepository();
+const academicRepo = new InMemoryAcademicExperienceRepository();
+const projectRepo = new InMemoryProjectRepository();
+const skillRepo = new InMemorySkillRepository();
+const softSkillRepo = new InMemorySoftSkillRepository();
 
-// Initialize use cases
-const getPersonalInfoUseCase = new GetPersonalInfoUseCase(personalInfoRepository);
-const getWorkExperiencesUseCase = new GetWorkExperiencesUseCase(workExperienceRepository);
-const getAcademicExperiencesUseCase = new GetAcademicExperiencesUseCase(academicExperienceRepository);
-const getAllProjectsUseCase = new GetAllProjectsUseCase(projectRepository);
-const getSkillsUseCase = new GetSkillsUseCase(skillRepository);
-const getSoftSkillsUseCase = new GetSoftSkillsUseCase(softSkillRepository);
+const personalUseCase = new GetPersonalInfoUseCase(personalRepo);
+const workUseCase = new GetWorkExperiencesUseCase(workRepo);
+const academicUseCase = new GetAcademicExperiencesUseCase(academicRepo);
+const projectsUseCase = new GetAllProjectsUseCase(projectRepo);
+const skillsUseCase = new GetAllSkillsUseCase(skillRepo);
+const softSkillsUseCase = new GetSoftSkillsUseCase(softSkillRepo);
 
-// Fetch data
-const personalInfo = await getPersonalInfoUseCase.execute();
-const workExperiences = await getWorkExperiencesUseCase.execute();
-const academicExperiences = await getAcademicExperiencesUseCase.execute();
-const projects = await getAllProjectsUseCase.execute();
-const skills = await getSkillsUseCase.execute();
-const softSkills = await getSoftSkillsUseCase.execute();
+// Labels use-cases and repos
+const workLabelsRepo = new InMemoryWorkLabelsRepository();
+const projectLabelsRepo = new InMemoryProjectLabelsRepository();
+const skillsLabelsRepo = new InMemorySkillsLabelsRepository();
+const aboutLabelsRepo = new InMemoryAboutLabelsRepository();
+const softSkillsLabelsRepo = new InMemorySoftSkillsLabelsRepository();
+const contactLabelsRepo = new InMemoryContactLabelsRepository();
+
+const workLabelsUseCase = new GetWorkLabelsUseCase(workLabelsRepo);
+const projectLabelsUseCase = new GetProjectLabelsUseCase(projectLabelsRepo);
+const skillsLabelsUseCase = new GetSkillsLabelsUseCase(skillsLabelsRepo);
+const aboutLabelsUseCase = new GetAboutLabelsUseCase(aboutLabelsRepo);
+const softSkillsLabelsUseCase = new GetSoftSkillsLabelsUseCase(softSkillsLabelsRepo);
+const contactLabelsUseCase = new GetContactLabelsUseCase(contactLabelsRepo);
+
+const personalInfo = await personalUseCase.execute();
+const workExperiences = await workUseCase.execute();
+const academicExperiences = await academicUseCase.execute();
+const projects = await projectsUseCase.execute();
+const skills = await skillsUseCase.execute();
+const softSkills = await softSkillsUseCase.execute();
+
+// fetch labels via use-cases
+const workLabels = await workLabelsUseCase.execute();
+const projectLabels = await projectLabelsUseCase.execute();
+const skillsLabels = await skillsLabelsUseCase.execute();
+const aboutLabels = await aboutLabelsUseCase.execute();
+const softSkillsLabels = await softSkillsLabelsUseCase.execute();
+const contactLabels = await contactLabelsUseCase.execute();
 ---
 
 <Layout lang={lang} title={`${personalInfo.name} - ${getString(personalInfo.title)}`} description={getString(personalInfo.bio)}>
-  <Header lang={lang} personalInfo={personalInfo} />
-  
-  <main>
-    <Hero lang={lang} personalInfo={personalInfo} />
-    <Skills lang={lang} skills={skills} />
-    <SoftSkills lang={lang} softSkills={softSkills} />
-    <About lang={lang} personalInfo={personalInfo} />
-    <WorkExperience lang={lang} experiences={workExperiences} projects={projects} />
-    <Education lang={lang} experiences={academicExperiences} projects={projects} />
-    <Projects lang={lang} projects={projects} />
-    <Contact lang={lang} personalInfo={personalInfo} />
-  </main>
+    <Header lang={lang} personalInfo={personalInfo} />
+    
+    <main>
+        <Hero lang={lang} personalInfo={personalInfo} labels={aboutLabels} />
+        <Skills lang={lang} skills={skills} labels={skillsLabels} />
+        <SoftSkills lang={lang} softSkills={softSkills} labels={softSkillsLabels} />
+        <About lang={lang} personalInfo={personalInfo} labels={aboutLabels} />
+        <WorkExperience lang={lang} experiences={workExperiences} projects={projects} labels={workLabels} />
+        <Education lang={lang} experiences={academicExperiences} projects={projects} />
+        <Projects lang={lang} projects={projects} labels={projectLabels} />
+        <Contact lang={lang} personalInfo={personalInfo} labels={contactLabels} />
+    </main>
 
-  <Footer lang={lang} />
+    <Footer lang={lang} />
 </Layout>

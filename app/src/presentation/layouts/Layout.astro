@@ -2,15 +2,15 @@
 import type { Language } from '@domain/entities/Language';
 
 interface Props {
-  lang?: Language;
-  title?: string;
-  description?: string;
+    lang?: Language;
+    title?: string;
+    description?: string;
 }
 
 const { 
-  lang = 'es', 
-  title = 'Sebastián - Full Stack Developer',
-  description = 'Portfolio profesional de Sebastián - Desarrollador Full Stack especializado en arquitecturas limpias y soluciones escalables.'
+    lang = 'es', 
+    title = 'Sebastián - Full Stack Developer',
+    description = 'Portfolio profesional de Sebastián - Desarrollador Full Stack especializado en arquitecturas limpias y soluciones escalables.'
 } = Astro.props;
 
 import '../styles/global.css';
@@ -18,69 +18,69 @@ import '../styles/global.css';
 
 <!DOCTYPE html>
 <html lang={lang}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <title>{title}</title>
-    
-    <script is:inline>
-      // Initialize theme before page loads to prevent flash
-      const getThemePreference = () => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
-        }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      };
-      
-      const theme = getThemePreference();
-      document.documentElement.setAttribute('data-theme', theme);
-      
-      // Initialize language from localStorage
-      const supportedLanguages = ['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja'];
-      
-      // Get saved language from localStorage
-      const savedLanguage = typeof localStorage !== 'undefined' ? localStorage.getItem('language') : null;
-      
-      // Get browser language
-      const browserLang = navigator.language.split('-')[0];
-      
-      let targetLanguage = 'es'; // Default language
-      
-      if (savedLanguage && supportedLanguages.includes(savedLanguage)) {
-        targetLanguage = savedLanguage;
-      } else if (supportedLanguages.includes(browserLang)) {
-        targetLanguage = browserLang;
-      }
-      
-      // Save language preference
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('language', targetLanguage);
-      }
-      
-      // Update HTML lang attribute
-      document.documentElement.setAttribute('lang', targetLanguage);
-      
-      // Store current language in window for components to access
-      window.__currentLanguage = targetLanguage;
-    </script>
-  </head>
-  <body>
-    <slot />
-    
-    <script>
-      import { initI18n } from '@presentation/scripts/i18n-client';
-      initI18n();
-    </script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="generator" content={Astro.generator} />
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        
+        <title>{title}</title>
+        
+        <script is:inline>
+            // Initialize theme before page loads to prevent flash
+            const getThemePreference = () => {
+                if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                }
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            };
+            
+            const theme = getThemePreference();
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            // Initialize language from localStorage
+            const supportedLanguages = ['es', 'en', 'fr', 'de', 'it', 'pt', 'nl', 'pl', 'ru', 'ja'];
+            
+            // Get saved language from localStorage
+            const savedLanguage = typeof localStorage !== 'undefined' ? localStorage.getItem('language') : null;
+            
+            // Get browser language
+            const browserLang = navigator.language.split('-')[0];
+            
+            let targetLanguage = 'es'; // Default language
+            
+            if (savedLanguage && supportedLanguages.includes(savedLanguage)) {
+                targetLanguage = savedLanguage;
+            } else if (supportedLanguages.includes(browserLang)) {
+                targetLanguage = browserLang;
+            }
+            
+            // Save language preference
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('language', targetLanguage);
+            }
+            
+            // Update HTML lang attribute
+            document.documentElement.setAttribute('lang', targetLanguage);
+            
+            // Store current language in window for components to access
+            window.__currentLanguage = targetLanguage;
+        </script>
+    </head>
+    <body>
+        <slot />
+        
+        <script>
+            import { initI18n } from '@presentation/scripts/i18n-client';
+            initI18n();
+        </script>
+    </body>
 </html>

@@ -1,0 +1,14 @@
+---
+interface Props {
+    title: string;
+    subtitle?: string;
+    align?: 'center' | 'left' | 'right';
+    class?: string;
+}
+const { title, subtitle, align = 'center', class: className } = Astro.props;
+---
+
+<header class={`py-12 ${align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'} ${className ?? ''}`}>
+    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-slate-900 dark:text-slate-100">{title}</h2>
+    {subtitle && <p class="text-lg text-slate-600 dark:text-slate-400">{subtitle}</p>}
+</header>

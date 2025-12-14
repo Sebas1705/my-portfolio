@@ -1,247 +1,242 @@
 ---
-import type { Language } from '@domain/entities/Language';
-import type { Project } from '@domain/entities/Project';
-import { translate } from '@infrastructure/i18n';
+import type { Language, Project } from '@domain/models';
+import { translate as domainTranslate } from '@domain';
+import { Section } from './common';
 import { getStringFromTranslations } from '@presentation/utils/translations';
 
 interface Props {
-  lang: Language;
-  projects: Project[];
+    lang: Language;
+    projects: Project[];
+    labels?: Record<string, any>;
 }
 
-const { lang, projects } = Astro.props;
+const { lang, projects, labels } = Astro.props;
 
 const personalProjects = projects.filter(p => p.type === 'personal');
 ---
 
-<section id="projects" class="section projects-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title" data-i18n-key="projects.title">{translate(lang, 'projects.title')}</h2>
-      <p class="section-subtitle" data-i18n-key="projects.subtitle">{translate(lang, 'projects.subtitle')}</p>
+<Section id="projects" class="projects-section" title={labels && labels.projectTitle ? domainTranslate(labels.projectTitle, lang) : 'Projects'} subtitle={labels && labels.projectSubtitle ? domainTranslate(labels.projectSubtitle, lang) : 'Featured work'}>
+        <div class="projects-grid">
+            {personalProjects.map((project, index) => {
+                // Extract translated values from Translations objects
+                const titleValue = getStringFromTranslations(project.title, lang);
+                const descriptionValue = getStringFromTranslations(project.description, lang);
+                const imageUrlValue = typeof project.imageUrl === 'string' ? project.imageUrl : (typeof project.imageUrl === 'object' && project.imageUrl[lang] ? project.imageUrl[lang] : '');
+                const title = String(titleValue);
+                const description = String(descriptionValue);
+                const imageUrl = String(imageUrlValue);
+                
+                return (
+                <article class="project-card" data-index={index}>
+                    {imageUrl && imageUrl !== '' && (
+                        <div class="project-image">
+                            <img src={imageUrl} alt={title} loading="lazy" />
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    {project.demoUrl && (
+                                            <a 
+                                            href={project.demoUrl} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            class="project-link-btn"
+                                            aria-label={`Ver demo de ${title}`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                                <polyline points="15 3 21 3 21 9"/>
+                                                <line x1="10" y1="14" x2="21" y2="3"/>
+                                            </svg>
+                                            <span>{labels && labels.projectViewDemo ? domainTranslate(labels.projectViewDemo, lang) : 'View Demo'}</span>
+                                        </a>
+                                    )}
+                                    {project.repoUrl && (
+                                        <a 
+                                            href={project.repoUrl} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            class="project-link-btn"
+                                            aria-label={`Ver código de ${title}`}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                            </svg>
+                                            <span>{labels && labels.projectViewCode ? domainTranslate(labels.projectViewCode, lang) : 'View Code'}</span>
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    
+                    <div class="project-content">
+                        <h3 class="project-title">{title}</h3>
+                        <p class="project-description">{description}</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-label">{labels && labels.projectTechnologies ? domainTranslate(labels.projectTechnologies, lang) : 'Technologies Used'}:</span>
+                            <div class="tech-tags">
+                                {project.technologies.map(tech => (
+                                    <span class="tech-tag">{tech}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                );
+            })}
+        </div>
     </div>
-
-    <div class="projects-grid">
-      {personalProjects.map((project, index) => {
-        // Extract translated values from Translations objects
-        const titleValue = getStringFromTranslations(project.title, lang);
-        const descriptionValue = getStringFromTranslations(project.description, lang);
-        const imageUrlValue = typeof project.imageUrl === 'string' ? project.imageUrl : (typeof project.imageUrl === 'object' && project.imageUrl[lang] ? project.imageUrl[lang] : '');
-        const title = String(titleValue);
-        const description = String(descriptionValue);
-        const imageUrl = String(imageUrlValue);
-        
-        return (
-        <article class="project-card" data-index={index}>
-          {imageUrl && imageUrl !== '' && (
-            <div class="project-image">
-              <img src={imageUrl} alt={title} loading="lazy" />
-              <div class="project-overlay">
-                <div class="project-links">
-                  {project.demoUrl && (
-                    <a 
-                      href={project.demoUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      class="project-link-btn"
-                      aria-label={`Ver demo de ${title}`}
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                      </svg>
-                      <span data-i18n-key="projects.viewDemo">{translate(lang, 'projects.viewDemo')}</span>
-                    </a>
-                  )}
-                  {project.repoUrl && (
-                    <a 
-                      href={project.repoUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      class="project-link-btn"
-                      aria-label={`Ver código de ${title}`}
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                      <span data-i18n-key="projects.viewCode">{translate(lang, 'projects.viewCode')}</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-          
-          <div class="project-content">
-            <h3 class="project-title" data-translation-field={JSON.stringify(project.title)}>{title}</h3>
-            <p class="project-description" data-translation-field={JSON.stringify(project.description)}>{description}</p>
-            
-            <div class="project-technologies">
-              <span class="tech-label" data-i18n-key="projects.technologies">{translate(lang, 'projects.technologies')}:</span>
-              <div class="tech-tags">
-                {project.technologies.map(tech => (
-                  <span class="tech-tag">{tech}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </article>
-        );
-      })}
-    </div>
-  </div>
 </section>
 
 <style>
-  .projects-section {
-    background-color: var(--color-bg-secondary);
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--spacing-3xl);
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-2xl);
-  }
-
-  @media (min-width: 768px) {
-    .projects-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .projects-section {
+        background-color: var(--color-bg-secondary);
     }
-  }
 
-  @media (min-width: 1024px) {
-    .projects-grid {
-      grid-template-columns: repeat(3, 1fr);
+    .section-header {
+        text-align: center;
+        margin-bottom: var(--spacing-3xl);
     }
-  }
 
-  .project-card {
-    background-color: var(--color-bg-primary);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-    display: flex;
-    flex-direction: column;
-  }
+    .projects-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
 
-  .project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
-  }
+    @media (min-width: 768px) {
+        .projects-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 
-  .project-image {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    background-color: var(--color-bg-tertiary);
-  }
+    @media (min-width: 1024px) {
+        .projects-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
 
-  .project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-slow);
-  }
+    .project-card {
+        background-color: var(--color-bg-primary);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: transform var(--transition-base), box-shadow var(--transition-base);
+        display: flex;
+        flex-direction: column;
+    }
 
-  .project-card:hover .project-image img {
-    transform: scale(1.1);
-  }
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+    }
 
-  .project-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity var(--transition-base);
-  }
+    .project-image {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background-color: var(--color-bg-tertiary);
+    }
 
-  .project-card:hover .project-overlay {
-    opacity: 1;
-  }
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+    }
 
-  .project-links {
-    display: flex;
-    gap: var(--spacing-md);
-  }
+    .project-card:hover .project-image img {
+        transform: scale(1.1);
+    }
 
-  .project-link-btn {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: 0.625rem 1.25rem;
-    background-color: var(--color-primary);
-    color: white;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    font-size: 0.875rem;
-    transition: all var(--transition-fast);
-    text-decoration: none;
-  }
+    .project-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity var(--transition-base);
+    }
 
-  .project-link-btn:hover {
-    background-color: var(--color-primary-dark);
-    transform: scale(1.05);
-  }
+    .project-card:hover .project-overlay {
+        opacity: 1;
+    }
 
-  .project-content {
-    padding: var(--spacing-xl);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+    .project-links {
+        display: flex;
+        gap: var(--spacing-md);
+    }
 
-  .project-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
-  }
+    .project-link-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        padding: 0.625rem 1.25rem;
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all var(--transition-fast);
+        text-decoration: none;
+    }
 
-  .project-description {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-lg);
-    flex: 1;
-  }
+    .project-link-btn:hover {
+        background-color: var(--color-primary-dark);
+        transform: scale(1.05);
+    }
 
-  .project-technologies {
-    margin-top: auto;
-  }
+    .project-content {
+        padding: var(--spacing-xl);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
 
-  .tech-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    display: block;
-    margin-bottom: var(--spacing-sm);
-  }
+    .project-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+        margin-bottom: var(--spacing-md);
+    }
 
-  .tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-  }
+    .project-description {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        margin-bottom: var(--spacing-lg);
+        flex: 1;
+    }
 
-  .tech-tag {
-    padding: 0.375rem 0.75rem;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-primary);
-    border-radius: var(--radius-md);
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
+    .project-technologies {
+        margin-top: auto;
+    }
+
+    .tech-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        display: block;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .tech-tag {
+        padding: 0.375rem 0.75rem;
+        background-color: var(--color-bg-secondary);
+        color: var(--color-primary);
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
 </style>

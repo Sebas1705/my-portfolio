@@ -1,0 +1,53 @@
+---
+import type { Language } from '@/domain';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+    projects: any[];
+    lang: Language;
+    labels: any;
+    columns?: number;
+    showImages?: boolean;
+    showTechnologies?: boolean;
+    maxTech?: number;
+    skills?: any[];
+}
+
+const { 
+    projects, 
+    lang, 
+    labels, 
+    columns = 3,
+    showImages = false,
+    showTechnologies = true,
+    maxTech = 5,
+    skills = []
+} = Astro.props;
+---
+
+<div class="projects-grid grid gap-8" style={`--columns: ${columns}`}>
+    {projects.map((project) => (
+        <ProjectCard 
+            project={project}
+            lang={lang}
+            labels={labels}
+            showImage={showImages}
+            showTechnologies={showTechnologies}
+            maxTech={maxTech}
+            skills={skills}
+        />
+    ))}
+
+</div>
+
+<style>
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    }
+
+    @media (min-width: 768px) {
+        .projects-grid {
+            grid-template-columns: repeat(var(--columns, 3), 1fr);
+        }
+    }
+</style>

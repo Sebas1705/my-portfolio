@@ -1,0 +1,306 @@
+---
+import Layout from '../../presentation/layouts/Layout.astro';
+import Header from '../../presentation/components/Header.astro';
+import Footer from '../../presentation/components/Footer.astro';
+
+import type { Language } from '@domain/models/Language';
+import personalInfoData from '@data/datasources/personalInfoData.json';
+import skillsData from '@data/datasources/skillsData.json';
+import navigationLabelsData from '@data/datasources/labels/navigationLabels.json';
+import commonLabelsData from '@data/datasources/labels/commonLabels.json';
+import skillsLabelsData from '@data/datasources/labels/skillsLabels.json';
+import footerLabelsData from '@data/datasources/labels/footerLabels.json';
+import { supportedLanguages, translate } from '@domain/models/Language';
+
+export async function getStaticPaths() {
+    return supportedLanguages.map((lang) => ({ params: { lang } }));
+}
+
+const paramsLang = Astro.params.lang as Language | undefined;
+const lang: Language = supportedLanguages.includes(paramsLang as Language) ? (paramsLang as Language) : 'en';
+
+const getStringFromTranslations = (value: any, lang: Language) => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') return value[lang] || Object.values(value)[0] || '';
+    return '';
+};
+
+
+const personalInfo = personalInfoData;
+const skills = skillsData;
+// Use raw label objects (Translations) from datasources so domain translate can be used in components
+const navigationLabels = navigationLabelsData;
+const commonLabels = commonLabelsData;
+const skillsLabels = skillsLabelsData;
+const footerLabels = footerLabelsData;
+
+const labels = {
+    ...navigationLabels,
+    ...commonLabels,
+    ...skillsLabels,
+    ...footerLabels
+};
+
+// Group skills by category
+const groupedSkills = skills.reduce((acc: Record<string, Skill[]>, skill: Skill) => {
+    if (!acc[skill.category]) acc[skill.category] = [];
+    acc[skill.category].push(skill);
+    return acc;
+}, {} as Record<string, Skill[]>);
+
+const categoryLabels: Record<string, string> = {
+    languages: labels.skillsCategoryLanguages,
+    frameworks: labels.skillsCategoryFrameworks,
+    tools: labels.skillsCategoryTools,
+    databases: labels.skillsCategoryDatabases,
+    cloud: labels.skillsCategoryCloud,
+    devops: labels.skillsCategoryDevOps,
+    testing: labels.skillsCategoryTesting,
+    design: labels.skillsCategoryDesign,
+    other: labels.skillsCategoryOther
+};
+---
+
+<Layout lang={lang} title={`${translate(labels.skillsTitle, lang)} - ${personalInfo.name}`} description={translate(labels.skillsTitle, lang)}>
+    <Header labels={labels} lang={lang} personalInfo={personalInfo} />
+    
+    <main class="technologies-page">
+        <div class="container">
+            <div class="page-header">
+                <a href={`/${lang}/`} class="back-link">← {translate(labels.back, lang)}</a>
+                <h1>{translate(labels.skillsTitle, lang)}</h1>
+                <p class="page-subtitle">{translate(labels.skillsSubtitle, lang)}</p>
+            </div>
+
+            <div class="skill-legend">
+                <h3>{translate(labels.skillsTitle, lang)}</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="legend-stars">★</span>
+                        <span class="legend-label">{translate(labels.skillsTierBeginner, lang)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-stars">★★</span>
+                        <span class="legend-label">{translate(labels.skillsTierIntermediate, lang)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-stars">★★★</span>
+                        <span class="legend-label">{translate(labels.skillsTierAdvanced, lang)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-stars">★★★★</span>
+                        <span class="legend-label">{translate(labels.skillsTierExpert, lang)}</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-stars">★★★★★</span>
+                        <span class="legend-label">{translate(labels.skillsTierLearning, lang)}</span>
+                    </div>
+                </div>
+            </div>
+
+            {Object.entries(groupedSkills).map(([category, categorySkills]) => (
+                <section class="skill-category-section">
+                    <h2>{categoryLabels[category]}</h2>
+                    <div class="skills-grid">
+                        {categorySkills
+                            .sort((a, b) => b.level - a.level)
+                            .map((skill) => (
+                                <div class="skill-card">
+                                    {skill.iconUrl && (<div class="skill-icon">
+                                        <img src={skill.iconUrl} alt={skill.name} width="64" height="64" loading="lazy" />
+                                    </div>
+                                    )}
+                                    <h3>{skill.name}</h3>
+                                    
+                                    <div class="skill-meta">
+                                        <span class="skill-stars" title={`${skill.level}/5`}>
+                                            {'★'.repeat(skill.level)}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </section>
+            ))}
+        </div>
+    </main>
+
+    <Footer labels={labels} lang={lang} />
+</Layout>
+
+<style>
+    .technologies-page {
+        min-height: 100vh;
+        padding: 4rem 0;
+        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+    }
+
+    .skill-legend {
+        background: var(--color-bg-tertiary);
+        border: 2px solid var(--color-primary);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .skill-legend h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        margin: 0 0 1.5rem 0;
+    }
+
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .legend-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .legend-stars {
+        color: var(--color-primary);
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+
+    .legend-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+    }
+
+    @media (max-width: 768px) {
+        .legend-items {
+            gap: 1.5rem;
+        }
+
+        .legend-item {
+            min-width: 100px;
+        }
+    }
+
+    .skill-category-section {
+        margin-bottom: 4rem;
+    }
+
+    .skill-category-section h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--color-border);
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 2rem;
+        width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+        .skills-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .skills-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 620px) {
+        .skills-grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+    }
+
+    .skill-card {
+        background: var(--color-bg-tertiary);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        
+        &:has(.skill-icon) {
+            min-height: 280px;
+        }
+        
+        &:not(:has(.skill-icon)) {
+            min-height: auto;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+            border: 2px dashed var(--color-primary);
+            opacity: 0.85;
+        }
+        
+        &:not(:has(.skill-icon)):hover {
+            opacity: 1;
+            background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+        }
+        padding: 1.5rem;
+        text-align: center;
+        transition: all var(--transition-base);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .skill-card h3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    .skill-card:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .skill-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem;
+        display: grid;
+        place-items: center;
+        background: var(--color-bg-primary)
+        border-radius: var(--radius-full);
+        border: 1px solid var(--color-border);
+    }
+
+    .skill-icon img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+    }
+
+    .skill-meta {
+        margin: 0.5rem 0 1rem;
+        color: var(--color-primary);
+        font-weight: 700;
+    }
+
+    .skill-stars {
+        letter-spacing: 1px;
+    }
+
+    .skill-description {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+</style>

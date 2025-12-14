@@ -1,0 +1,74 @@
+{
+    "home": {
+        "es": "Inicio",
+        "en": "Home",
+        "fr": "Accueil",
+        "de": "Startseite",
+        "it": "Home",
+        "pt": "Início",
+        "nl": "Home",
+        "pl": "Strona Główna",
+        "ru": "Главная",
+        "ja": "ホーム"
+    },
+    "about": {
+        "es": "Sobre Mí",
+        "en": "About",
+        "fr": "À Propos",
+        "de": "Über Mich",
+        "it": "Chi Sono",
+        "pt": "Sobre",
+        "nl": "Over",
+        "pl": "O Mnie",
+        "ru": "Обо Мне",
+        "ja": "自己紹介"
+    },
+    "work": {
+        "es": "Experiencia",
+        "en": "Work",
+        "fr": "Expérience",
+        "de": "Berufserfahrung",
+        "it": "Esperienza",
+        "pt": "Experiência",
+        "nl": "Werk",
+        "pl": "Doświadczenie",
+        "ru": "Опыт",
+        "ja": "職務経歴"
+    },
+    "education": {
+        "es": "Educación",
+        "en": "Education",
+        "fr": "Éducation",
+        "de": "Bildung",
+        "it": "Istruzione",
+        "pt": "Educação",
+        "nl": "Onderwijs",
+        "pl": "Edukacja",
+        "ru": "Образование",
+        "ja": "学歴"
+    },
+    "projects": {
+        "es": "Proyectos",
+        "en": "Projects",
+        "fr": "Projets",
+        "de": "Projekte",
+        "it": "Progetti",
+        "pt": "Projetos",
+        "nl": "Projecten",
+        "pl": "Projekty",
+        "ru": "Проекты",
+        "ja": "プロジェクト"
+    },
+    "contact": {
+        "es": "Contacto",
+        "en": "Contact",
+        "fr": "Contact",
+        "de": "Kontakt",
+        "it": "Contatti",
+        "pt": "Contato",
+        "nl": "Contact",
+        "pl": "Kontakt",
+        "ru": "Контакты",
+        "ja": "お問い合わせ"
+    }
+}

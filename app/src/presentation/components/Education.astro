@@ -1,283 +1,82 @@
 ---
-import type { Language } from '@domain/entities/Language';
-import type { AcademicExperience } from '@domain/entities/AcademicExperience';
-import type { Project } from '@domain/entities/Project';
-import { translate } from '@infrastructure/i18n';
-import { getStringFromTranslations } from '@presentation/utils/translations';
-import { formatDateRange } from '@presentation/utils/date';
-import { filterRelatedProjects, limitSkills } from '@presentation/utils/helpers';
+import type { Language, AcademicExperience, Project, EducationLabels, CommonLabels } from '@/domain';
+import { translate } from '@/domain';
+import { formatDateRange } from '@/core';
+import Section from './common/Section.astro';
+
 
 interface Props {
-  lang: Language;
-  experiences: AcademicExperience[];
-  projects: Project[];
+    lang: Language;
+    experiences: AcademicExperience[];
+    projects: Project[];
+    educationLabels: EducationLabels;
+    commonLabels: CommonLabels;
 }
 
-const { lang, experiences, projects } = Astro.props;
-
-// deprecated local formatter removed; using formatDateRange from utils/date
+const { lang, experiences, projects, educationLabels, commonLabels } = Astro.props;
 ---
 
-<section id="education" class="section education-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title" data-i18n-key="education.title">{translate(lang, 'education.title')}</h2>
-      <p class="section-subtitle" data-i18n-key="education.subtitle">{translate(lang, 'education.subtitle')}</p>
-    </div>
-
-    <div class="education-grid">
-      {experiences.map((experience, index) => {
-        const relatedProjects = filterRelatedProjects(projects, experience.id);
-        
-        // Extract translated values from Translations objects
-        const degree = getStringFromTranslations(experience.degree, lang);
-        const field = getStringFromTranslations(experience.field, lang);
-        const description = getStringFromTranslations(experience.description, lang);
-        const institution = getStringFromTranslations(experience.institution, lang);
-        const location = getStringFromTranslations(experience.location, lang);
-        const achievements = Array.isArray(experience.achievements)
-          ? experience.achievements.map((a: any) => getStringFromTranslations(a, lang))
-          : [];
-        
-        return (
-          <div class="education-card" data-index={index}>
-            <div class="card-header">
-              <div class="degree-info">
-                <h3 class="degree-title" data-translation-field={JSON.stringify(experience.degree)}>{degree}</h3>
-                <p class="degree-field" data-translation-field={JSON.stringify(experience.field)}>{field}</p>
-                <p class="institution" data-translation-field={JSON.stringify(experience.institution)}>{institution}</p>
-              </div>
-              <div class="education-meta">
-                <span class="education-date">
-                  {formatDateRange(experience.startDate, experience.endDate, lang, translate(lang, 'work.current'))}
-                </span>
-                <span class="education-location" data-translation-field={JSON.stringify(experience.location)}>{location}</span>
-              </div>
-            </div>
-
-            <p class="education-description" data-translation-field={JSON.stringify(experience.description)}>{description}</p>
-
-            {achievements.length > 0 && (
-              <div class="education-achievements">
-                <h4 class="achievements-title" data-i18n-key="education.achievements">{translate(lang, 'education.achievements')}</h4>
-                <ul class="achievements-list">
-                  {achievements.map((achievement: any, idx: number) => (
-                    <li data-translation-field={JSON.stringify(experience.achievements[idx])}>{typeof achievement === 'string' ? achievement : achievement[lang] || achievement}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {relatedProjects.length > 0 && (
-              <div class="related-projects">
-                <h4 class="related-projects-title" data-i18n-key="education.projects">{translate(lang, 'education.projects')}</h4>
-                <div class="projects-list">
-                  {relatedProjects.map(project => (
-                    <div class="mini-project-card">
-                      <h5 class="project-title">{project.title}</h5>
-                      <p class="project-description">{project.description}</p>
-                      <div class="project-tech">
-                        {limitSkills(project.technologies, 3).map(tech => (
-                          <span class="tech-badge">{tech}</span>
-                        ))}
-                      </div>
-                      <div class="project-links">
-                        {project.demoUrl && (
-                          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
-                            Demo
-                          </a>
-                        )}
-                        {project.repoUrl && (
-                          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
-                            Código
-                          </a>
-                        )}
-                      </div>
+<Section id="education" class="bg-white dark:bg-slate-900" title={translate(educationLabels.title, lang)} subtitle={translate(educationLabels.subtitle, lang)}>
+    <div class="grid gap-8 max-w-4xl mx-auto">
+        {experiences.map((experience, index) => {
+            return (
+                <article class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700" data-index={index}>
+                    <div class="flex flex-col gap-4 mb-4 pb-4 border-b-2 border-gray-100 dark:border-slate-700 md:flex-row md:justify-between md:items-start">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">{translate(experience.degree, lang)}</h3>
+                            <p class="text-lg font-semibold text-indigo-600">{translate(experience.field, lang)}</p>
+                            <p class="text-sm text-slate-500 font-medium">{translate(experience.institution, lang)}</p>
+                        </div>
+                        <div class="flex flex-col gap-1 text-sm text-slate-500">
+                            <span>{formatDateRange(experience.startDate, experience.endDate, lang, translate(commonLabels.current, lang))}</span>
+                            <span>{translate(experience.location, lang)}</span>
+                        </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
+
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">{translate(experience.description, lang)}</p>
+
+                    {experience.achievements.length > 0 && (
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">{translate(educationLabels.achievements, lang)}</h4>
+                            <ul class="space-y-2">
+                                {experience.achievements.map((achievement) => (
+                                    <li class="flex items-start gap-2 text-slate-600 dark:text-slate-300">
+                                        <span class="shrink-0">🎓</span>
+                                        <span>{translate(achievement, lang)}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {projects.filter((project) => project.relatedTo && project.relatedTo.includes(experience.id)).length > 0 && (
+                        <div>
+                            <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">{translate(educationLabels.projects, lang)}</h4>
+                            <div class="grid gap-3">
+                                {projects.filter((project) => project.relatedTo && project.relatedTo.includes(experience.id)).map(project => (
+                                    <div class="p-4 bg-white dark:bg-slate-900 rounded-md border-l-4 border-indigo-500">
+                                        <h5 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">{translate(project.title, lang)}</h5>
+                                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-3">{translate(project.description, lang)}</p>
+                                        <div class="flex flex-wrap gap-2 mb-3">
+                                            {project.technologies.slice(0, 3).map(tech => (
+                                                <span class="px-2 py-0.5 bg-gray-100 dark:bg-slate-800 text-indigo-600 rounded text-xs font-semibold">{tech}</span>
+                                            ))}
+                                        </div>
+                                        <div class="flex gap-4">
+                                            {project.demoUrl && (
+                                                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500 underline">{translate(commonLabels.demo, lang)}</a>
+                                            )}
+                                            {project.repoUrl && (
+                                                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500 underline">{translate(commonLabels.code, lang)}</a>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </article>
+            );
+        })}
     </div>
-  </div>
-</section>
-
-<style>
-  .education-section {
-    background-color: var(--color-bg-primary);
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--spacing-3xl);
-  }
-
-  .education-grid {
-    display: grid;
-    gap: var(--spacing-2xl);
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .education-card {
-    background-color: var(--color-bg-secondary);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-2xl);
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-    border: 1px solid var(--color-border);
-  }
-
-  .education-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-  }
-
-  .card-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-lg);
-    border-bottom: 2px solid var(--color-border);
-  }
-
-  @media (min-width: 768px) {
-    .card-header {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-  }
-
-  .degree-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .degree-field {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .institution {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    font-weight: 500;
-  }
-
-  .education-meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-  }
-
-  .education-description {
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .education-achievements {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .achievements-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .achievements-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .achievements-list li {
-    padding-left: var(--spacing-lg);
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-text-secondary);
-    position: relative;
-  }
-
-  .achievements-list li::before {
-    content: '🎓';
-    position: absolute;
-    left: 0;
-  }
-
-  .related-projects-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .projects-list {
-    display: grid;
-    gap: var(--spacing-md);
-  }
-
-  .mini-project-card {
-    padding: var(--spacing-lg);
-    background-color: var(--color-bg-primary);
-    border-radius: var(--radius-md);
-    border-left: 3px solid var(--color-secondary);
-  }
-
-  .mini-project-card .project-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .mini-project-card .project-description {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .tech-badge {
-    padding: 0.25rem 0.5rem;
-    background-color: var(--color-bg-secondary);
-    color: var(--color-secondary);
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .project-links {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-
-  .project-link {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-secondary);
-    transition: color var(--transition-fast);
-  }
-
-  .project-link:hover {
-    color: var(--color-primary);
-    text-decoration: underline;
-  }
-</style>
+</Section>

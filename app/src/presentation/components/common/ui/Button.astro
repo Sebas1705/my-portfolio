@@ -1,0 +1,35 @@
+---
+interface Props {
+    href?: string;
+    type?: 'button' | 'submit' | 'reset';
+    variant?: 'primary' | 'secondary' | 'link';
+    size?: 'md' | 'sm' | 'lg';
+    icon?: any;
+    class?: string;
+    disabled?: boolean;
+}
+const { href, type = 'button', variant = 'primary', size = 'md', icon, class: className, disabled = false } = Astro.props;
+const variantClasses = {
+    primary: 'bg-sky-600 text-white hover:bg-sky-700',
+    secondary: 'bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700',
+    link: 'bg-transparent text-sky-600 hover:text-sky-700 underline'
+}[variant];
+const sizeClasses = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-5 py-3 text-base'
+}[size];
+const baseClasses = 'inline-flex items-center gap-2 rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-sky-300 disabled:opacity-50 disabled:pointer-events-none';
+---
+
+{href ? (
+    <a href={disabled ? undefined : href} class={`${baseClasses} ${variantClasses} ${sizeClasses} ${className ?? ''}`} aria-disabled={disabled} tabindex={disabled ? -1 : 0}>
+        {icon && <span class="inline-flex items-center text-lg">{icon}</span>}
+        <slot />
+    </a>
+) : (
+    <button type={type} class={`${baseClasses} ${variantClasses} ${sizeClasses} ${className ?? ''}`} disabled={disabled}>
+        {icon && <span class="inline-flex items-center text-lg">{icon}</span>}
+        <slot />
+    </button>
+)}

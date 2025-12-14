@@ -1,0 +1,62 @@
+{
+    "title": {
+        "es": "Proyectos",
+        "en": "Projects",
+        "fr": "Projets",
+        "de": "Projekte",
+        "it": "Progetti",
+        "pt": "Projetos",
+        "nl": "Projecten",
+        "pl": "Projekty",
+        "ru": "Проекты",
+        "ja": "プロジェクト"
+    },
+    "subtitle": {
+        "es": "Trabajos destacados",
+        "en": "Featured work",
+        "fr": "Travaux en vedette",
+        "de": "Hervorgehobene Arbeiten",
+        "it": "Lavori in evidenza",
+        "pt": "Trabalhos em destaque",
+        "nl": "Uitgelicht werk",
+        "pl": "Wyróżnione prace",
+        "ru": "Избранные работы",
+        "ja": "注目の作品"
+    },
+    "viewDemo": {
+        "es": "Ver Demo",
+        "en": "View Demo",
+        "fr": "Voir la Démo",
+        "de": "Demo Ansehen",
+        "it": "Visualizza Demo",
+        "pt": "Ver Demo",
+        "nl": "Demo Bekijken",
+        "pl": "Zobacz Demo",
+        "ru": "Посмотреть Демо",
+        "ja": "デモを見る"
+    },
+    "viewCode": {
+        "es": "Ver Código",
+        "en": "View Code",
+        "fr": "Voir le Code",
+        "de": "Code Ansehen",
+        "it": "Visualizza Codice",
+        "pt": "Ver Código",
+        "nl": "Code Bekijken",
+        "pl": "Zobacz Kod",
+        "ru": "Посмотреть Код",
+        "ja": "コードを見る"
+    },
+    "technologies": {
+        "es": "Tecnologías Utilizadas",
+        "en": "Technologies Used",
+        "fr": "Technologies Utilisées",
+        "de": "Verwendete Technologien",
+        "it": "Tecnologie Utilizzate",
+        "pt": "Tecnologias Utilizadas",
+        "nl": "Gebruikte Technologieën",
+        "pl": "Użyte Technologie",
+        "ru": "Используемые Технологии",
+        "ja": "使用技術"
+    }
+}
