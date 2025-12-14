@@ -4,16 +4,19 @@ import { translate } from '@/domain';
 import { formatDateRange } from '@/core';
 import Section from './common/Section.astro';
 
-
 interface Props {
     lang: Language;
-    experiences: AcademicExperience[];
-    projects: Project[];
-    educationLabels: EducationLabels;
     commonLabels: CommonLabels;
 }
 
-const { lang, experiences, projects, educationLabels, commonLabels } = Astro.props;
+const { lang, commonLabels } = Astro.props;
+
+import { InMemoryEducationLabelsRepository, InMemoryAcademicExperienceRepository, InMemoryProjectRepository } from '@/data';
+import { GetEducationLabelsUseCase, GetAcademicExperiencesUseCase, GetProjectsByTypeUseCase } from '@/domain';
+
+const educationLabels = await new GetEducationLabelsUseCase(new InMemoryEducationLabelsRepository()).execute();
+const experiences = await new GetAcademicExperiencesUseCase(new InMemoryAcademicExperienceRepository()).execute();
+const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('academic');
 ---
 
 <Section id="education" class="bg-white dark:bg-slate-900" title={translate(educationLabels.title, lang)} subtitle={translate(educationLabels.subtitle, lang)}>

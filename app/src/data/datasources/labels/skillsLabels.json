@@ -121,6 +121,30 @@
         "ru": "Архитектура",
         "ja": "アーキテクチャ"
     },
+    "categoryOS": {
+        "es": "Sistemas Operativos",
+        "en": "Operating Systems",
+        "fr": "Systèmes d'Exploitation",
+        "de": "Betriebssysteme",
+        "it": "Sistemi Operativi",
+        "pt": "Sistemas Operacionais",
+        "nl": "Besturingssystemen",
+        "pl": "Systemy Operacyjne",
+        "ru": "Операционные Системы",
+        "ja": "オペレーティングシステム"
+    },
+    "categoryIDES": {
+        "es": "Entorno de desarrollo integrado",
+        "en": "Integrated Development Environment",
+        "fr": "Environnement de Développement Intégré",
+        "de": "Integrierte Entwicklungsumgebung",
+        "it": "Ambiente di Sviluppo Integrato",
+        "pt": "Ambiente de Desenvolvimento Integrado",
+        "nl": "Geïntegreerde Ontwikkelomgeving",
+        "pl": "Zintegrowane Środowisko Programistyczne",
+        "ru": "Интегрированная Среда Разработки",
+        "ja": "統合開発環境"
+    },
 
     "tierBasic": {
         "es": "Básico",

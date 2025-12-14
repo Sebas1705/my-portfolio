@@ -1,120 +1,99 @@
 ---
+import { supportedLanguages, translate } from '@/domain';
+import type { Language } from '@domain/models/Language';
 import Layout from '../../presentation/layouts/Layout.astro';
 import Header from '../../presentation/components/Header.astro';
 import Footer from '../../presentation/components/Footer.astro';
-
-import type { Language } from '@domain/models/Language';
-import personalInfoData from '@data/datasources/personalInfoData.json';
-import skillsData from '@data/datasources/skillsData.json';
-import navigationLabelsData from '@data/datasources/labels/navigationLabels.json';
-import commonLabelsData from '@data/datasources/labels/commonLabels.json';
-import skillsLabelsData from '@data/datasources/labels/skillsLabels.json';
-import footerLabelsData from '@data/datasources/labels/footerLabels.json';
-import { supportedLanguages, translate } from '@domain/models/Language';
 
 export async function getStaticPaths() {
     return supportedLanguages.map((lang) => ({ params: { lang } }));
 }
 
-const paramsLang = Astro.params.lang as Language | undefined;
-const lang: Language = supportedLanguages.includes(paramsLang as Language) ? (paramsLang as Language) : 'en';
+const lang: Language = Astro.params.lang as Language;
 
-const getStringFromTranslations = (value: any, lang: Language) => {
-    if (!value) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value === 'object') return value[lang] || Object.values(value)[0] || '';
-    return '';
-};
+import { InMemorySkillRepository, InMemorySkillsLabelsRepository, InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository } from '@/data';
+import { GetSkillsUseCase, GetSkillsLabelsUseCase, GetPersonalInfoUseCase, GetCommonLabelsUseCase } from '@/domain';
 
+const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRepository()).execute();
+const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
+const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
+const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
 
-const personalInfo = personalInfoData;
-const skills = skillsData;
-// Use raw label objects (Translations) from datasources so domain translate can be used in components
-const navigationLabels = navigationLabelsData;
-const commonLabels = commonLabelsData;
-const skillsLabels = skillsLabelsData;
-const footerLabels = footerLabelsData;
-
-const labels = {
-    ...navigationLabels,
-    ...commonLabels,
-    ...skillsLabels,
-    ...footerLabels
-};
-
-// Group skills by category
-const groupedSkills = skills.reduce((acc: Record<string, Skill[]>, skill: Skill) => {
-    if (!acc[skill.category]) acc[skill.category] = [];
+const groupedSkills = skills.reduce((acc, skill) => {
+    if (!acc[skill.category]) {
+        acc[skill.category] = [];
+    }
     acc[skill.category].push(skill);
     return acc;
-}, {} as Record<string, Skill[]>);
+}, {} as Record<string, typeof skills>);
 
 const categoryLabels: Record<string, string> = {
-    languages: labels.skillsCategoryLanguages,
-    frameworks: labels.skillsCategoryFrameworks,
-    tools: labels.skillsCategoryTools,
-    databases: labels.skillsCategoryDatabases,
-    cloud: labels.skillsCategoryCloud,
-    devops: labels.skillsCategoryDevOps,
-    testing: labels.skillsCategoryTesting,
-    design: labels.skillsCategoryDesign,
-    other: labels.skillsCategoryOther
+    languages: translate(skillsLabels.categoryLanguages, lang),
+    frameworks: translate(skillsLabels.categoryFrameworks, lang),
+    tools: translate(skillsLabels.categoryTools, lang),
+    ides: translate(skillsLabels.categoryIDES, lang),
+    os: translate(skillsLabels.categoryOS, lang),
+    databases: translate(skillsLabels.categoryDatabases, lang),
+    cloud: translate(skillsLabels.categoryCloud, lang),
+    ai: translate(skillsLabels.categoryAI, lang),
+    architecture: translate(skillsLabels.categoryArchitecture, lang),
+    methodologies: translate(skillsLabels.categoryMethodologies, lang),
 };
 ---
 
-<Layout lang={lang} title={`${translate(labels.skillsTitle, lang)} - ${personalInfo.name}`} description={translate(labels.skillsTitle, lang)}>
-    <Header labels={labels} lang={lang} personalInfo={personalInfo} />
+<Layout lang={lang} title={`${translate(skillsLabels.title, lang)} - ${personalInfo.name}`} description={translate(skillsLabels.title, lang)}>
+    <Header lang={lang} personalInfo={personalInfo} />
     
-    <main class="technologies-page">
-        <div class="container">
-            <div class="page-header">
-                <a href={`/${lang}/`} class="back-link">← {translate(labels.back, lang)}</a>
-                <h1>{translate(labels.skillsTitle, lang)}</h1>
-                <p class="page-subtitle">{translate(labels.skillsSubtitle, lang)}</p>
+    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="mb-8 text-center">
+                <a href={`/${lang}/`} class="text-[var(--color-primary)] hover:underline">← {translate(commonLabels.back, lang)}</a>
+                <h1 class="text-3xl font-bold mt-4">{translate(skillsLabels.title, lang)}</h1>
+                <p class="text-[var(--color-text-secondary)] mt-2">{translate(skillsLabels.subtitle, lang)}</p>
             </div>
 
-            <div class="skill-legend">
-                <h3>{translate(labels.skillsTitle, lang)}</h3>
-                <div class="legend-items">
-                    <div class="legend-item">
-                        <span class="legend-stars">★</span>
-                        <span class="legend-label">{translate(labels.skillsTierBeginner, lang)}</span>
+            <div class="bg-[var(--color-bg-tertiary)] border-2 border-[var(--color-primary)] rounded-lg p-8 mb-12 text-center">
+                <h3 class="text-xl font-semibold text-[var(--color-primary)] mb-6">{translate(skillsLabels.title, lang)}</h3>
+                <div class="flex flex-wrap justify-center gap-8 items-center">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★</span>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBasic, lang)}</span>
                     </div>
-                    <div class="legend-item">
-                        <span class="legend-stars">★★</span>
-                        <span class="legend-label">{translate(labels.skillsTierIntermediate, lang)}</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★</span>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBeginner, lang)}</span>
                     </div>
-                    <div class="legend-item">
-                        <span class="legend-stars">★★★</span>
-                        <span class="legend-label">{translate(labels.skillsTierAdvanced, lang)}</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★</span>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierIntermediate, lang)}</span>
                     </div>
-                    <div class="legend-item">
-                        <span class="legend-stars">★★★★</span>
-                        <span class="legend-label">{translate(labels.skillsTierExpert, lang)}</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★</span>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierAdvanced, lang)}</span>
                     </div>
-                    <div class="legend-item">
-                        <span class="legend-stars">★★★★★</span>
-                        <span class="legend-label">{translate(labels.skillsTierLearning, lang)}</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★★</span>
+                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierExpert, lang)}</span>
                     </div>
                 </div>
             </div>
 
             {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-                <section class="skill-category-section">
-                    <h2>{categoryLabels[category]}</h2>
-                    <div class="skills-grid">
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-[var(--color-primary)] mb-8 pb-4 border-b-2 border-[var(--color-border)]">{categoryLabels[category]}</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full">
                         {categorySkills
                             .sort((a, b) => b.level - a.level)
                             .map((skill) => (
-                                <div class="skill-card">
-                                    {skill.iconUrl && (<div class="skill-icon">
-                                        <img src={skill.iconUrl} alt={skill.name} width="64" height="64" loading="lazy" />
+                                <div class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 text-center transition-all duration-200 flex flex-col items-center justify-center hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-0.5">
+                                    {skill.iconUrl && (<div class="w-20 h-20 mb-4 grid place-items-center bg-[var(--color-bg-primary)] rounded-full border border-[var(--color-border)]">
+                                        <img src={skill.iconUrl} alt={skill.name} width="64" height="64" loading="lazy" class="w-16 h-16 object-contain" />
                                     </div>
                                     )}
-                                    <h3>{skill.name}</h3>
+                                    <h3 class="overflow-hidden line-clamp-3">{skill.name}</h3>
                                     
-                                    <div class="skill-meta">
-                                        <span class="skill-stars" title={`${skill.level}/5`}>
+                                    <div class="mt-2 mb-4 text-[var(--color-primary)] font-extrabold">
+                                        <span class="tracking-wide" title={`${skill.level}/5`}>
                                             {'★'.repeat(skill.level)}
                                         </span>
                                     </div>
@@ -126,181 +105,6 @@ const categoryLabels: Record<string, string> = {
         </div>
     </main>
 
-    <Footer labels={labels} lang={lang} />
+    <Footer lang={lang} />
 </Layout>
-
-<style>
-    .technologies-page {
-        min-height: 100vh;
-        padding: 4rem 0;
-        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
-    }
-
-    .skill-legend {
-        background: var(--color-bg-tertiary);
-        border: 2px solid var(--color-primary);
-        border-radius: var(--radius-lg);
-        padding: 2rem;
-        margin-bottom: 3rem;
-        text-align: center;
-    }
-
-    .skill-legend h3 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--color-primary);
-        margin: 0 0 1.5rem 0;
-    }
-
-    .legend-items {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 2rem;
-        align-items: center;
-    }
-
-    .legend-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .legend-stars {
-        color: var(--color-primary);
-        font-size: 1.2rem;
-        letter-spacing: 2px;
-    }
-
-    .legend-label {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: var(--color-text-secondary);
-    }
-
-    @media (max-width: 768px) {
-        .legend-items {
-            gap: 1.5rem;
-        }
-
-        .legend-item {
-            min-width: 100px;
-        }
-    }
-
-    .skill-category-section {
-        margin-bottom: 4rem;
-    }
-
-    .skill-category-section h2 {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: var(--color-primary);
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid var(--color-border);
-    }
-
-    .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 2rem;
-        width: 100%;
-    }
-
-    @media (max-width: 1024px) {
-        .skills-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-    }
-
-    @media (max-width: 768px) {
-        .skills-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-    }
-
-    @media (max-width: 620px) {
-        .skills-grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-        }
-    }
-
-    .skill-card {
-        background: var(--color-bg-tertiary);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        
-        &:has(.skill-icon) {
-            min-height: 280px;
-        }
-        
-        &:not(:has(.skill-icon)) {
-            min-height: auto;
-            padding: 2rem 1.5rem;
-            background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
-            border: 2px dashed var(--color-primary);
-            opacity: 0.85;
-        }
-        
-        &:not(:has(.skill-icon)):hover {
-            opacity: 1;
-            background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
-        }
-        padding: 1.5rem;
-        text-align: center;
-        transition: all var(--transition-base);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .skill-card h3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-
-    .skill-card:hover {
-        border-color: var(--color-primary);
-        box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
-        transform: translateY(-2px);
-    }
-
-    .skill-icon {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 1rem;
-        display: grid;
-        place-items: center;
-        background: var(--color-bg-primary)
-        border-radius: var(--radius-full);
-        border: 1px solid var(--color-border);
-    }
-
-    .skill-icon img {
-        width: 64px;
-        height: 64px;
-        object-fit: contain;
-    }
-
-    .skill-meta {
-        margin: 0.5rem 0 1rem;
-        color: var(--color-primary);
-        font-weight: 700;
-    }
-
-    .skill-stars {
-        letter-spacing: 1px;
-    }
-
-    .skill-description {
-        color: var(--color-text-secondary);
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-</style>
+ 

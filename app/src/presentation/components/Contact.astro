@@ -1,5 +1,5 @@
 ---
-import type { Language, PersonalInfo, ContactLabels } from '@/domain';
+import type { Language, PersonalInfo } from '@/domain';
 import { translate } from '@/domain';
 import Section from './common/Section.astro';
 import SocialLink from './common/ui/SocialLink.astro';
@@ -9,10 +9,14 @@ import LinkedinIcon from './icons/LinkedinIcon.astro';
 interface Props {
     lang: Language;
     personalInfo: PersonalInfo;
-    contactLabels: ContactLabels;
 }
 
-const { lang, personalInfo, contactLabels } = Astro.props;
+const { lang, personalInfo } = Astro.props;
+
+import { InMemoryContactLabelsRepository } from '@/data';
+import { GetContactLabelsUseCase } from '@/domain';
+
+const contactLabels = await new GetContactLabelsUseCase(new InMemoryContactLabelsRepository()).execute();
 ---
 
 <Section id="contact" class="bg-slate-50 dark:bg-slate-900/40" title={translate(contactLabels.title, lang)} subtitle={translate(contactLabels.contactSubtitle, lang)}>

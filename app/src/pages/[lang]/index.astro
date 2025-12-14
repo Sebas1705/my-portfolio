@@ -12,90 +12,35 @@ import Courses from '../../presentation/components/Courses.astro';
 import Contact from '../../presentation/components/Contact.astro';
 import Footer from '../../presentation/components/Footer.astro';
 
-import type { Language } from '@domain/models/Language';
-import navigationLabelsData from '../../data/datasources/labels/navigationLabels.json';
-import commonLabelsData from '../../data/datasources/labels/commonLabels.json';
-import aboutLabelsData from '../../data/datasources/labels/aboutLabels.json';
-import workLabelsData from '../../data/datasources/labels/workLabels.json';
-import educationLabelsData from '../../data/datasources/labels/educationLabels.json';
-import skillsLabelsData from '../../data/datasources/labels/skillsLabels.json';
-import softSkillsLabelsData from '../../data/datasources/labels/softSkillsLabels.json';
-import projectLabelsData from '../../data/datasources/labels/projectLabels.json';
-import courseLabelsData from '../../data/datasources/labels/courseLabels.json';
-import contactLabelsData from '../../data/datasources/labels/contactLabels.json';
-import footerLabelsData from '../../data/datasources/labels/footerLabels.json';
-
-import personalInfoData from '../../data/datasources/personalInfoData.json';
-import workExperiencesData from '../../data/datasources/workExperiencesData.json';
-import academicExperiencesData from '../../data/datasources/academicExperiencesData.json';
-import projectsData from '../../data/datasources/projectsData.json';
-import skillsData from '../../data/datasources/skillsData.json';
-import softSkillsData from '../../data/datasources/softSkillsData.json';
-import { supportedLanguages, translate } from '@domain/models/Language';
+import type { Language } from '@/domain';
+import { supportedLanguages, translate } from '@/domain';
 
 export async function getStaticPaths() {
     return supportedLanguages.map((lang) => ({ params: { lang } }));
 }
+const lang: Language = Astro.params.lang as Language;
 
-const paramsLang = Astro.params.lang as Language | undefined;
-const lang: Language = supportedLanguages.includes(paramsLang as Language) ? (paramsLang as Language) : 'en';
+import { InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository } from '@/data';
+import { GetPersonalInfoUseCase, GetCommonLabelsUseCase } from '@/domain';
 
-const getStringFromTranslations = (value: any, lang: Language) => {
-    if (!value) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value === 'object') return value[lang] || Object.values(value)[0] || '';
-    return '';
-};
-
-// Use raw label objects (Translations) from datasources so domain.translate can be used in components
-const navigationLabels = navigationLabelsData;
-const commonLabels = commonLabelsData;
-const aboutLabels = aboutLabelsData;
-const workLabels = workLabelsData;
-const educationLabels = educationLabelsData;
-const skillsLabels = skillsLabelsData;
-const softSkillsLabels = softSkillsLabelsData;
-const projectLabels = projectLabelsData;
-const courseLabels = courseLabelsData;
-const contactLabels = contactLabelsData;
-const footerLabels = footerLabelsData;
-
-const labels = {
-    ...navigationLabels,
-    ...commonLabels,
-    ...aboutLabels,
-    ...workLabels,
-    ...educationLabels,
-    ...skillsLabels,
-    ...softSkillsLabels,
-    ...projectLabels,
-    ...courseLabels,
-    ...contactLabels,
-    ...footerLabels
-};
-
-const personalInfo = personalInfoData;
-const workExperiences = workExperiencesData;
-const academicExperiences = academicExperiencesData;
-const projects = projectsData;
-const skills = skillsData;
-const softSkills = softSkillsData;
+const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
+const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
 ---
 
 <Layout lang={lang} title={`${personalInfo.name} - ${translate(personalInfo.title, lang)}`} description={translate(personalInfo.bio, lang)}>
-    <Header labels={labels} lang={lang} personalInfo={personalInfo} />
+    <Header lang={lang} personalInfo={personalInfo} />
     
     <main class="page-home">
-        <Hero labels={labels} lang={lang} personalInfo={personalInfo} />
-        <Skills labels={labels} lang={lang} skills={skills} />
-        <SoftSkills labels={labels} lang={lang} softSkills={softSkills} />
-        <About labels={labels} lang={lang} personalInfo={personalInfo} />
-        <WorkExperience labels={labels} lang={lang} skills={skills} experiences={workExperiences} />
-        <Education labels={labels} lang={lang} experiences={academicExperiences} />
-        <Courses labels={labels} lang={lang} />
-        <Projects labels={labels} lang={lang} projects={projects} />
-        <Contact labels={labels} lang={lang} personalInfo={personalInfo} />
+        <Hero lang={lang} personalInfo={personalInfo} />
+        <Skills commonLabels={commonLabels} lang={lang}/>
+        <SoftSkills lang={lang} />
+        <About lang={lang} personalInfo={personalInfo} />
+        <WorkExperience commonLabels={commonLabels} lang={lang} />
+        <Education commonLabels={commonLabels} lang={lang} />
+        <Courses commonLabels={commonLabels} lang={lang} />
+        <Projects lang={lang} />
+        <Contact lang={lang} personalInfo={personalInfo} />
     </main>
 
-    <Footer labels={labels} lang={lang} />
+    <Footer lang={lang} />
 </Layout>

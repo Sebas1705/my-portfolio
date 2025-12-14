@@ -1,6 +1,6 @@
 ---
-import type { Language } from '@domain/entities/Language';
-import { supportedLanguages, languageNames } from '@/domain/models/Language';
+import type { Language } from '@/domain';
+import { supportedLanguages, languageNames } from '@/domain';
 
 interface Props {
     currentLang: Language;
@@ -15,10 +15,10 @@ const orderedLanguages = [
 ];
 ---
 
-<div class="language-selector">
+<div class="language-selector relative inline-block">
     <button
         id="language-toggle"
-        class="language-button"
+        class="language-button inline-flex items-center gap-2 px-3 py-1 rounded-md bg-gray-100 dark:bg-slate-800 text-indigo-600 border-2 border-indigo-600 font-semibold text-sm hover:bg-indigo-600 hover:text-white transition"
         aria-label="Change language"
         title="Change language"
     >
@@ -28,173 +28,31 @@ const orderedLanguages = [
         </svg>
     </button>
     
-    <div id="language-dropdown" class="language-dropdown" hidden>
-        {orderedLanguages.map((lang) => (
-            <button class="language-option" data-lang={lang} data-active={lang === currentLang ? 'true' : 'false'}>
-                <span class="lang-code">{lang.toUpperCase()}</span>
-                <span class="lang-name">{languageNames[lang]}</span>
-                <svg class="lang-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
+    <div id="language-dropdown" class="language-dropdown absolute top-full right-0 mt-2 bg-white dark:bg-slate-900 border-2 border-indigo-600 rounded-md shadow-lg min-w-[180px] max-h-96 overflow-y-auto z-50" hidden>
+        {orderedLanguages.map((lng) => (
+            <button class={`language-option flex items-center gap-3 w-full px-4 py-3 text-left transition ${lng === currentLang ? 'bg-indigo-600 text-white font-semibold' : 'text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600'}`} data-lang={lng} data-active={lng === currentLang ? 'true' : 'false'}>
+                <span class={`lang-code font-bold ${lng === currentLang ? 'text-white' : 'text-indigo-600'} min-w-[30px]`}>{lng.toUpperCase()}</span>
+                <span class="lang-name text-sm flex-1">{languageNames[lng]}</span>
+                {lng === currentLang ? (
+                    <svg class="lang-check w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                ) : (
+                    <svg class="lang-check w-4 h-4 hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                )}
             </button>
         ))}
     </div>
 </div>
 
-<style>
-    .language-selector {
-        position: relative;
-    }
-
-    .language-button {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-xs);
-        padding: 0.5rem 0.75rem;
-        border-radius: var(--radius-md);
-        background-color: var(--color-bg-secondary);
-        color: var(--color-primary);
-        border: 2px solid var(--color-primary);
-        font-weight: 600;
-        font-size: 0.875rem;
-        transition: all var(--transition-fast);
-        cursor: pointer;
-    }
-
-    .language-button:hover {
-        background-color: var(--color-primary);
-        color: var(--color-bg-primary);
-    }
-
-    [data-theme="dark"] .language-button {
-        background-color: var(--color-bg-secondary);
-        color: var(--color-primary);
-        border: 2px solid var(--color-primary);
-    }
-
-    [data-theme="dark"] .language-button:hover {
-        background-color: var(--color-primary);
-        color: var(--color-bg-primary);
-    }
-
-    .language-dropdown {
-        position: absolute;
-        top: calc(100% + 0.5rem);
-        right: 0;
-        background-color: var(--color-bg-primary);
-        border: 2px solid var(--color-primary);
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-lg);
-        min-width: 180px;
-        max-height: 400px;
-        overflow-y: auto;
-        z-index: 100;
-    }
-
-    [data-theme="dark"] .language-dropdown {
-        background-color: #1e293b;
-        border: 2px solid var(--color-primary);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-    }
-
-    .language-dropdown[hidden] {
-        display: none;
-    }
-
-    .language-option {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-        width: 100%;
-        padding: 0.75rem 1rem;
-        background: none;
-        color: var(--color-text-primary);
-        text-align: left;
-        transition: background-color var(--transition-fast);
-        border: none;
-        cursor: pointer;
-        font-family: var(--font-sans);
-        font-weight: 500;
-    }
-
-    .language-option:hover {
-        background-color: var(--color-bg-secondary);
-        color: var(--color-primary);
-    }
-
-    .language-option[data-active="true"] {
-        background-color: var(--color-primary);
-        color: var(--color-bg-primary);
-        font-weight: 600;
-    }
-
-    [data-theme="dark"] .language-option {
-        color: #f1f5f9;
-    }
-
-    [data-theme="dark"] .language-option:hover {
-        background-color: #334155;
-        color: var(--color-primary);
-    }
-
-    [data-theme="dark"] .language-option[data-active="true"] {
-        background-color: var(--color-primary);
-        color: var(--color-bg-primary);
-    }
-
-    .lang-code {
-        font-weight: 700;
-        color: var(--color-primary);
-        min-width: 30px;
-    }
-
-    .language-option[data-active="true"] .lang-code {
-        color: var(--color-bg-primary);
-    }
-
-    .lang-name {
-        font-size: 0.875rem;
-        flex: 1;
-    }
-
-    .lang-check {
-        color: var(--color-primary);
-        margin-left: auto;
-        display: none;
-    }
-
-    .language-option[data-active="true"] .lang-check {
-        display: block;
-        color: var(--color-bg-primary);
-    }
-</style>
-
 <script>
+    import { supportedLanguages, type Language } from "@/domain";
+
     const languageToggle = document.getElementById('language-toggle');
     const languageDropdown = document.getElementById('language-dropdown');
     const languageOptions = document.querySelectorAll('.language-option');
-    const currentLangDisplay = languageToggle?.querySelector('.current-lang');
-
-    // Update the displayed language on page load from localStorage
-    function updateLanguageDisplay() {
-        const savedLang = localStorage.getItem('language') || 'es';
-        if (currentLangDisplay) {
-            currentLangDisplay.textContent = savedLang.toUpperCase();
-        }
-        
-        // Update active state in dropdown
-        languageOptions.forEach(option => {
-            const optionLang = option.getAttribute('data-lang');
-            if (optionLang === savedLang) {
-                option.setAttribute('data-active', 'true');
-            } else {
-                option.setAttribute('data-active', 'false');
-            }
-        });
-    }
-
-    // Initialize display on page load
-    updateLanguageDisplay();
 
     if (languageToggle && languageDropdown) {
         languageToggle.addEventListener('click', () => {
@@ -216,36 +74,19 @@ const orderedLanguages = [
 
     languageOptions.forEach(option => {
         option.addEventListener('click', () => {
-            const lang = option.getAttribute('data-lang');
+            const lang: string | null = option.getAttribute('data-lang');
             if (lang) {
-                // Save to localStorage
-                localStorage.setItem('language', lang);
+                const currentPath: string = window.location.pathname;
+                const pathSegments: string[] = currentPath.split('/').filter(Boolean);
                 
-                // Update HTML lang attribute
-                document.documentElement.setAttribute('lang', lang);
-                
-                // Update the display immediately
-                if (currentLangDisplay) {
-                    currentLangDisplay.textContent = lang.toUpperCase();
+                // Remove current language from path if exists
+                if (supportedLanguages.includes(pathSegments[0] as Language)) {
+                    pathSegments.shift();
                 }
                 
-                // Update active state
-                languageOptions.forEach(opt => {
-                    opt.setAttribute('data-active', opt.getAttribute('data-lang') === lang ? 'true' : 'false');
-                });
-                
-                // Import and call client-side translation update
-                import('@presentation/scripts/i18n-client').then(({ updateAllTranslations }) => {
-                    updateAllTranslations(lang as any);
-                    
-                    // Dispatch custom event after updating translations
-                    window.dispatchEvent(new CustomEvent('languagechange', { detail: { language: lang } }));
-                    
-                    // Close dropdown
-                    if (languageDropdown) {
-                        languageDropdown.setAttribute('hidden', '');
-                    }
-                });
+                // Build new path with selected language
+                const newPath = `/${lang}/${pathSegments.join('/')}`;
+                window.location.href = newPath;
             }
         });
     });

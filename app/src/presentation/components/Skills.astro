@@ -1,50 +1,50 @@
 ---
-import type { Language, Skill } from '@domain/models';
-import { translate as domainTranslate } from '@domain';
-import { Section } from './common';
+import type { Language, CommonLabels } from '@domain/models';
+import { translate } from '@/domain';
+import Section from './common/Section.astro';
 import Button from './common/ui/Button.astro';
-import { getStringFromTranslations } from '@presentation/utils/translations';
-import { SKILL_ICONS } from '@presentation/utils/constants';
-import { getSkillIconUrl, renderStars, sortByLevelAndExperience, limitSkills } from '@presentation/utils/helpers';
 
 interface Props {
     lang: Language;
-    skills: Skill[];
     featured?: number; // Show top N skills
-    labels?: Record<string, any>;
+    commonLabels: CommonLabels;
 }
 
-const { lang, skills, featured = 12, labels } = Astro.props;
+const { lang, featured = 12, commonLabels } = Astro.props;
 
-// Sort by level and get top featured
-const topSkills = limitSkills(sortByLevelAndExperience(skills), featured);
+import { InMemorySkillsLabelsRepository, InMemorySkillRepository } from '@/data';
+import { GetSkillsLabelsUseCase, GetSkillsUseCase } from '@/domain';
+
+const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRepository()).execute();
+const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
 ---
 
-<Section id="skills" class="skills" title={labels && labels.skillsTitle ? domainTranslate(labels.skillsTitle, lang) : 'Technologies'} subtitle={labels && labels.skillsSubtitle ? domainTranslate(labels.skillsSubtitle, lang) : 'Tools and technologies I master'}>
-        <div class="container">
+<Section id="skills" class="skills" title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
+    <div class="max-w-4xl mx-auto px-4">
 
         <!-- Featured Skills Grid -->
-        <div class="featured-skills">
-            <div class="skills-grid">
-                {topSkills.map((skill) => {
-                    const description = getStringFromTranslations(skill.description, lang);
-                    
+        <div class="mb-8">
+            <div class="grid gap-6 max-w-3xl mx-auto grid-cols-[repeat(auto-fit,minmax(120px,1fr))]">
+                {skills
+                .filter((skill) => !['architecture','methodologies'].includes(skill.category))
+                .sort((a, b) => b.level - a.level)
+                .slice(0, featured)
+                .map((skill) => {
                     return (
-                        <div class="skill-item" title={description}>
-                            <div class="skill-icon">
+                        <div title={skill.name} class="flex flex-col items-center gap-3 p-4 rounded-md transition-transform duration-200 hover:-translate-y-2 cursor-help bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700">
+                            <div class="w-14 h-14 flex items-center justify-center">
                                 <img 
-                                    src={getSkillIconUrl(skill.id)} 
+                                    src={skill.iconUrl} 
                                     alt={skill.name}
                                     width="56"
                                     height="56"
                                     loading="lazy"
+                                    class="w-full h-full object-contain"
                                 />
                             </div>
-                            <h3 class="skill-name">{skill.name}</h3>
-                            <div class="skill-rating">
-                                <span class="skill-stars" aria-label={`${skill.level} de 5 estrellas`}>
-                                    {renderStars(skill.level)}
-                                </span>
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100 text-center">{skill.name}</h3>
+                            <div class="w-full flex justify-center">
+                                <span class="text-indigo-600 text-sm" aria-label={`${skill.level} de 5 estrellas`}>{'★'.repeat(skill.level)}</span>
                             </div>
                         </div>
                     );
@@ -53,174 +53,11 @@ const topSkills = limitSkills(sortByLevelAndExperience(skills), featured);
         </div>
 
         <!-- Link to Full Skills Page -->
-        <div class="skills-footer">
-            <Button href="/tecnologias" variant="secondary" size="md">
-                {labels && (labels as any).viewMore ? domainTranslate((labels as any).viewMore, lang) : 'View More'}<span class="btn-arrow">→</span>
+        <div class="text-center">
+            <Button href="/technologies" variant="secondary" size="md">
+                {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
             </Button>
         </div>
     </div>
-    </div>
 </Section>
-
-<style>
-    .skills {
-        background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
-        padding: var(--spacing-lg) 0;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: var(--spacing-xl);
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: var(--spacing-sm);
-        color: var(--color-text-primary);
-    }
-
-    .section-subtitle {
-        font-size: 1.1rem;
-        color: var(--color-text-secondary);
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    /* Skills Grid */
-    .featured-skills {
-        margin-bottom: var(--spacing-xl);
-    }
-
-    .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: var(--spacing-lg);
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    .skill-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-md);
-        border-radius: var(--radius-md);
-        transition: all var(--transition-base);
-        cursor: help;
-        background: var(--color-bg-primary);
-        border: 1px solid var(--color-border);
-    }
-
-    .skill-item:hover {
-        border-color: var(--color-primary);
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
-    }
-
-    .skill-icon {
-        width: 56px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all var(--transition-base);
-    }
-
-    .skill-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .skill-item:hover .skill-icon {
-        transform: scale(1.1);
-    }
-
-    .skill-name {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin: 0;
-        text-align: center;
-        line-height: 1.2;
-    }
-
-    .skill-rating {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .skill-stars {
-        color: var(--color-accent);
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    /* Footer with Link */
-    .skills-footer {
-        text-align: center;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        text-decoration: none;
-        transition: all var(--transition-base);
-        cursor: pointer;
-        border: none;
-        font-size: 1rem;
-    }
-
-    .btn-secondary {
-        background: var(--color-bg-secondary);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border);
-    }
-
-    .btn-secondary:hover {
-        background: var(--color-primary);
-        color: white;
-        border-color: var(--color-primary);
-    }
-
-    .btn-arrow {
-        transition: transform var(--transition-base);
-    }
-
-    .btn-secondary:hover .btn-arrow {
-        transform: translateX(4px);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .section-title {
-            font-size: 2rem;
-        }
-
-        .skills-grid {
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: var(--spacing-md);
-        }
-
-        .skill-icon {
-            width: 48px;
-            height: 48px;
-        }
-
-        .skill-name {
-            font-size: 0.85rem;
-        }
-
-        .skill-stars {
-            font-size: 0.75rem;
-        }
-    }
-</style>
 

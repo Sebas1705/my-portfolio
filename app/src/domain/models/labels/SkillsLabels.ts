@@ -13,6 +13,8 @@ export interface SkillsLabels {
     categoryMethodologies: Translations;
     categoryAI: Translations;
     categoryArchitecture: Translations;
+    categoryOS: Translations;
+    categoryIDES: Translations;
 
     //Tiers:
     tierBasic: Translations;

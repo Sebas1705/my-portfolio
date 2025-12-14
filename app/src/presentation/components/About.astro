@@ -1,15 +1,19 @@
 ---
-import type { Language, PersonalInfo, AboutLabels } from '@/domain';
+import type { Language, PersonalInfo } from '@/domain';
 import { translate } from '@/domain';
 import Section from './common/Section.astro';
 
 interface Props {
     lang: Language;
     personalInfo: PersonalInfo;
-    aboutLabels: AboutLabels;
 }
 
-const { lang, personalInfo, aboutLabels } = Astro.props;
+const { lang, personalInfo } = Astro.props;
+
+import { InMemoryAboutLabelsRepository } from '@/data';
+import { GetAboutLabelsUseCase } from '@/domain';
+
+const aboutLabels = await new GetAboutLabelsUseCase(new InMemoryAboutLabelsRepository()).execute();
 ---
 
 <Section id="about" class="relative bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800" title={translate(aboutLabels.title, lang)} subtitle={translate(aboutLabels.subtitle, lang)}>

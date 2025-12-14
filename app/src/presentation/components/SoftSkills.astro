@@ -1,147 +1,48 @@
 ---
-import type { Language } from '@domain/entities/Language';
-import type { SoftSkill } from '@domain/entities/SoftSkill';
-import { translate as domainTranslate } from '@/domain';
-import { translate as i18nTranslate } from '../../infrastructure/i18n';
-import { Section } from './common';
+import type { Language } from '@/domain';
+import { translate } from '@/domain';
+import Section from './common/Section.astro';
 
 interface Props {
     lang: Language;
-    softSkills: SoftSkill[];
-    labels?: Record<string, any>;
 }
 
-const { lang, softSkills, labels } = Astro.props;
-<Section id="soft-skills" class="soft-skills" title={labels && labels.softSkillsTitle ? domainTranslate(labels.softSkillsTitle, lang) : i18nTranslate(lang, 'softSkills.title')} subtitle={labels && labels.softSkillsSubtitle ? domainTranslate(labels.softSkillsSubtitle, lang) : i18nTranslate(lang, 'softSkills.subtitle')}>
-        <div class="soft-skills-grid">
-            {softSkills.map((skill) => (
-                <div class="soft-skill-card">
-                    <div class="skill-icon">{skill.icon}</div>
-                    <h3 class="skill-name">{skill.name}</h3>
-                    <p class="skill-description">{skill.description}</p>
-                </div>
-            ))}
-        </div>
+const { lang } = Astro.props;
+
+import { InMemorySoftSkillsLabelsRepository, InMemorySoftSkillRepository } from '@/data';
+import { GetSoftSkillsLabelsUseCase, GetSoftSkillsUseCase } from '@/domain';
+
+const softSkillsLabels = await new GetSoftSkillsLabelsUseCase(new InMemorySoftSkillsLabelsRepository()).execute();
+const softSkills = await new GetSoftSkillsUseCase(new InMemorySoftSkillRepository()).execute
+---
+
+<Section id="soft-skills" class="bg-white dark:bg-slate-900 py-20" title={translate(softSkillsLabels.title, lang)} subtitle={translate(softSkillsLabels.subtitle, lang)}>
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-6xl mx-auto px-4">
+        {softSkills.map((skill, i) => (
+            <div class={`soft-skill-card fade-in bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col gap-4`} title={skill.name}>
+                <div class="text-3xl leading-none">{skill.icon}</div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">{skill.name}</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{skill.description}</p>
+            </div>
+        ))}
     </div>
 </Section>
 
 <style>
-    .soft-skills {
-        background: var(--color-bg-primary);
-        padding: 5rem 0;
-    }
+    /* Minimal CSS: animation for staggered entrance */
+    .fade-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .section-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-
-    .section-title {
-        font-size: clamp(2rem, 4vw, 2.5rem);
-        font-weight: 900;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .section-subtitle {
-        font-size: 1.125rem;
-        color: var(--color-text-secondary);
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .soft-skills-grid {
-        display: grid;
-        gap: 1.5rem;
-        grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 640px) {
-        .soft-skills-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (min-width: 1024px) {
-        .soft-skills-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @media (min-width: 1280px) {
-        .soft-skills-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    .soft-skill-card {
-        background: var(--color-bg-secondary);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-xl);
-        padding: 2rem 1.5rem;
-        text-align: center;
-        transition: all var(--transition-fast);
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .soft-skill-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--color-primary);
-    }
-
-    .skill-icon {
-        font-size: 3rem;
-        line-height: 1;
-        margin-bottom: 0.5rem;
-    }
-
-    .skill-name {
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: var(--color-text-primary);
-        margin: 0;
-    }
-
-    .skill-description {
-        font-size: 0.9rem;
-        color: var(--color-text-secondary);
-        line-height: 1.6;
-        margin: 0;
-    }
-
-    /* Animación de entrada */
-    .soft-skill-card {
-        animation: fadeInUp 0.5s ease forwards;
-        opacity: 0;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .soft-skills-grid .soft-skill-card:nth-child(1) { animation-delay: 0.1s; }
-    .soft-skills-grid .soft-skill-card:nth-child(2) { animation-delay: 0.15s; }
-    .soft-skills-grid .soft-skill-card:nth-child(3) { animation-delay: 0.2s; }
-    .soft-skills-grid .soft-skill-card:nth-child(4) { animation-delay: 0.25s; }
-    .soft-skills-grid .soft-skill-card:nth-child(5) { animation-delay: 0.3s; }
-    .soft-skills-grid .soft-skill-card:nth-child(6) { animation-delay: 0.35s; }
-    .soft-skills-grid .soft-skill-card:nth-child(7) { animation-delay: 0.4s; }
-    .soft-skills-grid .soft-skill-card:nth-child(8) { animation-delay: 0.45s; }
-    .soft-skills-grid .soft-skill-card:nth-child(9) { animation-delay: 0.5s; }
-    .soft-skills-grid .soft-skill-card:nth-child(10) { animation-delay: 0.55s; }
-    .soft-skills-grid .soft-skill-card:nth-child(11) { animation-delay: 0.6s; }
-    .soft-skills-grid .soft-skill-card:nth-child(12) { animation-delay: 0.65s; }
+    .soft-skill-card:nth-child(1) { animation-delay: 0.08s; }
+    .soft-skill-card:nth-child(2) { animation-delay: 0.12s; }
+    .soft-skill-card:nth-child(3) { animation-delay: 0.16s; }
+    .soft-skill-card:nth-child(4) { animation-delay: 0.20s; }
+    .soft-skill-card:nth-child(5) { animation-delay: 0.24s; }
+    .soft-skill-card:nth-child(6) { animation-delay: 0.28s; }
+    .soft-skill-card:nth-child(7) { animation-delay: 0.32s; }
+    .soft-skill-card:nth-child(8) { animation-delay: 0.36s; }
+    .soft-skill-card:nth-child(9) { animation-delay: 0.40s; }
+    .soft-skill-card:nth-child(10) { animation-delay: 0.44s; }
+    .soft-skill-card:nth-child(11) { animation-delay: 0.48s; }
+    .soft-skill-card:nth-child(12) { animation-delay: 0.52s; }
 </style>

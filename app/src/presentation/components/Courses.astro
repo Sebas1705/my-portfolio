@@ -1,7 +1,6 @@
 ---
-import type { Language, CourseLabels, CommonLabels, Course } from '@/domain';
+import type { Language, CommonLabels } from '@/domain';
 import { translate } from '@/domain';
-import { formatMonthYear } from '@/core';
 import CourseCard from '@/presentation/components/common/cards/CourseCard.astro';
 import Section from '@/presentation/components/common/Section.astro';
 import SectionHeader from '@/presentation/components/common/ui/SectionHeader.astro';
@@ -9,12 +8,16 @@ import Container from '@/presentation/components/common/ui/Container.astro';
 
 interface Props {
     lang: Language;
-    courses: Course[];
-    courseLabels: CourseLabels;
     commonLabels: CommonLabels;
 }
 
-const { lang, courses, courseLabels, commonLabels } = Astro.props;
+const { lang, commonLabels } = Astro.props;
+
+import { InMemoryCourseRepository, InMemoryCourseLabelsRepository } from '@/data';
+import { GetAllCoursesUseCase, GetCourseLabelsUseCase } from '@/domain';
+
+const courseLabels = await new GetCourseLabelsUseCase(new InMemoryCourseLabelsRepository()).execute();
+const courses = await new GetAllCoursesUseCase(new InMemoryCourseRepository()).execute();
 
 const visibleCourses = courses
     .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())

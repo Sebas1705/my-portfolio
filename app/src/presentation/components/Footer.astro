@@ -3,10 +3,13 @@ import { translate, type FooterLabels, type Language } from '@/domain';
 
 interface Props {
     lang: Language;
-    footerLabels: FooterLabels;
 }
 
-const { lang, footerLabels } = Astro.props;
+import { InMemoryFooterLabelsRepository } from '@/data';
+import { GetFooterLabelsUseCase } from '@/domain';
+const footerLabels = await new GetFooterLabelsUseCase(new InMemoryFooterLabelsRepository()).execute();
+
+const { lang } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 

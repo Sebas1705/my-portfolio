@@ -1,411 +1,109 @@
 ---
-import type { Language, WorkExperience, Project } from '@domain/models';
-import type { WorkLabels } from '@domain/models/Labels';
-import { Section } from './common';
-import { translate } from '@domain';
-import { formatDateRange } from '@presentation/utils/date';
-import { COMPANY_LINKS } from '@presentation/utils/constants';
-import { filterRelatedProjects } from '@presentation/utils/helpers';
+import type { Language, WorkExperience, CommonLabels } from '@/domain';
+import { translate } from '@/domain';
+import { formatDateRange, COMPANY_LINKS } from '@/core';
+import Section from './common/Section.astro';
 
 interface Props {
     lang: Language;
-    experiences: WorkExperience[];
-    projects: Project[];
-    labels: WorkLabels;
+    commonLabels: CommonLabels;
 }
 
-const { lang, experiences, projects } = Astro.props;
+const { lang, commonLabels } = Astro.props;
 
-// Helper to linkify company names with URLs from constants
-const linkifyCompanies = (text: string): string => {
-    let result = text;
-    for (const [company, url] of Object.entries(COMPANY_LINKS)) {
-        const regex = new RegExp(`\\b${company}\\b`, 'g');
-        result = result.replace(regex, `<a href="${url}" target="_blank" rel="noopener noreferrer" class="company-mention">${company}</a>`);
-    }
-    return result;
-};
+import { InMemoryWorkLabelsRepository, InMemoryProjectLabelsRepository, InMemoryWorkExperienceRepository, InMemoryProjectRepository } from '@/data';
+import { GetWorkLabelsUseCase, GetProjectLabelsUseCase, GetWorkExperiencesUseCase, GetProjectsByTypeUseCase } from '@/domain';
+
+const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsRepository()).execute();
+const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
+const experiences  = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
+const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('work');
 ---
 
-<Section id="work" class="work-section py-12 bg-gray-50 dark:bg-gray-900" title={labels ? translate(labels.workTitle, lang) : 'Work'} subtitle={labels ? translate(labels.workSubtitle, lang) : ''}>
-    <div class="timeline space-y-20">
-            {experiences.map((experience, index) => {
-                const relatedProjects = filterRelatedProjects(projects, experience.id);
-                
-                // Extract translated values from Translations objects using domain translate
-                const position = translate(experience.position, lang);
-                const description = translate(experience.description, lang);
-                const achievements = Array.isArray(experience.achievements)
-                    ? experience.achievements.map((a: any) => (typeof a === 'string' ? a : translate(a, lang)))
-                    : [];
-                
-                return (
-                    <div class="timeline-item relative" data-index={index}>
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content p-6 rounded-lg bg-white dark:bg-gray-800 shadow-md">
-                            <div class="experience-header">
-                                <div>
-                                    <h3 class="experience-position text-lg font-semibold text-gray-900 dark:text-gray-100">{position}</h3>
-                                    <p class="experience-company">
-                                        {experience.companyUrl ? (
-                                            <a href={experience.companyUrl} target="_blank" rel="noopener noreferrer" class="company-link">
-                                                {experience.company}
-                                            </a>
-                                        ) : (
-                                            experience.company
-                                        )}
-                                    </p>
-                                </div>
-                                <div class="experience-meta">
-                                    <span class="experience-date">
-                                        {formatDateRange(experience.startDate, experience.endDate, lang, translate(lang, 'work.current'))}
-                                    </span>
-                                    <span class="experience-location">{experience.location}</span>
-                                </div>
+<Section id="work" class="work-section py-12 bg-gray-50 dark:bg-gray-900" title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
+    <div class="relative max-w-full pl-7 space-y-20">
+        {experiences.map((experience, index) => {
+            const relatedProjects = projects.filter(project =>
+                project.relatedTo?.includes(experience.id)
+            );
+            
+            return (
+                <div class="relative mb-20 pl-20" data-index={index}>
+                    <div class="absolute left-2 top-0 w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 border-4 border-white dark:border-gray-900 z-30 flex items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110"></div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md relative overflow-hidden border-l-4 border-blue-500 hover:border-indigo-500 transform transition-transform duration-200 hover:translate-x-2 hover:-translate-y-1">
+                        <div class="flex flex-col gap-4 mb-6 md:flex-row md:justify-between md:items-start">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{experience.position ?? index}</h3>
+                                <p class="text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-transparent hover:border-blue-500">
+                                    {experience.companyUrl ? (
+                                        <a href={experience.companyUrl} target="_blank" rel="noopener noreferrer">
+                                            {experience.company}
+                                        </a>
+                                    ) : (
+                                        experience.company
+                                    )}
+                                </p>
                             </div>
-
-                            <p class="experience-description text-gray-600 dark:text-gray-300 leading-relaxed">{description}</p>
-
-                            <div class="experience-technologies flex flex-wrap gap-2">
-                                {experience.technologies.map(tech => (
-                                    <span class="tech-tag px-2 py-1 bg-gray-100 dark:bg-gray-700 text-sm font-medium rounded">{tech}</span>
-                                ))}
+                            <div class="flex flex-col gap-1 text-sm text-gray-500">
+                                <span>
+                                    {formatDateRange(experience.startDate, experience.endDate, lang, translate(commonLabels.current, lang))}
+                                </span>
+                                <span class="text-gray-500">{experience.location}</span>
                             </div>
-
-                            {achievements.length > 0 && (
-                                <div class="experience-achievements">
-                                    <h4 class="achievements-title text-sm font-semibold text-gray-800 dark:text-gray-200">{translate(lang, 'work.achievements')}</h4>
-                                    <ul class="achievements-list">
-                                        {achievements.map((achievement: any, idx: number) => (
-                                            <li set:html={linkifyCompanies(typeof achievement === 'string' ? achievement : achievement[lang] || achievement)} class="text-gray-600 dark:text-gray-300 mb-2"></li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-
-                            {relatedProjects.length > 0 && (
-                                <div class="related-projects">
-                                    <h4 class="related-projects-title text-sm font-semibold text-gray-800 dark:text-gray-200">{translate(lang, 'work.projects')}</h4>
-                                    <div class="projects-grid">
-                                        {relatedProjects.map(project => (
-                                            <div class="mini-project-card">
-                                                <h5 class="project-title font-semibold text-gray-900 dark:text-gray-100">{translate(project.title, lang)}</h5>
-                                                <p class="project-description text-gray-600 dark:text-gray-300">{translate(project.description, lang)}</p>
-                                                <div class="project-links">
-                                                    {project.demoUrl && (
-                                                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
-                                                            {translate(lang, 'projects.viewDemo')}
-                                                        </a>
-                                                    )}
-                                                    {project.repoUrl && (
-                                                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="project-link">
-                                                            {translate(lang, 'projects.viewCode')}
-                                                        </a>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
                         </div>
+
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">{experience.description}</p>
+
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {experience.technologies.map(tech => (
+                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-sm font-medium rounded">{tech}</span>
+                            ))}
+                        </div>
+
+                        {experience.achievements.length > 0 && (
+                            <div class="mb-4">
+                                <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200">{translate(workLabels.achievements, lang)}</h4>
+                                <ul class="list-none p-0 mt-2">
+                                    {experience.achievements.map((achievement: any) => (
+                                        <li set:html={COMPANY_LINKS[achievement]} class="text-gray-600 dark:text-gray-300 mb-2 pl-5 relative"></li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {relatedProjects.length > 0 && (
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3">{translate(workLabels.projects, lang)}</h4>
+                                <div class="grid gap-4 md:grid-cols-2">
+                                    {relatedProjects.map(project => (
+                                        <div class="p-6 bg-gray-100 dark:bg-gray-700 rounded-md border-l-4 border-blue-500">
+                                            <h5 class="font-semibold text-gray-900 dark:text-gray-100">{translate(project.title, lang)}</h5>
+                                            <p class="text-gray-600 dark:text-gray-300 mt-2">{translate(project.description, lang)}</p>
+                                            <div class="flex gap-4 mt-4">
+                                                {project.demoUrl && (
+                                                    <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="text-blue-600 font-semibold hover:underline">
+                                                        {translate(projectLabels.viewDemo, lang)}
+                                                    </a>
+                                                )}
+                                                {project.repoUrl && (
+                                                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-blue-600 font-semibold hover:underline">
+                                                        {translate(projectLabels.viewCode, lang)}
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                );
-            })}
-        </div>
-        </div>
+                </div>
+            );
+        })}
+    </div>
 </Section>
-
 <style>
-    .work-section {
-        background-color: var(--color-bg-secondary);
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: var(--spacing-3xl);
-    }
-
-    .timeline {
-        position: relative;
-        max-width: 100%;
-        padding-left: var(--spacing-md);
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: 27px;
-        top: 30px;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(180deg, var(--color-primary), var(--color-secondary), transparent);
-    }
-
-    @media (min-width: 768px) {
-        .timeline::before {
-            left: 27px;
-            transform: none;
-        }
-    }
-
-    .timeline-item {
-        position: relative;
-        margin-bottom: 80px;
-        padding-left: 80px;
-    }
-
-    @media (min-width: 768px) {
-        .timeline-item {
-            width: 100%;
-            padding-left: 80px;
-            padding-right: 0;
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-left: 0;
-            padding-right: 0;
-            padding-left: 80px;
-        }
-    }
-
-    .timeline-marker {
-        position: absolute;
-        left: 10px;
-        top: 0;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-        border: 4px solid var(--color-bg-primary);
-        z-index: 3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 0 4px var(--color-bg-secondary), 
-                                0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: all var(--transition-base);
-    }
-
-    .timeline-marker::after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: var(--color-bg-primary);
-    }
-
-    .timeline-item:hover .timeline-marker {
-        transform: scale(1.2);
-        box-shadow: 0 0 0 4px var(--color-bg-secondary), 
-                                0 8px 24px rgba(59, 130, 246, 0.3);
-    }
-
-    @media (min-width: 768px) {
-        .timeline-marker {
-            left: 10px;
-            right: auto;
-        }
-
-        .timeline-item:nth-child(even) .timeline-marker {
-            right: auto;
-            left: 10px;
-        }
-    }
-
-    .timeline-content {
-        background-color: var(--color-bg-primary);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-xl);
-        box-shadow: var(--shadow-md);
-        transition: transform var(--transition-base), box-shadow var(--transition-base);
-        border-left: 4px solid var(--color-primary);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .timeline-content::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -4px;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
-        opacity: 0;
-        transition: opacity var(--transition-base);
-    }
-
-    .timeline-item:hover .timeline-content {
-        transform: translateX(8px) translateY(-4px);
-        box-shadow: var(--shadow-xl);
-        border-left-color: var(--color-secondary);
-    }
-
-    .timeline-item:hover .timeline-content::before {
-        opacity: 1;
-    }
-
-    .experience-header {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
-    }
-
-    @media (min-width: 640px) {
-        .experience-header {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-    }
-
-    .experience-position {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--color-text-primary);
-        margin-bottom: var(--spacing-xs);
-    }
-
-    .company-mention {
-        color: var(--color-primary);
-        text-decoration: none;
-        font-weight: 600;
-        border-bottom: 2px solid transparent;
-        transition: all var(--transition-fast);
-    }
-
-    .company-mention:hover {
-        color: var(--color-primary-dark);
-        border-bottom-color: var(--color-primary);
-    }
-
-    .experience-company {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-primary);
-        margin: 0;
-    }
-
-    .company-link {
-        color: var(--color-primary);
-        text-decoration: none;
-        border-bottom: 2px solid transparent;
-        transition: all var(--transition-fast);
-    }
-
-    .company-link:hover {
-        border-bottom-color: var(--color-primary);
-    }
-
-    .experience-meta {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-xs);
-        font-size: 0.875rem;
-        color: var(--color-text-secondary);
-    }
-
-    .experience-description {
-        color: var(--color-text-secondary);
-        line-height: 1.6;
-        margin-bottom: var(--spacing-lg);
-    }
-
-    .experience-technologies {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-lg);
-    }
-
-    .tech-tag {
-        padding: 0.375rem 0.75rem;
-        background-color: var(--color-bg-secondary);
-        color: var(--color-primary);
-        border-radius: var(--radius-md);
-        font-size: 0.875rem;
-        font-weight: 600;
-    }
-
-    .experience-achievements {
-        margin-bottom: var(--spacing-lg);
-    }
-
-    .achievements-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .achievements-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .achievements-list li {
-        padding-left: var(--spacing-lg);
-        margin-bottom: var(--spacing-sm);
-        color: var(--color-text-secondary);
-        position: relative;
-    }
-
-    .achievements-list li::before {
-        content: '✓';
-        position: absolute;
-        left: 0;
-        color: var(--color-success);
-        font-weight: 700;
-    }
-
-    .related-projects-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .projects-grid {
-        display: grid;
-        gap: var(--spacing-md);
-    }
-
-    .mini-project-card {
-        padding: var(--spacing-lg);
-        background-color: var(--color-bg-secondary);
-        border-radius: var(--radius-md);
-        border-left: 3px solid var(--color-primary);
-    }
-
-    .mini-project-card .project-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin-bottom: var(--spacing-sm);
-    }
-
-    .mini-project-card .project-description {
-        font-size: 0.875rem;
-        color: var(--color-text-secondary);
-        margin-bottom: var(--spacing-md);
-    }
-
-    .project-links {
-        display: flex;
-        gap: var(--spacing-md);
-    }
-
-    .project-link {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--color-primary);
-        transition: color var(--transition-fast);
-    }
-
-    .project-link:hover {
-        color: var(--color-primary-dark);
-        text-decoration: underline;
-    }
+    .timeline::before{content:'';position:absolute;left:1.75rem;top:2rem;bottom:0;width:2px;background:linear-gradient(180deg,#3b82f6,#7c3aed,transparent)}
+    .timeline-marker::after{content:'';width:0.5rem;height:0.5rem;border-radius:9999px;background-color:#ffffff;display:block}
 </style>
