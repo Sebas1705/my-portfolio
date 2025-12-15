@@ -1,22 +1,24 @@
 ---
-import type { Language } from '@/domain';
+import type { CommonLabels, Language, Project, ProjectLabels, Skill } from '@/domain';
 import ProjectCard from './ProjectCard.astro';
 
 interface Props {
-    projects: any[];
+    projects: Project[];
     lang: Language;
-    labels: any;
+    commonLabels: CommonLabels;
+    projectLabels: ProjectLabels;
     columns?: number;
     showImages?: boolean;
     showTechnologies?: boolean;
     maxTech?: number;
-    skills?: any[];
+    skills?: Skill[];
 }
 
 const { 
     projects, 
     lang, 
-    labels, 
+    commonLabels,
+    projectLabels, 
     columns = 3,
     showImages = false,
     showTechnologies = true,
@@ -30,7 +32,8 @@ const {
         <ProjectCard 
             project={project}
             lang={lang}
-            labels={labels}
+            commonLabels={commonLabels}
+            projectLabels={projectLabels}
             showImage={showImages}
             showTechnologies={showTechnologies}
             maxTech={maxTech}

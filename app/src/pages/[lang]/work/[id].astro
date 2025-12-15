@@ -9,68 +9,36 @@ import SkillsGrid from '../../../presentation/components/skills/SkillsGrid.astro
 import ProjectsGrid from '../../../presentation/components/projects/ProjectsGrid.astro';
 
 import type { Language } from '@domain/models/Language';
-import personalInfoData from '@data/datasources/personalInfoData.json';
-import workExperiencesData from '@data/datasources/workExperiencesData.json';
-import projectsData from '@data/datasources/projectsData.json';
-import skillsData from '@data/datasources/skillsData.json';
-import navigationLabelsData from '@data/datasources/labels/navigationLabels.json';
-import commonLabelsData from '@data/datasources/labels/commonLabels.json';
-import workLabelsData from '@data/datasources/labels/workLabels.json';
-import projectLabelsData from '@data/datasources/labels/projectLabels.json';
-import footerLabelsData from '@data/datasources/labels/footerLabels.json';
 import { supportedLanguages, translate } from '@domain/models/Language';
 import { formatDateRange, COMPANY_LINKS } from '@/core';
+
+import { InMemoryWorkExperienceRepository, InMemoryProjectRepository, InMemoryPersonalInfoRepository, InMemorySkillRepository } from '@/data';
+import { GetWorkExperiencesUseCase, GetProjectsByTypeUseCase, GetPersonalInfoUseCase, GetSkillsUseCase  } from '@/domain';
+
+const workExperiences = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
+const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('work');
+const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
+const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
 
 export async function getStaticPaths() {
     const paths = [];
     for (const l of supportedLanguages) {
-        for (const work of workExperiencesData) {
+        for (const work of workExperiences) {
             paths.push({ params: { lang: l, id: work.id } });
         }
     }
     return paths;
 }
-
-// Now the rest of the component logic
-const paramsLang = Astro.params.lang as Language | undefined;
-const lang: Language = supportedLanguages.includes(paramsLang as Language) ? (paramsLang as Language) : 'en';
+const lang: Language = Astro.params.lang as Language;
 const workId = Astro.params.id as string;
 
-const getStringFromTranslations = (value: any, lang: Language) => {
-    if (!value) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value === 'object') return value[lang] || Object.values(value)[0] || '';
-    return '';
-};
-
-const personalInfo = personalInfoData;
-const works = workExperiencesData;
-const projects = projectsData;
-const skills = skillsData;
-
-// Use raw label objects (Translations) from datasources so domain translate can be used in components
-const navigationLabels = navigationLabelsData;
-const commonLabels = commonLabelsData;
-const workLabels = workLabelsData;
-const projectLabels = projectLabelsData;
-const footerLabels = footerLabelsData;
-
-// Combine labels needed for this page
-const labels = { 
-    ...navigationLabels,
-    ...workLabels, 
-    ...commonLabels, 
-    ...projectLabels,
-    ...footerLabels
-};
-
 // Find the current work experience
-const work = works.find((w) => w.id === workId);
-if (!work) return Astro.redirect(`/${lang}/`);
+const workExperience = workExperiences.find((w) => w.id === workId);
+if (!workExperience) return Astro.redirect(`/${lang}/`);
 
 // Get related projects
 const relatedProjects = projects.filter((project: any) =>
-    project.relatedTo?.includes(work.id)
+    project.relatedTo?.includes(workExperience.id)
 );
 
 // Helper to linkify company names with URLs from constants
@@ -78,59 +46,65 @@ const linkifyCompanies = (text: string): string => {
     let result = text;
     for (const [company, url] of Object.entries(COMPANY_LINKS)) {
         const regex = new RegExp(`\\b${company}\\b`, 'g');
-        result = result.replace(regex, `<a href="${url}" target="_blank" rel="noopener noreferrer" class="company-mention">${company}</a>`);
+        result = result.replace(regex, `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] font-semibold no-underline border-b-2 border-transparent transition-colors duration-150 hover:text-[var(--color-primary-dark)] hover:border-b-[var(--color-primary)]">${company}</a>`);
     }
     return result;
 };
+
+
+import { InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository, InMemoryWorkLabelsRepository } from '@/data';
+import { GetCommonLabelsUseCase, GetProjectLabelsUseCase, GetWorkLabelsUseCase } from '@/domain';
+
+const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
+const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
+const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsRepository()).execute();
 ---
 
-<Layout lang={lang} title={`${translate(work.position, lang)} - ${personalInfo.name}`} description={translate(work.description, lang)}>
-    <Header labels={labels} lang={lang} personalInfo={personalInfo} />
+<Layout lang={lang} title={`${translate(workExperience.position, lang)} - ${personalInfo.name}`} description={translate(workExperience.description, lang)}>
+    <Header lang={lang} personalInfo={personalInfo} />
     
-    <main class="work-detail-page">
-        <div class="container">
-            <BackLink href={`/${lang}/#work`} text={translate(labels.back, lang)} />
-
-            <section class="work-intro">
-                <div class="intro-card">
-                    <div class="intro-head">
-                        <h1 class="intro-title">{translate(work.position, lang)}</h1>
+    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
+        <div class="max-w-6xl mx-auto px-4">
+            <BackLink href={`/${lang}/#work`} text={translate(commonLabels.back, lang)} />
+            <section class="mb-12">
+                <div class="bg-[var(--color-bg-primary)]/40 border border-[var(--color-primary)] rounded-2xl p-9 shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
+                    <div class="flex flex-col gap-2 mb-4">
+                        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-[var(--color-text-primary)]">{translate(workExperience.position, lang)}</h1>
                     </div>
 
-                    <div class="intro-meta">
-                        <MetaPill variant="primary" href={work.companyUrl} target="_blank" rel="noopener noreferrer">
-                            {getStringFromTranslations(work.company, lang) || work.company}
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <MetaPill variant="primary" href={workExperience.companyUrl} target="_blank" rel="noopener noreferrer">
+                            {workExperience.company}
                         </MetaPill>
-                        <MetaPill variant="subtle">{getStringFromTranslations(work.location, lang) || work.location}</MetaPill>
-                        <MetaPill variant="subtle">
-                            {formatDateRange(work.startDate, work.endDate, lang, (labels.workCurrent))}
-                        </MetaPill>
+                        <MetaPill variant="subtle">{workExperience.location}</MetaPill>
+                        <MetaPill variant="subtle">{formatDateRange(workExperience.startDate, workExperience.endDate, lang, translate(commonLabels.current, lang))}</MetaPill>
                     </div>
 
-                    <p class="intro-description">{getStringFromTranslations(work.description, lang)}</p>
+                    <p class="text-[var(--color-text-primary)] text-base leading-relaxed">{translate(workExperience.description, lang)}</p>
                 </div>
             </section>
 
-                <Section title={labels.projectTechnologies} class="technologies-section">
-                <SkillsGrid skillIds={work.technologies} skills={skills} columns={4} compact={true} />
+            <Section title={translate(projectLabels.technologies, lang)} class="mb-8">
+                <SkillsGrid skillIds={workExperience.technologies} skills={skills.filter(skill => workExperience.technologies.includes(skill.id))} columns={4} compact={true} />
             </Section>
 
-            {work.achievements.length > 0 && (
-                <Section title={translate(labels.workAchievements, lang)} class="achievements-section">
-                    <ul class="achievements-list">
-                        {work.achievements.map((achievement) => (
-                                <li set:html={linkifyCompanies(getStringFromTranslations(achievement, lang))}></li>
+            {workExperience.achievements.length > 0 && (
+                <Section title={translate(workLabels.achievements, lang)} class="mb-8">
+                    <ul class="list-none p-0 m-0 space-y-3">
+                        {workExperience.achievements.map((achievement) => (
+                                <li class="p-4 bg-[var(--color-bg-primary)] border-l-4 border-[var(--color-primary)] rounded-md text-[var(--color-text-primary)] leading-relaxed" set:html={linkifyCompanies(translate(achievement, lang))}></li>
                             ))}
                     </ul>
                 </Section>
             )}
 
             {relatedProjects.length > 0 && (
-                <Section title={translate(labels.workProjects, lang)} class="related-projects-section">
+                <Section title={translate(workLabels.projects, lang)} class="mb-8">
                     <ProjectsGrid 
                         projects={relatedProjects}
                         lang={lang}
-                        labels={labels}
+                        commonLabels={commonLabels}
+                        projectLabels={projectLabels}
                         columns={2}
                         showTechnologies={false}
                         skills={skills}
@@ -140,181 +114,5 @@ const linkifyCompanies = (text: string): string => {
         </div>
     </main>
 
-    <Footer labels={labels} lang={lang} />
+    <Footer lang={lang} />
 </Layout>
-
-<style>
-    .work-detail-page {
-        min-height: 100vh;
-        padding: 4rem 0;
-        background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
-    }
-
-    .work-intro {
-        margin-bottom: 3rem;
-    }
-
-    .intro-card {
-        background: linear-gradient(140deg, var(--color-bg-primary) 0%, var(--color-bg-tertiary) 100%);
-        border: 1.5px solid var(--color-primary);
-        border-radius: var(--radius-xl);
-        padding: 2.25rem;
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
-    }
-
-    .intro-head {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .intro-eyebrow {
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        font-weight: 700;
-        color: var(--color-primary);
-        margin: 0;
-        font-size: 0.85rem;
-    }
-
-    .intro-title {
-        font-size: 2.6rem;
-        font-weight: 800;
-        color: var(--color-text-primary);
-        margin: 0;
-        line-height: 1.1;
-    }
-
-    .intro-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin: 0.75rem 0 1.25rem;
-    }
-
-    .intro-description {
-        font-size: 1.05rem;
-        line-height: 1.8;
-        color: var(--color-text-primary);
-        margin: 0;
-    }
-
-    /* Achievements */
-    .achievements-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .achievements-list li {
-        padding: 1rem;
-        margin-bottom: 0.75rem;
-        background: var(--color-bg-primary);
-        border-left: 4px solid var(--color-primary);
-        border-radius: var(--radius-md);
-        color: var(--color-text-primary);
-        line-height: 1.6;
-    }
-
-    .achievements-list li:last-child {
-        margin-bottom: 0;
-    }
-
-    /* Company mentions */
-    .company-mention {
-        color: var(--color-primary);
-        text-decoration: none;
-        font-weight: 600;
-        border-bottom: 2px solid transparent;
-        transition: all var(--transition-fast);
-    }
-
-    .company-mention:hover {
-        color: var(--color-primary-dark);
-        border-bottom-color: var(--color-primary);
-    }
-
-    /* Related Projects */
-    .project-header {
-        margin-bottom: 1rem;
-    }
-
-    .project-header h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin: 0;
-    }
-
-    .project-description {
-        color: var(--color-text-secondary);
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-        flex-grow: 1;
-    }
-
-    .project-tech {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .tech-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        background: var(--color-bg-secondary);
-        color: var(--color-text-primary);
-        padding: 0.4rem 0.6rem;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-        font-size: 0.85rem;
-        font-weight: 600;
-        line-height: 1;
-        transition: all var(--transition-fast);
-    }
-
-    .tech-badge:hover {
-        border-color: var(--color-primary);
-        color: var(--color-primary);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.12);
-    }
-
-    .tech-badge img {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-        display: block;
-    }
-
-    .tech-label {
-        display: inline-block;
-        white-space: nowrap;
-    }
-
-    .project-links {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .project-link {
-        flex: 1;
-        text-align: center;
-        padding: 0.75rem 1rem;
-        border-radius: var(--radius-md);
-        text-decoration: none;
-        font-weight: 600;
-        transition: all var(--transition-fast);
-        font-size: 0.9rem;
-    }
-@media (max-width: 768px) {
-        .intro-card {
-            padding: 1.5rem;
-        }
-
-        .intro-title {
-            font-size: 2rem;
-        }

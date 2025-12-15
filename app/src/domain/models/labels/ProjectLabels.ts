@@ -6,4 +6,7 @@ export interface ProjectLabels {
     viewDemo: Translations;
     viewCode: Translations;
     technologies: Translations;
+    personalProjects: Translations;
+    workProjects: Translations;
+    academicProjects: Translations;
 }

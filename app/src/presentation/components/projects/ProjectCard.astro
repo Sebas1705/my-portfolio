@@ -1,21 +1,23 @@
 ---
-import type { Language } from '@/domain';
+import type { CommonLabels, Language, Project, ProjectLabels, Skill } from '@/domain';
 import TechBadge from '../ui/TechBadge.astro';
 
 interface Props {
-    project: any;
+    project: Project;
     lang: Language;
-    labels: any;
+    commonLabels: CommonLabels;
+    projectLabels: ProjectLabels;
     showImage?: boolean;
     showTechnologies?: boolean;
     maxTech?: number;
-    skills?: any[];
+    skills?: Skill[];
 }
 
 const { 
     project, 
     lang, 
-    labels, 
+    commonLabels, 
+    projectLabels,
     showImage = false, 
     showTechnologies = true,
     maxTech = 5,
@@ -68,16 +70,16 @@ const translate = (obj: any, lang: Language) => obj[lang] || obj.en || Object.va
         
         <div class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
             <a href={`/${lang}/projects/${project.id}`} class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 hover:-translate-y-0.5 shadow-md">
-                {translate(labels.viewMore, lang)}
+                {translate(commonLabels.viewMore, lang)}
             </a>
             {project.demoUrl && (
                 <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-transparent text-slate-900 dark:text-slate-100 border border-gray-200 dark:border-slate-700 hover:border-blue-500 hover:text-blue-500 hover:-translate-y-0.5">
-                    {translate(labels.projectViewDemo, lang)}
+                    {translate(projectLabels.viewDemo, lang)}
                 </a>
             )}
             {project.repoUrl && (
                 <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-transparent text-slate-900 dark:text-slate-100 border border-gray-200 dark:border-slate-700 hover:border-blue-500 hover:text-blue-500 hover:-translate-y-0.5">
-                    {translate(labels.projectViewCode, lang)}
+                    {translate(projectLabels.viewCode, lang)}
                 </a>
             )}
         </div>
