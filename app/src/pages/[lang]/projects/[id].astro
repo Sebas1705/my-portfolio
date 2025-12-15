@@ -10,9 +10,8 @@ import { formatMonthYear } from '@/core';
 import { InMemoryProjectRepository } from '@/data';
 import { GetAllProjectsUseCase } from '@/domain';
 
-const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
-
 export async function getStaticPaths() {
+    const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
     const paths = [];
     for (const l of supportedLanguages) {
         for (const project of projects) {
@@ -28,7 +27,8 @@ import { InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository, InMemor
 import { GetPersonalInfoUseCase, GetCommonLabelsUseCase, GetProjectLabelsUseCase } from '@/domain';
 
 const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
-const project = projects.find((p) => p.id === id);
+const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
+const project = projects.find((p: any) => p.id === id);
 if (!project) return Astro.redirect(`/${lang}/`);
 
 const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();

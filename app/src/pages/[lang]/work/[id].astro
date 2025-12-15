@@ -15,12 +15,11 @@ import { formatDateRange, COMPANY_LINKS } from '@/core';
 import { InMemoryWorkExperienceRepository, InMemoryProjectRepository, InMemoryPersonalInfoRepository, InMemorySkillRepository } from '@/data';
 import { GetWorkExperiencesUseCase, GetProjectsByTypeUseCase, GetPersonalInfoUseCase, GetSkillsUseCase  } from '@/domain';
 
-const workExperiences = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
-const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('work');
 const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
 const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
 
 export async function getStaticPaths() {
+    const workExperiences = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
     const paths = [];
     for (const l of supportedLanguages) {
         for (const work of workExperiences) {
@@ -32,11 +31,14 @@ export async function getStaticPaths() {
 const lang: Language = Astro.params.lang as Language;
 const workId = Astro.params.id as string;
 
+
 // Find the current work experience
-const workExperience = workExperiences.find((w) => w.id === workId);
+const workExperiences = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
+const workExperience = workExperiences.find((w: any) => w.id === workId);
 if (!workExperience) return Astro.redirect(`/${lang}/`);
 
 // Get related projects
+const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('work');
 const relatedProjects = projects.filter((project: any) =>
     project.relatedTo?.includes(workExperience.id)
 );

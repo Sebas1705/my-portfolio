@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { InMemoryPersonalInfoRepository } from './InMemoryPersonalInfoRepository';
-import type { PersonalInfo } from '@domain/models/PersonalInfo';
 
 describe('InMemoryPersonalInfoRepository', () => {
     describe('get', () => {

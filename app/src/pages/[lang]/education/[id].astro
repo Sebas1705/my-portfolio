@@ -14,11 +14,11 @@ import { formatDateRange } from '@/core';
 import { InMemoryAcademicExperienceRepository, InMemoryProjectRepository, InMemoryPersonalInfoRepository } from '@/data';
 import { GetAcademicExperiencesUseCase, GetProjectsByTypeUseCase, GetPersonalInfoUseCase } from '@/domain';
 
-const academicExperiences = await new GetAcademicExperiencesUseCase(new InMemoryAcademicExperienceRepository()).execute();
 const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('academic');
 const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
 
 export async function getStaticPaths() {
+    const academicExperiences = await new GetAcademicExperiencesUseCase(new InMemoryAcademicExperienceRepository()).execute();
     const paths = [];
     for (const l of supportedLanguages) {
         for (const experience of academicExperiences) {
@@ -30,7 +30,8 @@ export async function getStaticPaths() {
 const lang: Language = Astro.params.lang as Language;
 const experienceId = Astro.params.id as string;
 
-const academicExperience = academicExperiences.find((e) => e.id === experienceId);
+const academicExperiences = await new GetAcademicExperiencesUseCase(new InMemoryAcademicExperienceRepository()).execute();
+const academicExperience = academicExperiences.find((e: any) => e.id === experienceId);
 if (!academicExperience) return Astro.redirect(`/${lang}/`);
 
 const relatedProjects = projects.filter((project: any) =>

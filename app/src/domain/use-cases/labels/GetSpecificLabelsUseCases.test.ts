@@ -80,7 +80,6 @@ describe('GetWorkLabelsUseCase', () => {
         expect(labels).toBeDefined();
         expect(labels.title).toBeDefined();
         expect(labels.subtitle).toBeDefined();
-        expect(labels.current).toBeDefined();
         expect(labels.projects).toBeDefined();
         expect(labels.achievements).toBeDefined();
     });

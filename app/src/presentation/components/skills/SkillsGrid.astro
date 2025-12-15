@@ -10,23 +10,13 @@ interface Props {
 }
 
 const { skillIds, skills, columns = 4, compact = false } = Astro.props;
+const cols = Math.max(1, Number(columns));
+const lgColsClass = `lg:grid-cols-${cols}`;
+const gridClass = `grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ${lgColsClass}`;
 ---
 
-<div class="grid gap-6" style={`--columns: ${columns}`}>
+<div class={gridClass}>
     {skillIds.map((skillId) => (
         <SkillCard skillId={skillId} skills={skills} compact={compact} />
     ))}
 </div>
-
-<style>
-    /* Preserve dynamic columns behaviour via CSS variable */
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
-    }
-
-    @media (min-width: 640px) {
-        .grid {
-            grid-template-columns: repeat(var(--columns, 4), 1fr);
-        }
-    }
-</style>

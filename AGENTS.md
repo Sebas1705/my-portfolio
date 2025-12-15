@@ -12,19 +12,19 @@ El proyecto está estructurado en capas concéntricas siguiendo los principios d
 
 ```
 src/
-├── domain/              # Capa de Dominio (Entidades y Reglas de Negocio)
-│   ├── entities/       # Entidades del dominio
-│   └── repositories/   # Interfaces de repositorios
-├── application/         # Capa de Aplicación (Casos de Uso)
-│   └── use-cases/      # Implementación de casos de uso
-├── infrastructure/      # Capa de Infraestructura (Implementaciones)
-│   ├── data/           # Datos de ejemplo
-│   ├── repositories/   # Implementaciones de repositorios
-│   └── i18n/           # Sistema de internacionalización
-└── presentation/        # Capa de Presentación (UI/UX)
-        ├── components/     # Componentes Astro
-        ├── layouts/        # Layouts de página
-        └── styles/         # Estilos globales
+├── core/                # Utilidades y constantes transversales (date, constants, helpers)
+├── domain/              # Capa de Dominio (Modelos, contratos y casos de uso)
+│   ├── i-repositories/  # Interfaces de repositorios (contratos)
+│   ├── models/          # Entidades y tipos del dominio
+│   └── use-cases/       # Casos de uso (GetAllProjectsUseCase, etc.)
+├── data/                # Implementaciones de infraestructura y datos
+│   ├── datasources/     # Archivos JSON y fuentes de datos
+│   └── repositories/    # Implementaciones concretas (InMemory...)
+└── presentation/        # Capa de Presentación (UI / Astro)
+    ├── components/   # Componentes .astro
+    ├── layouts/      # Layouts de página
+    ├── pages/        # Rutas y páginas (`src/pages/[lang]/*`)
+    └── styles/       # CSS global (Tailwind / variables)
 ```
 
 ### Principios de Dependencias
@@ -80,11 +80,11 @@ Usuario → Presentación → Casos de Uso → Repositorios → Datos
 - ❌ No debe importar de otras capas
 - ❌ Sin lógica de infraestructura o presentación
 
-### Application Layer (`src/application/`)
+### Application / Use Cases (`src/domain/use-cases/`)
 
-**Propósito**: Implementa los casos de uso del sistema.
+**Propósito**: Implementa los casos de uso de la aplicación. En este proyecto los use-cases viven bajo `src/domain/use-cases` (no hay una capa `src/application` separada).
 
-**Casos de Uso**:
+**Casos de Uso (ejemplos)**:
 - `GetAllProjectsUseCase`: Obtener todos los proyectos
 - `GetProjectsByTypeUseCase`: Filtrar proyectos por tipo
 - `GetWorkExperiencesUseCase`: Obtener experiencias laborales
@@ -99,17 +99,17 @@ Usuario → Presentación → Casos de Uso → Repositorios → Datos
 - ❌ No conoce detalles de implementación
 - ❌ No depende de frameworks
 
-### Infrastructure Layer (`src/infrastructure/`)
+### Infrastructure / Data Layer (`src/data/`)
 
-**Propósito**: Implementaciones concretas y servicios externos.
+**Propósito**: Implementaciones concretas, datos de ejemplo y adaptadores.
 
 **Componentes**:
-- `repositories/`: Implementaciones de repositorios (InMemory)
-- `data/`: Fuentes de datos (archivos JSON, APIs, etc.)
-- `i18n/`: Sistema de traducciones
+- `datasources/`: Archivos JSON y fuentes de datos (ej. `projectsData.json`, `labels/`)
+- `repositories/`: Implementaciones concretas de repositorios (InMemory...)
+- `repositories/.../labels`: Repositorios de etiquetas y traducciones
 
 **Reglas**:
-- ✅ Implementa las interfaces del Domain
+- ✅ Implementa las interfaces del Domain (`src/domain/i-repositories`)
 - ✅ Maneja persistencia y servicios externos
 - ✅ Puede usar librerías de terceros
 - ❌ No debe tener lógica de negocio compleja
@@ -194,8 +194,7 @@ src/pages/
 ```typescript
 @/              → src/
 @domain/        → src/domain/
-@application/   → src/application/
-@infrastructure → src/infrastructure/
+@data/          → src/data/
 @presentation/  → src/presentation/
 ```
 
@@ -208,10 +207,10 @@ import { defineConfig } from 'astro/config';
 import type { Language } from '@domain/entities/Language';
 
 // 3. Casos de uso
-import { GetProjectsUseCase } from '@application/use-cases';
+import { GetProjectsUseCase } from '@domain/use-cases';
 
 // 4. Repositorios
-import { InMemoryProjectRepository } from '@infrastructure/repositories';
+import { InMemoryProjectRepository } from '@data/repositories';
 
 // 5. Componentes
 import Header from '@presentation/components/Header.astro';

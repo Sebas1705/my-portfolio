@@ -15,7 +15,6 @@ describe('InMemoryWorkLabelsRepository', () => {
         expect(labels).toBeDefined();
         expect(labels.title).toBeDefined();
         expect(labels.subtitle).toBeDefined();
-        expect(labels.current).toBeDefined();
         expect(labels.projects).toBeDefined();
         expect(labels.achievements).toBeDefined();
     });
@@ -25,8 +24,6 @@ describe('InMemoryWorkLabelsRepository', () => {
         
         expect(labels.title.es).toBe('Experiencia Laboral');
         expect(labels.title.en).toBe('Work Experience');
-        expect(labels.current.es).toBe('Actualidad');
-        expect(labels.current.en).toBe('Present');
     });
 
     it('should support multiple languages', async () => {

@@ -1,5 +1,5 @@
 ---
-import type { Language } from '@domain/entities/Language';
+import type { Language } from '@/domain';
 
 interface Props {
     lang?: Language;
@@ -13,7 +13,7 @@ const {
     description = 'Portfolio profesional de Sebastián - Desarrollador Full Stack especializado en arquitecturas limpias y soluciones escalables.'
 } = Astro.props;
 
-import '../styles/global.css';
+import '@/styles/global.css';
 ---
 
 <!DOCTYPE html>
@@ -77,10 +77,5 @@ import '../styles/global.css';
     </head>
     <body>
         <slot />
-        
-        <script>
-            import { initI18n } from '@presentation/scripts/i18n-client';
-            initI18n();
-        </script>
     </body>
 </html>

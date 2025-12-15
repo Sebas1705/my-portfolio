@@ -1,5 +1,3 @@
-import type { Translations } from "./Language";
-
 // Domain Entity: Skill (Technology Mastery)
 export interface Skill {
     id: string;

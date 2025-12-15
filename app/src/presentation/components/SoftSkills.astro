@@ -13,13 +13,13 @@ import { InMemorySoftSkillsLabelsRepository, InMemorySoftSkillRepository } from 
 import { GetSoftSkillsLabelsUseCase, GetSoftSkillsUseCase } from '@/domain';
 
 const softSkillsLabels = await new GetSoftSkillsLabelsUseCase(new InMemorySoftSkillsLabelsRepository()).execute();
-const softSkills = await new GetSoftSkillsUseCase(new InMemorySoftSkillRepository()).execute
+const softSkills = await new GetSoftSkillsUseCase(new InMemorySoftSkillRepository()).execute();
 ---
 
 <Section id="soft-skills" class="bg-white dark:bg-slate-900 py-20" title={translate(softSkillsLabels.title, lang)} subtitle={translate(softSkillsLabels.subtitle, lang)}>
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-6xl mx-auto px-4">
-        {softSkills.map((skill, i) => (
-            <div class={`soft-skill-card fade-in bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col gap-4`} title={skill.name}>
+        {softSkills.map((skill) => (
+            <div class={`soft-skill-card fade-in bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col gap-4`} title={translate(skill.name, lang)}>
                 <div class="text-3xl leading-none">{skill.icon}</div>
                 <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">{skill.name}</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{skill.description}</p>
