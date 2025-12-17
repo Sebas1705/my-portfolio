@@ -1,23 +1,42 @@
 ---
+import CircuitPatternBackground from '@/presentation/backgrounds/CircuitPatternBackground.astro';
+import IsometricBackground from '@/presentation/backgrounds/IsometricBackground.astro';
+
 interface Props {
     id?: string;
     title?: string;
     subtitle?: string;
     class?: string;
+    /** show a dark gradient fade at the top of the section */
+    topFade?: boolean;
+    /** show a dark gradient fade at the bottom of the section */
+    bottomFade?: boolean;
+    background?: 'isometric' | 'circuit' | 'none';
 }
 
-const { id, title, subtitle, class: className } = Astro.props;
+const { id, title, subtitle, class: className, topFade = false, bottomFade = false, background = 'none' } = Astro.props;
 ---
 
-<section id={id} class={`py-12 md:py-16 ${className ?? ''}`}>
+<section id={id} class={`relative w-full py-16 md:py-24 ${className ?? ''}`}>
+    {topFade && (
+        <div class="pointer-events-none absolute top-0 left-0 right-0 h-16 z-0 bg-linear-to-t from-20% from-transparent to-95% to-bg-surface-v/80"></div>
+    )}
+
+    {background === 'isometric' && <IsometricBackground />}
+    {background === 'circuit' && <CircuitPatternBackground />}
+
     {(title || subtitle) && (
-        <header class="mb-6">
-            {title && <h2 class="text-center mb-12 text-2xl md:text-3xl font-bold">{title}</h2>}
-            {subtitle && <p class="text-center text-lg text-slate-500 mt-2">{subtitle}</p>}
+        <header class="mb-8 relative z-10">
+            {title && <h2 class="text-center mb-8 text-2xl md:text-3xl lg:text-4xl font-bold">{title}</h2>}
+            {subtitle && <p class="text-center text-lg text-slate-500 mt-4">{subtitle}</p>}
         </header>
     )}
-    <div class="mt-4">
+
+    <div class="w-full flex justify-center gap-8">
         <slot />
     </div>
+    {bottomFade && (
+        <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-16 z-0 bg-linear-to-b from-20% from-transparent to-95% to-bg-surface-v/80"></div>
+    )}
 </section>
 

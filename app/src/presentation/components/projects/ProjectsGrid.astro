@@ -28,10 +28,10 @@ const {
 
 const cols = Math.max(1, Number(columns));
 const mdColsClass = `md:grid-cols-${cols}`;
-const gridClass = `grid gap-8 grid-cols-1 sm:grid-cols-2 ${mdColsClass}`;
+const gridClass = `w-full grid gap-8 grid-cols-1 sm:grid-cols-2 ${mdColsClass}`;
 ---
-
-<div class={gridClass}>
+<div class="w-full max-w-7xl mx-auto px-6">
+    <div class={gridClass}>
     {projects.map((project) => (
         <ProjectCard 
             project={project}
@@ -45,4 +45,5 @@ const gridClass = `grid gap-8 grid-cols-1 sm:grid-cols-2 ${mdColsClass}`;
         />
     ))}
 
+    </div>
 </div>

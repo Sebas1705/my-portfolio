@@ -6,7 +6,7 @@ test.describe('Theme Toggle', () => {
     });
 
     test('should toggle between light and dark theme', async ({ page }) => {
-        const themeToggle = page.locator('button.theme-toggle');
+        const themeToggle = page.locator('label.theme-toggle-label').first();
         
         // Obtener tema inicial
         const initialTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
@@ -23,7 +23,7 @@ test.describe('Theme Toggle', () => {
     });
 
     test('should persist theme in localStorage', async ({ page }) => {
-        const themeToggle = page.locator('button.theme-toggle');
+        const themeToggle = page.locator('label.theme-toggle-label').first();
         
         // Cambiar tema
         await themeToggle.click();
@@ -43,18 +43,18 @@ test.describe('Theme Toggle', () => {
 
 test.describe('Language Selector', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
+           await page.goto('/en/');
     });
 
     test('should change language', async ({ page }) => {
-        const langToggle = page.locator('#language-toggle');
+        const langToggle = page.locator('.language-button').first();
         
         // Hacer clic para abrir dropdown
         await langToggle.click();
         await page.waitForTimeout(100);
         
-        // Seleccionar inglés
-        await page.locator('button[data-lang="en"]').click();
+           // Seleccionar inglés dentro del primer selector
+           await page.locator('.language-selector').first().locator('button[data-lang="en"]').click();
         await page.waitForTimeout(100);
         
         // Verificar cambio en localStorage
@@ -63,7 +63,7 @@ test.describe('Language Selector', () => {
     });
 
     test('should persist language in localStorage', async ({ page }) => {
-        const langToggle = page.locator('#language-toggle');
+        const langToggle = page.locator('.language-button').first();
         
         // Cambiar idioma
         await langToggle.click();

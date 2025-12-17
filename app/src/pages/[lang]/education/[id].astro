@@ -1,7 +1,7 @@
 ---
 import Layout from '@/presentation/layouts/Layout.astro';
-import Header from '@/presentation/components/Header.astro';
-import Footer from '@/presentation/components/Footer.astro';
+import Header from '@/presentation/components/sections/Header.astro';
+import Footer from '@/presentation/components/sections/Footer.astro';
 import BackLink from '@/presentation/components/ui/BackLink.astro';
 import MetaPill from '@/presentation/components/ui/MetaPill.astro';
 import Section from '@/presentation/components/common/Section.astro';
@@ -49,47 +49,45 @@ const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabel
     <Layout lang={lang} title={`${translate(academicExperience.degree, lang)} - ${personalInfo.name}`} description={translate(academicExperience.description, lang)}>
     <Header lang={lang} personalInfo={personalInfo} />
     
-    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <BackLink href={`/${lang}/#education`} text={translate(commonLabels.back, lang)} />
-                <h1 class="text-3xl md:text-4xl font-extrabold text-[var(--color-text-primary)] mt-4">{translate(academicExperience.degree, lang)}</h1>
-                <div class="flex flex-col sm:flex-row justify-center gap-3 mt-4">
-                    <MetaPill variant="primary">{translate(academicExperience.institution, lang)}</MetaPill>
-                    <MetaPill variant="subtle">{translate(academicExperience.field, lang)}</MetaPill>
-                    <MetaPill variant="subtle">{translate(academicExperience.location, lang)}</MetaPill>
-                    <MetaPill variant="subtle">{formatDateRange(academicExperience.startDate, academicExperience.endDate, lang, translate(commonLabels.current, lang))}</MetaPill>
-                </div>
+    <main class="min-h-screen py-16 bg-linear-to-br from-primary-v to-bg-secondary-v">
+        <div class="text-center mb-12">
+            <BackLink href={`/${lang}/#education`} text={translate(commonLabels.back, lang)} />
+            <h1 class="text-3xl md:text-4xl font-extrabold text-[var(--color-text-primary)] mt-4">{translate(academicExperience.degree, lang)}</h1>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 mt-4">
+                <MetaPill variant="primary">{translate(academicExperience.institution, lang)}</MetaPill>
+                <MetaPill variant="subtle">{translate(academicExperience.field, lang)}</MetaPill>
+                <MetaPill variant="subtle">{translate(academicExperience.location, lang)}</MetaPill>
+                <MetaPill variant="subtle">{formatDateRange(academicExperience.startDate, academicExperience.endDate, lang, translate(commonLabels.current, lang))}</MetaPill>
             </div>
-
-            <Section title={translate(educationLabels.title, lang)}>
-                <p class="text-[var(--color-text-secondary)] leading-relaxed">{translate(academicExperience.description, lang)}</p>
-            </Section>
-
-            {academicExperience.achievements.length > 0 && (
-                <Section title={translate(educationLabels.achievements, lang)}>
-                    <ul class="list-none p-0 m-0 space-y-3">
-                        {academicExperience.achievements.map((achievement: any) => (
-                            <li class="p-4 bg-[var(--color-bg-primary)] border-l-4 border-[var(--color-primary)] rounded-md text-[var(--color-text-primary)] leading-relaxed">{typeof achievement === 'string' ? achievement : achievement[lang] || achievement}</li>
-                        ))}
-                    </ul>
-                </Section>
-            )}
-
-            {relatedProjects.length > 0 && (
-                <Section title={translate(educationLabels.projects, lang)}>
-                    <ProjectsGrid 
-                        projects={relatedProjects}
-                        lang={lang}
-                        commonLabels={commonLabels}
-                        projectLabels={projectLabels}
-                        showImages={false}
-                        showTechnologies={true}
-                        maxTech={5}
-                    />
-                </Section>
-            )}
         </div>
+
+        <Section title={translate(educationLabels.title, lang)}>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed">{translate(academicExperience.description, lang)}</p>
+        </Section>
+
+        {academicExperience.achievements.length > 0 && (
+            <Section title={translate(educationLabels.achievements, lang)}>
+                <ul class="list-none p-0 m-0 space-y-3">
+                    {academicExperience.achievements.map((achievement: any) => (
+                        <li class="p-4 bg-[var(--color-bg-primary)] border-l-4 border-[var(--color-primary)] rounded-md text-[var(--color-text-primary)] leading-relaxed">{typeof achievement === 'string' ? achievement : achievement[lang] || achievement}</li>
+                    ))}
+                </ul>
+            </Section>
+        )}
+
+        {relatedProjects.length > 0 && (
+            <Section title={translate(educationLabels.projects, lang)}>
+                <ProjectsGrid 
+                    projects={relatedProjects}
+                    lang={lang}
+                    commonLabels={commonLabels}
+                    projectLabels={projectLabels}
+                    showImages={false}
+                    showTechnologies={true}
+                    maxTech={5}
+                />
+            </Section>
+        )}
     </main>
 
     <Footer lang={lang} />

@@ -34,8 +34,8 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src'),
             '@domain': path.resolve(__dirname, './src/domain'),
-            '@application': path.resolve(__dirname, './src/application'),
-            '@infrastructure': path.resolve(__dirname, './src/infrastructure'),
+            '@data': path.resolve(__dirname, './src/data'),
+            '@core': path.resolve(__dirname, './src/core'),
             '@presentation': path.resolve(__dirname, './src/presentation')
         }
     }

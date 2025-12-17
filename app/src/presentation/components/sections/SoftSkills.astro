@@ -1,7 +1,7 @@
 ---
 import type { Language } from '@/domain';
 import { translate } from '@/domain';
-import Section from './common/Section.astro';
+import Section from '../common/Section.astro';
 
 interface Props {
     lang: Language;
@@ -16,7 +16,7 @@ const softSkillsLabels = await new GetSoftSkillsLabelsUseCase(new InMemorySoftSk
 const softSkills = await new GetSoftSkillsUseCase(new InMemorySoftSkillRepository()).execute();
 ---
 
-<Section id="soft-skills" class="bg-white dark:bg-slate-900 py-20" title={translate(softSkillsLabels.title, lang)} subtitle={translate(softSkillsLabels.subtitle, lang)}>
+<Section id="soft-skills" class="bg-white dark:bg-slate-900" title={translate(softSkillsLabels.title, lang)} subtitle={translate(softSkillsLabels.subtitle, lang)}>
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-6xl mx-auto px-4">
         {softSkills.map((skill) => (
             <div class={`soft-skill-card fade-in bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col gap-4`} title={translate(skill.name, lang)}>

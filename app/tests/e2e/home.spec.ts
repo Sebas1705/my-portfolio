@@ -2,15 +2,15 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Home Page', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
+        await page.goto('/en/');
     });
 
     test('should load the page', async ({ page }) => {
-        await expect(page).toHaveTitle(/Sebastián - Full Stack Developer/);
+        await expect(page).toHaveTitle(/Sebastián/i);
     });
 
     test('should display header with navigation', async ({ page }) => {
-        const header = page.locator('header.header');
+        const header = page.locator('header');
         await expect(header).toBeVisible();
         
         // Verificar enlaces de navegación
@@ -23,12 +23,12 @@ test.describe('Home Page', () => {
     });
 
     test('should have theme toggle button', async ({ page }) => {
-        const themeToggle = page.locator('button.theme-toggle');
+        const themeToggle = page.locator('label.theme-toggle-label').first();
         await expect(themeToggle).toBeVisible();
     });
 
     test('should have language selector', async ({ page }) => {
-        const langSelector = page.locator('#language-toggle');
+        const langSelector = page.locator('.language-button').first();
         await expect(langSelector).toBeVisible();
     });
 

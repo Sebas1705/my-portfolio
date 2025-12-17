@@ -1,8 +1,8 @@
 ---
 import type { Language, CommonLabels } from '@domain/models';
 import { translate } from '@/domain';
-import Section from './common/Section.astro';
-import Button from './common/ui/Button.astro';
+import Section from '../common/Section.astro';
+import Button from '../common/ui/Button.astro';
 
 interface Props {
     lang: Language;
@@ -14,13 +14,15 @@ const { lang, featured = 12, commonLabels } = Astro.props;
 
 import { InMemorySkillsLabelsRepository, InMemorySkillRepository } from '@/data';
 import { GetSkillsLabelsUseCase, GetSkillsUseCase } from '@/domain';
+import CircuitPatternBackground from '@/presentation/backgrounds/CircuitPatternBackground.astro';
 
 const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRepository()).execute();
 const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
 ---
 
-<Section id="skills" class="skills" title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
-    <div class="max-w-4xl mx-auto px-4">
+<Section id="skills" class="skills" topFade bottomFade background='circuit' title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
+    
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
 
         <!-- Featured Skills Grid -->
         <div class="mb-8">
@@ -54,7 +56,7 @@ const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute
 
         <!-- Link to Full Skills Page -->
         <div class="text-center">
-            <Button href="/technologies" variant="secondary" size="md">
+            <Button href={"/" + lang + "/technologies"} variant="secondary" size="md">
                 {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
             </Button>
         </div>

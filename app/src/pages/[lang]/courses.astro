@@ -1,7 +1,7 @@
 ---
-import Layout from '../../presentation/layouts/Layout.astro';
-import Header from '../../presentation/components/Header.astro';
-import Footer from '../../presentation/components/Footer.astro';
+import Layout from '@/presentation/layouts/Layout.astro';
+import Header from '@/presentation/components/sections/Header.astro';
+import Footer from '@/presentation/components/sections/Footer.astro';
 
 import { formatMonthYear } from '@/core';
 import type { Language } from '@/domain';
@@ -26,79 +26,77 @@ const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRe
     <Header lang={lang} personalInfo={personalInfo} />
     
     <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="mb-8 text-center">
-                <a href={`/${lang}/`} class="text-[var(--color-primary)] hover:underline">← {translate(commonLabels.back, lang)}</a>
-                <h1 class="text-3xl font-bold mt-4">{translate(coursesLabels.pageTitle, lang)}</h1>
-                <p class="text-[var(--color-text-secondary)] mt-2">{translate(coursesLabels.subtitle, lang)}</p>
-            </div>
+        <div class="mb-8 text-center">
+            <a href={`/${lang}/`} class="text-primary hover:underline">← {translate(commonLabels.back, lang)}</a>
+            <h1 class="text-3xl font-bold mt-4">{translate(coursesLabels.pageTitle, lang)}</h1>
+            <p class="text-[var(--color-text-secondary)] mt-2">{translate(coursesLabels.subtitle, lang)}</p>
+        </div>
 
-            <div class="flex flex-col gap-6">
-                {courses
-                    .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
-                    .map((course) => (
-                        <article class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-1">
-                            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
-                                <div>
-                                    <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-1">{translate(course.title, lang)}</h3>
-                                    <p class="text-sm text-[var(--color-text-secondary)] font-medium">{translate(course.institution, lang)}</p>
-                                </div>
-                                <span class="text-[var(--color-primary)] font-semibold whitespace-nowrap text-sm">{formatMonthYear(new Date(course.completionDate), lang)}</span>
+        <div class="flex flex-col gap-6 w-full">
+            {courses
+                .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
+                .map((course) => (
+                    <article class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-1">{translate(course.title, lang)}</h3>
+                                <p class="text-sm text-[var(--color-text-secondary)] font-medium">{translate(course.institution, lang)}</p>
                             </div>
+                            <span class="text-[var(--color-primary)] font-semibold whitespace-nowrap text-sm">{formatMonthYear(new Date(course.completionDate), lang)}</span>
+                        </div>
 
-                            <p class="text-[var(--color-text-secondary)] my-4 leading-relaxed">{translate(course.description, lang)}</p>
-                            {course.skills && course.skills.length > 0 && (
-                                <div class="flex items-center gap-4 my-4 flex-wrap">
-                                    <span class="font-semibold">{translate(coursesLabels.skillsLabel, lang)}</span>
-                                    <div class="flex flex-wrap gap-2">
-                                        {course.skills.map((skillId) => {
-                                            const skill = skills.find((s) => s.id === skillId);
-                                            return (
-                                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] shadow-sm" title={skill?.name || skillId}>
-                                                    {skill ? (
-                                                        <img
-                                                            src={skill.iconUrl}
-                                                            alt={skill.name}
-                                                            loading="lazy"
-                                                            class="w-7 h-7 object-contain"
-                                                            width="28"
-                                                            height="28"
-                                                        />
-                                                    ) : (
-                                                        <span class="font-semibold text-[var(--color-primary)] text-sm">{skillId}</span>
-                                                    )}
-                                                </span>
-                                            );
-                                        })}
-                                    </div>
+                        <p class="text-[var(--color-text-secondary)] my-4 leading-relaxed">{translate(course.description, lang)}</p>
+                        {course.skills && course.skills.length > 0 && (
+                            <div class="flex items-center gap-4 my-4 flex-wrap">
+                                <span class="font-semibold">{translate(coursesLabels.skillsLabel, lang)}</span>
+                                <div class="flex flex-wrap gap-2">
+                                    {course.skills.map((skillId) => {
+                                        const skill = skills.find((s) => s.id === skillId);
+                                        return (
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] shadow-sm" title={skill?.name || skillId}>
+                                                {skill ? (
+                                                    <img
+                                                        src={skill.iconUrl}
+                                                        alt={skill.name}
+                                                        loading="lazy"
+                                                        class="w-7 h-7 object-contain"
+                                                        width="28"
+                                                        height="28"
+                                                    />
+                                                ) : (
+                                                    <span class="font-semibold text-[var(--color-primary)] text-sm">{skillId}</span>
+                                                )}
+                                            </span>
+                                        );
+                                    })}
                                 </div>
+                            </div>
+                        )}
+
+                        <div class="flex flex-col md:flex-row gap-4 mt-4">
+                                    {course.url && (
+                                <a
+                                    href={course.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn-primary inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all hover:-translate-y-0.5"
+                                >
+                                        {translate(coursesLabels.viewCourse, lang)}
+                                </a>
                             )}
-
-                            <div class="flex flex-col md:flex-row gap-4 mt-4">
-                                        {course.url && (
-                                    <a
-                                        href={course.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] hover:-translate-y-0.5"
-                                    >
-                                            {translate(coursesLabels.viewCourse, lang)}
-                                    </a>
-                                )}
-                                {course.certificateUrl && (
-                                    <a
-                                        href={course.certificateUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                                    >
-                                            {translate(coursesLabels.certificate, lang)}
-                                    </a>
-                                )}
-                            </div>
-                        </article>
-                    ))}
-            </div>
+                            {course.certificateUrl && (
+                                <a
+                                    href={course.certificateUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn-outline inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                                >
+                                        {translate(coursesLabels.certificate, lang)}
+                                </a>
+                            )}
+                        </div>
+                    </article>
+                ))}
         </div>
     </main>
 

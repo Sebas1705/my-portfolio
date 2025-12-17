@@ -1,7 +1,7 @@
 ---
-import Layout from '../../../presentation/layouts/Layout.astro';
-import Header from '../../../presentation/components/Header.astro';
-import Footer from '../../../presentation/components/Footer.astro';
+import Layout from '@/presentation/layouts/Layout.astro';
+import Header from '@/presentation/components/sections/Header.astro';
+import Footer from '@/presentation/components/sections/Footer.astro';
 
 import type { Language, Translations } from '@/domain';
 import { supportedLanguages, translate } from '@/domain';
@@ -78,12 +78,12 @@ const typeLabels: Record<string, Translations> = {
 
                     <div class="flex flex-col sm:flex-row gap-4 mt-6 pt-6 border-t border-[var(--color-border)]">
                         {project.demoUrl && (
-                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-3 rounded-md font-semibold bg-[var(--color-primary)] text-white no-underline transition-transform hover:-translate-y-0.5">
+                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-transform hover:-translate-y-0.5">
                                 {translate(projectLabels.viewDemo, lang)}
                             </a>
                         )}
                         {project.repoUrl && (
-                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-3 rounded-md font-semibold bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border border-[var(--color-border)] no-underline hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
+                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
                                 {translate(projectLabels.viewCode, lang)}
                             </a>
                         )}

@@ -1,9 +1,9 @@
 ---
 import { supportedLanguages, translate } from '@/domain';
 import type { Language } from '@domain/models/Language';
-import Layout from '../../presentation/layouts/Layout.astro';
-import Header from '../../presentation/components/Header.astro';
-import Footer from '../../presentation/components/Footer.astro';
+import Layout from '@/presentation/layouts/Layout.astro';
+import Header from '@/presentation/components/sections/Header.astro';
+import Footer from '@/presentation/components/sections/Footer.astro';
 
 export async function getStaticPaths() {
     return supportedLanguages.map((lang) => ({ params: { lang } }));
@@ -45,64 +45,62 @@ const categoryLabels: Record<string, string> = {
     <Header lang={lang} personalInfo={personalInfo} />
     
     <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="mb-8 text-center">
-                <a href={`/${lang}/`} class="text-[var(--color-primary)] hover:underline">← {translate(commonLabels.back, lang)}</a>
-                <h1 class="text-3xl font-bold mt-4">{translate(skillsLabels.title, lang)}</h1>
-                <p class="text-[var(--color-text-secondary)] mt-2">{translate(skillsLabels.subtitle, lang)}</p>
-            </div>
+        <div class="mb-8 text-center">
+            <a href={`/${lang}/`} class="text-primary hover:underline">← {translate(commonLabels.back, lang)}</a>
+            <h1 class="text-3xl font-bold mt-4">{translate(skillsLabels.title, lang)}</h1>
+            <p class="text-[var(--color-text-secondary)] mt-2">{translate(skillsLabels.subtitle, lang)}</p>
+        </div>
 
-            <div class="bg-[var(--color-bg-tertiary)] border-2 border-[var(--color-primary)] rounded-lg p-8 mb-12 text-center">
-                <h3 class="text-xl font-semibold text-[var(--color-primary)] mb-6">{translate(skillsLabels.title, lang)}</h3>
-                <div class="flex flex-wrap justify-center gap-8 items-center">
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★</span>
-                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBasic, lang)}</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★</span>
-                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBeginner, lang)}</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★</span>
-                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierIntermediate, lang)}</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★</span>
-                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierAdvanced, lang)}</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★★</span>
-                        <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierExpert, lang)}</span>
-                    </div>
+        <div class="bg-[var(--color-bg-tertiary)] border-2 border-[var(--color-primary)] rounded-lg p-8 mb-12 text-center w-full">
+            <h3 class="text-xl font-semibold text-[var(--color-primary)] mb-6">{translate(skillsLabels.title, lang)}</h3>
+            <div class="flex flex-wrap justify-center gap-8 items-center">
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-[var(--color-primary)] text-lg tracking-wider">★</span>
+                    <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBasic, lang)}</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-[var(--color-primary)] text-lg tracking-wider">★★</span>
+                    <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierBeginner, lang)}</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★</span>
+                    <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierIntermediate, lang)}</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★</span>
+                    <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierAdvanced, lang)}</span>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                    <span class="text-[var(--color-primary)] text-lg tracking-wider">★★★★★</span>
+                    <span class="text-sm font-medium text-[var(--color-text-secondary)]">{translate(skillsLabels.tierExpert, lang)}</span>
                 </div>
             </div>
-
-            {Object.entries(groupedSkills).map(([category, categorySkills]) => (
-                <section class="mb-16">
-                    <h2 class="text-2xl font-semibold text-[var(--color-primary)] mb-8 pb-4 border-b-2 border-[var(--color-border)]">{categoryLabels[category]}</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full">
-                        {categorySkills
-                            .sort((a, b) => b.level - a.level)
-                            .map((skill) => (
-                                <div class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 text-center transition-all duration-200 flex flex-col items-center justify-center hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-0.5">
-                                    {skill.iconUrl && (<div class="w-20 h-20 mb-4 grid place-items-center bg-[var(--color-bg-primary)] rounded-full border border-[var(--color-border)]">
-                                        <img src={skill.iconUrl} alt={skill.name} width="64" height="64" loading="lazy" class="w-16 h-16 object-contain" />
-                                    </div>
-                                    )}
-                                    <h3 class="overflow-hidden line-clamp-3">{skill.name}</h3>
-                                    
-                                    <div class="mt-2 mb-4 text-[var(--color-primary)] font-extrabold">
-                                        <span class="tracking-wide" title={`${skill.level}/5`}>
-                                            {'★'.repeat(skill.level)}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))}
-                    </div>
-                </section>
-            ))}
         </div>
+
+        {Object.entries(groupedSkills).map(([category, categorySkills]) => (
+            <section class="mb-16 w-full">
+                <h2 class="text-2xl font-semibold text-[var(--color-primary)] mb-8 pb-4 border-b-2 border-[var(--color-border)]">{categoryLabels[category]}</h2>
+                <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                    {categorySkills
+                        .sort((a, b) => b.level - a.level)
+                        .map((skill) => (
+                            <div class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 text-center transition-all duration-200 flex flex-col items-center justify-center hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-0.5">
+                                {skill.iconUrl && (<div class="w-20 h-20 mb-4 grid place-items-center bg-[var(--color-bg-primary)] rounded-full border border-[var(--color-border)]">
+                                    <img src={skill.iconUrl} alt={skill.name} width="64" height="64" loading="lazy" class="w-16 h-16 object-contain" />
+                                </div>
+                                )}
+                                <h3 class="overflow-hidden line-clamp-3">{skill.name}</h3>
+                                
+                                <div class="mt-2 mb-4 text-[var(--color-primary)] font-extrabold">
+                                    <span class="tracking-wide" title={`${skill.level}/5`}>
+                                        {'★'.repeat(skill.level)}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+            </section>
+        ))}
     </main>
 
     <Footer lang={lang} />

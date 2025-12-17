@@ -1,9 +1,8 @@
 ---
 import Layout from '@/presentation/layouts/Layout.astro';
-import Header from '@/presentation/components/Header.astro';
+import Header from '@/presentation/components/sections/Header.astro';
 import BackLink from '@/presentation/components/ui/BackLink.astro';
 import PageHeader from '@/presentation/components/ui/PageHeader.astro';
-
 import type { Language, Translations } from '@/domain';
 import { supportedLanguages, translate } from '@/domain';
 
@@ -40,55 +39,53 @@ const typeLabels: Record<string, Translations> = {
     <Header lang={lang} personalInfo={personalInfo} />
     
     <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-6xl mx-auto px-4">
-            <BackLink href={`/${lang}/#projects`} text={translate(commonLabels.back, lang)} />
-            <PageHeader 
-                title={translate(projectLabels.title, lang)}
-                subtitle={translate(projectLabels.subtitle, lang)}
-            />
+        <BackLink href={`/${lang}/#projects`} text={translate(commonLabels.back, lang)} />
+        <PageHeader 
+            title={translate(projectLabels.title, lang)}
+            subtitle={translate(projectLabels.subtitle, lang)}
+        />
 
-            {Object.entries(projectsByType).map(([type, projects]) => (
-                projects.length > 0 && (
-                    <section class="mb-16">
-                        <h2 class="text-2xl font-semibold text-[var(--color-primary)] mb-8 pb-4 border-b-2 border-[var(--color-border)]">{translate(typeLabels[type], lang)}</h2>
-                        <div class="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                            {projects.map((project: any) => (
-                                <article class="group bg-[var(--color-bg-tertiary)] overflow-hidden rounded-lg shadow-sm">
-                                    {project.imageUrl && project.imageUrl !== '' && (
-                                        <div class="w-full h-52 overflow-hidden bg-[var(--color-bg-secondary)]">
-                                            <img src={typeof project.imageUrl === 'string' ? project.imageUrl : (project.imageUrl?.[lang] || '')} alt={translate(project.title, lang)} loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        {Object.entries(projectsByType).map(([type, projects]) => (
+            projects.length > 0 && (
+                <section class="mb-16 w-full">
+                    <h2 class="text-2xl font-semibold text-[var(--color-primary)] mb-8 pb-4 border-b-2 border-[var(--color-border)]">{translate(typeLabels[type], lang)}</h2>
+                    <div class="w-full grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {projects.map((project: any) => (
+                            <article class="card group overflow-hidden flex flex-col">
+                                {project.imageUrl && project.imageUrl !== '' && (
+                                    <div class="w-full h-52 overflow-hidden bg-[var(--color-bg-secondary)]">
+                                        <img src={typeof project.imageUrl === 'string' ? project.imageUrl : (project.imageUrl?.[lang] || '')} alt={translate(project.title, lang)} loading="lazy" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                                    </div>
+                                )}
+                                
+                                <div class="flex flex-col flex-grow">
+                                    <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-3">{translate(project.title, lang)}</h3>
+                                    <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4 flex-grow">{translate(project.description, lang)}</p>
+                                    
+                                    {project.technologies && project.technologies.length > 0 && (
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            {project.technologies.slice(0, 5).map((tech: string) => (
+                                                <span class="bg-[var(--color-primary)] text-white px-3 py-1 rounded-sm text-sm font-medium">{tech}</span>
+                                            ))}
+                                            {project.technologies.length > 5 && (
+                                                <span class="bg-[var(--color-secondary)] text-white px-3 py-1 rounded-sm text-sm font-medium">+{project.technologies.length - 5}</span>
+                                            )}
                                         </div>
                                     )}
                                     
-                                    <div class="p-6 flex flex-col flex-grow">
-                                        <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-3">{translate(project.title, lang)}</h3>
-                                        <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4 flex-grow">{translate(project.description, lang)}</p>
-                                        
-                                        {project.technologies && project.technologies.length > 0 && (
-                                            <div class="flex flex-wrap gap-2 mb-4">
-                                                {project.technologies.slice(0, 5).map((tech: string) => (
-                                                    <span class="bg-[var(--color-primary)] text-white px-3 py-1 rounded-sm text-sm font-medium">{tech}</span>
-                                                ))}
-                                                {project.technologies.length > 5 && (
-                                                    <span class="bg-[var(--color-secondary)] text-white px-3 py-1 rounded-sm text-sm font-medium">+{project.technologies.length - 5}</span>
-                                                )}
-                                            </div>
-                                        )}
-                                        
-                                        <div class="flex gap-4">
-                                            <a href={`/${lang}/projects/${project.id}`} class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white no-underline rounded-md font-semibold text-sm transition-transform transform hover:translate-x-1 hover:shadow-lg">
-                                                {`${lang === 'es' ? 'Ver Más' : lang === 'fr' ? 'Voir Plus' : lang === 'de' ? 'Mehr Anzeigen' : lang === 'it' ? 'Visualizza Di Più' : lang === 'pt' ? 'Ver Mais' : lang === 'nl' ? 'Meer Weergeven' : lang === 'pl' ? 'Pokaż Więcej' : lang === 'ru' ? 'Посмотреть Больше' : lang === 'ja' ? 'さらに表示' : 'View More'}`}
-                                                →
-                                            </a>
-                                        </div>
+                                    <div class="flex gap-4">
+                                        <a href={`/${lang}/projects/${project.id}`} class="inline-flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white no-underline rounded-md font-semibold text-sm transition-transform transform hover:translate-x-1 hover:shadow-lg">
+                                            {`${lang === 'es' ? 'Ver Más' : lang === 'fr' ? 'Voir Plus' : lang === 'de' ? 'Mehr Anzeigen' : lang === 'it' ? 'Visualizza Di Più' : lang === 'pt' ? 'Ver Mais' : lang === 'nl' ? 'Meer Weergeven' : lang === 'pl' ? 'Pokaż Więcej' : lang === 'ru' ? 'Посмотреть Больше' : lang === 'ja' ? 'さらに表示' : 'View More'}`}
+                                            →
+                                        </a>
                                     </div>
-                                </article>
-                            ))}
-                        </div>
-                    </section>
-                )
-            ))}
-        </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            )
+        ))}
     </main>
 
 </Layout>

@@ -1,0 +1,50 @@
+---
+import Layout from '@/presentation/layouts/Layout.astro';
+import { supportedLanguages } from '@/domain';
+
+// Enable server-side detection and redirect when headers are present
+export const prerender = false;
+
+const defaultLang = 'es';
+const req = Astro.request;
+if (req && req.headers) {
+  const accept = req.headers.get('accept-language') || '';
+  if (accept) {
+    const langs = accept.split(',').map((s) => s.split(';')[0].trim().split('-')[0]);
+    for (const l of langs) {
+      if ((supportedLanguages as any).includes(l)) {
+        return Astro.redirect(`/${l}/`, 302);
+      }
+    }
+  }
+}
+---
+
+<Layout lang={defaultLang} title="Redirigiendo…">
+  <main class="min-h-screen flex items-center justify-center bg-(--color-bg-primary)">
+    <div id="redirect" data-supported={JSON.stringify(supportedLanguages)} class="text-center p-6">
+      <div class="flex flex-col items-center gap-4">
+        <div class="w-12 h-12 border-4 border-(--color-primary) border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
+        <p class="text-(--color-text-primary) font-medium">Redirigiendo…</p>
+        <a id="link" href="/es/" class="btn-outline mt-2">Si no te redirige, haz clic aquí</a>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function(){
+        try {
+          const raw = document.getElementById('redirect')?.dataset.supported || '[]';
+          const supported = JSON.parse(raw);
+          const nav = (navigator.language || (navigator.languages && navigator.languages[0]) || '').split('-')[0];
+          if (nav && supported.indexOf(nav) !== -1) {
+            window.location.replace('/' + nav + '/');
+          } else {
+            window.location.replace('/es/');
+          }
+        } catch (e) {
+          window.location.replace('/es/');
+        }
+      })();
+    </script>
+  </main>
+</Layout>

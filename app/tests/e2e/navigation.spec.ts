@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Navigation', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
+        await page.goto('/en/');
     });
 
     test('should scroll to About section when clicking nav link', async ({ page }) => {
@@ -64,7 +64,7 @@ test.describe('Responsive Design', () => {
         await page.setViewportSize({ width: 768, height: 1024 });
         await page.goto('/');
         
-        const header = page.locator('header.header');
+        const header = page.locator('header');
         await expect(header).toBeVisible();
     });
 
@@ -72,7 +72,7 @@ test.describe('Responsive Design', () => {
         await page.setViewportSize({ width: 1920, height: 1080 });
         await page.goto('/');
         
-        const header = page.locator('header.header');
+        const header = page.locator('header');
         await expect(header).toBeVisible();
     });
 });

@@ -21,7 +21,7 @@ const { project, lang, projectLabels } = Astro.props;
                             href={project.demoUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-md font-semibold text-sm transition-transform hover:scale-105"
+                            class="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-transform hover:scale-105"
                             aria-label={`Ver demo de ${translate(project.title, lang)}`}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -37,7 +37,7 @@ const { project, lang, projectLabels } = Astro.props;
                             href={project.repoUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-sky-600 text-white rounded-md font-semibold text-sm transition-transform hover:scale-105"
+                            class="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-transform hover:scale-105"
                             aria-label={`Ver código de ${translate(project.title, lang)}`}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -57,7 +57,7 @@ const { project, lang, projectLabels } = Astro.props;
             <span class="block text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">{translate(projectLabels.technologies, lang)}:</span>
             <div class="flex flex-wrap gap-2">
                 {project.technologies.map(tech => (
-                    <span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-sky-600 rounded-md text-xs font-semibold">{tech}</span>
+                    <span class="badge-primary px-3 py-1 rounded-sm text-sm font-medium">{tech}</span>
                 ))}
             </div>
         </div>

@@ -1,0 +1,569 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]:
+        - img "Sebastián Ramiro Entrerrios García" [ref=e7]
+        - generic [ref=e8]: Sebastián Ramiro Entrerrios García
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Home" [ref=e11] [cursor=pointer]:
+            - /url: /#home
+        - listitem [ref=e12]:
+          - link "About" [ref=e13] [cursor=pointer]:
+            - /url: /#about
+        - listitem [ref=e14]:
+          - link "Work" [ref=e15] [cursor=pointer]:
+            - /url: /#work
+        - listitem [ref=e16]:
+          - link "Education" [ref=e17] [cursor=pointer]:
+            - /url: /#education
+        - listitem [ref=e18]:
+          - link "Projects" [ref=e19] [cursor=pointer]:
+            - /url: /#projects
+        - listitem [ref=e20]:
+          - link "Contact" [ref=e21] [cursor=pointer]:
+            - /url: /#contact
+      - generic [ref=e22]:
+        - generic [ref=e24] [cursor=pointer]:
+          - checkbox "Toggle theme" [ref=e25]
+          - img
+          - img
+        - generic [ref=e27]:
+          - button "Change language" [active] [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]: EN
+            - img [ref=e30]
+          - generic [ref=e32]:
+            - button "EN English" [ref=e33] [cursor=pointer]:
+              - generic [ref=e34]: EN
+              - generic [ref=e35]: English
+              - img [ref=e36]
+            - button "ES Español" [ref=e38] [cursor=pointer]:
+              - generic [ref=e39]: ES
+              - generic [ref=e40]: Español
+            - button "FR Français" [ref=e41] [cursor=pointer]:
+              - generic [ref=e42]: FR
+              - generic [ref=e43]: Français
+            - button "DE Deutsch" [ref=e44] [cursor=pointer]:
+              - generic [ref=e45]: DE
+              - generic [ref=e46]: Deutsch
+            - button "IT Italiano" [ref=e47] [cursor=pointer]:
+              - generic [ref=e48]: IT
+              - generic [ref=e49]: Italiano
+            - button "PT Português" [ref=e50] [cursor=pointer]:
+              - generic [ref=e51]: PT
+              - generic [ref=e52]: Português
+            - button "NL Nederlands" [ref=e53] [cursor=pointer]:
+              - generic [ref=e54]: NL
+              - generic [ref=e55]: Nederlands
+            - button "PL Polski" [ref=e56] [cursor=pointer]:
+              - generic [ref=e57]: PL
+              - generic [ref=e58]: Polski
+            - button "RU Русский" [ref=e59] [cursor=pointer]:
+              - generic [ref=e60]: RU
+              - generic [ref=e61]: Русский
+            - button "JA 日本語" [ref=e62] [cursor=pointer]:
+              - generic [ref=e63]: JA
+              - generic [ref=e64]: 日本語
+    - main [ref=e65]:
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - button "Change language" [ref=e74] [cursor=pointer]:
+            - generic [ref=e75]: EN
+            - img [ref=e76]
+          - generic [ref=e80] [cursor=pointer]:
+            - checkbox "Toggle theme" [ref=e81]
+            - img
+            - img
+        - generic [ref=e85]:
+          - generic [ref=e86]: Hi, I'm
+          - heading "Sebastián Ramiro Entrerrios García" [level=1] [ref=e87]
+          - paragraph [ref=e88]: Full Stack & Mobile Developer
+          - paragraph [ref=e89]: "Full stack and mobile engineer: design fast frontends, solid APIs and production-ready mobile experiences."
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - heading "Technologies" [level=2] [ref=e92]
+          - paragraph [ref=e93]: Tools and technologies I master
+        - generic [ref=e97]:
+          - generic [ref=e99]:
+            - generic "Kotlin" [ref=e100]:
+              - img "Kotlin" [ref=e102]
+              - heading "Kotlin" [level=3] [ref=e103]
+              - generic "4 de 5 estrellas" [ref=e105]: ★★★★
+            - generic "Git" [ref=e106]:
+              - img "Git" [ref=e108]
+              - heading "Git" [level=3] [ref=e109]
+              - generic "4 de 5 estrellas" [ref=e111]: ★★★★
+            - generic "Gradle" [ref=e112]:
+              - img "Gradle" [ref=e114]
+              - heading "Gradle" [level=3] [ref=e115]
+              - generic "4 de 5 estrellas" [ref=e117]: ★★★★
+            - generic "Stack Overflow" [ref=e118]:
+              - img "Stack Overflow" [ref=e120]
+              - heading "Stack Overflow" [level=3] [ref=e121]
+              - generic "4 de 5 estrellas" [ref=e123]: ★★★★
+            - generic "Android Studio" [ref=e124]:
+              - img "Android Studio" [ref=e126]
+              - heading "Android Studio" [level=3] [ref=e127]
+              - generic "4 de 5 estrellas" [ref=e129]: ★★★★
+            - generic "Jetpack Compose" [ref=e130]:
+              - img "Jetpack Compose" [ref=e132]
+              - heading "Jetpack Compose" [level=3] [ref=e133]
+              - generic "4 de 5 estrellas" [ref=e135]: ★★★★
+            - generic "VS Code" [ref=e136]:
+              - img "VS Code" [ref=e138]
+              - heading "VS Code" [level=3] [ref=e139]
+              - generic "4 de 5 estrellas" [ref=e141]: ★★★★
+            - generic "Windows" [ref=e142]:
+              - img "Windows" [ref=e144]
+              - heading "Windows" [level=3] [ref=e145]
+              - generic "4 de 5 estrellas" [ref=e147]: ★★★★
+            - generic "GitHub Copilot" [ref=e148]:
+              - img "GitHub Copilot" [ref=e150]
+              - heading "GitHub Copilot" [level=3] [ref=e151]
+              - generic "4 de 5 estrellas" [ref=e153]: ★★★★
+            - generic "Bash" [ref=e154]:
+              - img "Bash" [ref=e156]
+              - heading "Bash" [level=3] [ref=e157]
+              - generic "3 de 5 estrellas" [ref=e159]: ★★★
+            - generic "C#" [ref=e160]:
+              - img "C#" [ref=e162]
+              - heading "C#" [level=3] [ref=e163]
+              - generic "3 de 5 estrellas" [ref=e165]: ★★★
+            - generic "HTML" [ref=e166]:
+              - img "HTML" [ref=e168]
+              - heading "HTML" [level=3] [ref=e169]
+              - generic "3 de 5 estrellas" [ref=e171]: ★★★
+          - link "View More →" [ref=e173] [cursor=pointer]:
+            - /url: /en/technologies
+            - text: View More
+            - generic [ref=e174]: →
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - heading "Soft Skills" [level=2] [ref=e177]
+          - paragraph [ref=e178]: Personal and professional qualities
+        - generic [ref=e182]:
+          - generic "Teamwork" [ref=e183]:
+            - generic [ref=e184]: 🤝
+            - heading "[object Object]" [level=3] [ref=e185]
+            - paragraph [ref=e186]: "[object Object]"
+          - generic "Communication" [ref=e187]:
+            - generic [ref=e188]: 💬
+            - heading "[object Object]" [level=3] [ref=e189]
+            - paragraph [ref=e190]: "[object Object]"
+          - generic "Problem Solving" [ref=e191]:
+            - generic [ref=e192]: 🧩
+            - heading "[object Object]" [level=3] [ref=e193]
+            - paragraph [ref=e194]: "[object Object]"
+          - generic "Adaptability" [ref=e195]:
+            - generic [ref=e196]: 🔄
+            - heading "[object Object]" [level=3] [ref=e197]
+            - paragraph [ref=e198]: "[object Object]"
+          - generic "Leadership" [ref=e199]:
+            - generic [ref=e200]: 🎯
+            - heading "[object Object]" [level=3] [ref=e201]
+            - paragraph [ref=e202]: "[object Object]"
+          - generic "Time Management" [ref=e203]:
+            - generic [ref=e204]: ⏰
+            - heading "[object Object]" [level=3] [ref=e205]
+            - paragraph [ref=e206]: "[object Object]"
+          - generic "Critical Thinking" [ref=e207]:
+            - generic [ref=e208]: 🤔
+            - heading "[object Object]" [level=3] [ref=e209]
+            - paragraph [ref=e210]: "[object Object]"
+          - generic "Continuous Learning" [ref=e211]:
+            - generic [ref=e212]: 📚
+            - heading "[object Object]" [level=3] [ref=e213]
+            - paragraph [ref=e214]: "[object Object]"
+          - generic "Attention to Detail" [ref=e215]:
+            - generic [ref=e216]: 🔍
+            - heading "[object Object]" [level=3] [ref=e217]
+            - paragraph [ref=e218]: "[object Object]"
+          - generic "Creativity" [ref=e219]:
+            - generic [ref=e220]: 💡
+            - heading "[object Object]" [level=3] [ref=e221]
+            - paragraph [ref=e222]: "[object Object]"
+          - generic "Empathy" [ref=e223]:
+            - generic [ref=e224]: ❤️
+            - heading "[object Object]" [level=3] [ref=e225]
+            - paragraph [ref=e226]: "[object Object]"
+          - generic "Resilience" [ref=e227]:
+            - generic [ref=e228]: 💪
+            - heading "[object Object]" [level=3] [ref=e229]
+            - paragraph [ref=e230]: "[object Object]"
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - heading "About Me" [level=2] [ref=e233]
+          - paragraph [ref=e234]: Get to know my story
+        - generic [ref=e240]:
+          - paragraph [ref=e243]: My personality is built on three fundamental pillars.
+          - generic [ref=e245]:
+            - paragraph [ref=e246]: "The first is curiosity: an essential engine in the field of computing that keeps me attentive to market developments and, at the same time, pushes me to deepen and continuously expand my training. Thanks to it, I not only discover new tools and trends, but also cultivate a critical perspective that helps me understand why they emerge, what they are for, and how they can deliver real value."
+            - paragraph [ref=e247]: The second pillar is constancy. In a domain that grows and transforms day by day, projects are increasingly large and sophisticated. Constancy allows me to sustain effort, organize work, and move through the possible monotony that sometimes appears without losing focus or quality. It is the discipline that turns good intentions into results and makes goals achievable step by step.
+            - paragraph [ref=e248]: Lastly, responsibility — both individual and as a team. I consider it essential to take on each task properly and professionally, understanding its impact on the whole and acting with commitment. Always giving my best is a form of respect for the project and for the people who collaborate in it; it is the foundation for bringing any initiative forward and for building trust over time.
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - heading "Work Experience" [level=2] [ref=e251]
+          - paragraph [ref=e252]: My professional journey
+        - generic [ref=e257]:
+          - generic [ref=e260]:
+            - generic [ref=e261]:
+              - generic [ref=e262]:
+                - heading "[object Object]" [level=3] [ref=e263]
+                - paragraph [ref=e264]:
+                  - link "Solusoft" [ref=e265] [cursor=pointer]:
+                    - /url: https://www.solusoft.es/
+              - generic [ref=e266]:
+                - generic [ref=e267]: March 2025 - Present
+                - generic [ref=e268]: Híbrido
+            - paragraph [ref=e269]: "[object Object]"
+            - generic [ref=e270]:
+              - generic [ref=e271]: kotlin
+              - generic [ref=e272]: jetpack-compose
+              - generic [ref=e273]: csharp
+              - generic [ref=e274]: dotnet
+              - generic [ref=e275]: sqlserver
+              - generic [ref=e276]: git
+              - generic [ref=e277]: source-tree
+              - generic [ref=e278]: visual-studio
+              - generic [ref=e279]: azure-data-studio
+              - generic [ref=e280]: vscode
+              - generic [ref=e281]: multimodular-mixed
+              - generic [ref=e282]: clean-architecture
+              - generic [ref=e283]: agile
+              - generic [ref=e284]: azure
+              - generic [ref=e285]: powerbi
+              - generic [ref=e286]: sqlservermagment
+              - generic [ref=e287]: mvc
+            - generic [ref=e288]:
+              - heading "Key Achievements" [level=4] [ref=e289]
+              - list:
+                - listitem
+                - listitem
+                - listitem
+                - listitem
+            - generic [ref=e290]:
+              - heading "Related Projects" [level=4] [ref=e291]
+              - generic [ref=e292]:
+                - generic [ref=e293]:
+                  - heading "EPDM - Music Portal" [level=5] [ref=e294]
+                  - paragraph [ref=e295]: Mobile application for Music Portal with management of music content with rights managed by AGEDI.
+                  - link "View Demo" [ref=e297] [cursor=pointer]:
+                    - /url: https://play.google.com/store/apps/details?id=es.solusoft.epdm&hl=es_419&pli=1
+                - generic [ref=e298]:
+                  - heading "AGEDI System" [level=5] [ref=e299]
+                  - paragraph [ref=e300]: Enterprise management platform for AGEDI.
+                - generic [ref=e301]:
+                  - heading "Sisley System" [level=5] [ref=e302]
+                  - paragraph [ref=e303]: Web application and backend for Sisley content management.
+                - generic [ref=e304]:
+                  - heading "Iberext System" [level=5] [ref=e305]
+                  - paragraph [ref=e306]: Mobile application for fire prevention systems management.
+          - generic [ref=e309]:
+            - generic [ref=e310]:
+              - generic [ref=e311]:
+                - heading "[object Object]" [level=3] [ref=e312]
+                - paragraph [ref=e313]:
+                  - link "Solusoft" [ref=e314] [cursor=pointer]:
+                    - /url: https://www.solusoft.es/
+              - generic [ref=e315]:
+                - generic [ref=e316]: October 2024 - February 2025
+                - generic [ref=e317]: Híbrido
+            - paragraph [ref=e318]: "[object Object]"
+            - generic [ref=e319]:
+              - generic [ref=e320]: kotlin
+              - generic [ref=e321]: jetpack-compose
+              - generic [ref=e322]: csharp
+              - generic [ref=e323]: dotnet
+              - generic [ref=e324]: sqlserver
+              - generic [ref=e325]: git
+              - generic [ref=e326]: source-tree
+              - generic [ref=e327]: visual-studio
+              - generic [ref=e328]: azure-data-studio
+              - generic [ref=e329]: vscode
+              - generic [ref=e330]: multimodular-mixed
+              - generic [ref=e331]: clean-architecture
+              - generic [ref=e332]: agile
+              - generic [ref=e333]: azure
+              - generic [ref=e334]: powerbi
+              - generic [ref=e335]: sqlservermagment
+              - generic [ref=e336]: mvc
+            - generic [ref=e337]:
+              - heading "Key Achievements" [level=4] [ref=e338]
+              - list:
+                - listitem
+                - listitem
+                - listitem
+            - generic [ref=e339]:
+              - heading "Related Projects" [level=4] [ref=e340]
+              - generic [ref=e341]:
+                - generic [ref=e342]:
+                  - heading "EPDM - Music Portal" [level=5] [ref=e343]
+                  - paragraph [ref=e344]: Mobile application for Music Portal with management of music content with rights managed by AGEDI.
+                  - link "View Demo" [ref=e346] [cursor=pointer]:
+                    - /url: https://play.google.com/store/apps/details?id=es.solusoft.epdm&hl=es_419&pli=1
+                - generic [ref=e347]:
+                  - heading "AGEDI System" [level=5] [ref=e348]
+                  - paragraph [ref=e349]: Enterprise management platform for AGEDI.
+                - generic [ref=e350]:
+                  - heading "Sisley System" [level=5] [ref=e351]
+                  - paragraph [ref=e352]: Web application and backend for Sisley content management.
+                - generic [ref=e353]:
+                  - heading "Iberext System" [level=5] [ref=e354]
+                  - paragraph [ref=e355]: Mobile application for fire prevention systems management.
+      - generic [ref=e356]:
+        - generic [ref=e357]:
+          - heading "Education" [level=2] [ref=e358]
+          - paragraph [ref=e359]: My academic background
+        - generic [ref=e363]:
+          - article [ref=e364]:
+            - generic [ref=e365]:
+              - generic [ref=e366]:
+                - heading "Master's Degree" [level=3] [ref=e367]
+                - paragraph [ref=e368]: Development with Artificial Intelligence
+                - paragraph [ref=e369]: BigSchool & Isabel I University
+              - generic [ref=e370]:
+                - generic [ref=e371]: October 2025 - Present
+                - generic [ref=e372]: Online, Spain
+            - paragraph [ref=e373]: Advanced postgraduate program focused on professional specialization in the field of artificial intelligence and machine learning, with a practical orientation towards its direct application in modern software development and innovative technological solutions. The master's degree covers in-depth study of supervised and unsupervised learning algorithms, deep neural networks (deep learning), natural language processing (NLP), computer vision, predictive analytics, big data, and specialized frameworks and libraries such as TensorFlow, PyTorch, and scikit-learn. Emphasis is placed on developing real projects that integrate AI capabilities into business applications, recommendation systems, intelligent automation, massive data analysis, and implementing machine learning models in scalable production environments, following MLOps best practices and cloud architectures.
+            - generic [ref=e374]:
+              - heading "Key Achievements" [level=4] [ref=e375]
+              - list [ref=e376]:
+                - listitem [ref=e377]:
+                  - generic [ref=e378]: 🎓
+                  - generic [ref=e379]: Specialization in AI and machine learning
+                - listitem [ref=e380]:
+                  - generic [ref=e381]: 🎓
+                  - generic [ref=e382]: Development of intelligent applications
+                - listitem [ref=e383]:
+                  - generic [ref=e384]: 🎓
+                  - generic [ref=e385]: Updated training in emerging technologies
+            - generic [ref=e386]:
+              - heading "Academic Projects" [level=4] [ref=e387]
+              - generic [ref=e389]:
+                - heading "AI Application - Machine Learning" [level=5] [ref=e390]
+                - paragraph [ref=e391]: Master project focused on developing applications with artificial intelligence.
+                - generic [ref=e392]:
+                  - generic [ref=e393]: Python
+                  - generic [ref=e394]: TensorFlow
+                  - generic [ref=e395]: FastAPI
+          - article [ref=e396]:
+            - generic [ref=e397]:
+              - generic [ref=e398]:
+                - heading "Bachelor's Degree" [level=3] [ref=e399]
+                - paragraph [ref=e400]: Computer Engineering
+                - paragraph [ref=e401]: Rey Juan Carlos University
+              - generic [ref=e402]:
+                - generic [ref=e403]: September 2020 - June 2025
+                - generic [ref=e404]: Móstoles, Madrid, Spain
+            - paragraph [ref=e405]: Comprehensive undergraduate academic program in computer engineering covering exhaustive and multidisciplinary training in all fundamental areas of computing and technological development. The curriculum includes advanced specialization in modern software development, systems architecture, multi-paradigm programming, efficient algorithm design, complex data structures, requirements engineering, agile methodologies, and complete software lifecycle. Additionally, complementary areas such as relational and non-relational databases, operating systems, computer networks, information security, distributed and parallel computing, artificial intelligence, computer vision, applied robotics, and cross-platform web and mobile application development are studied in depth.
+            - generic [ref=e406]:
+              - heading "Key Achievements" [level=4] [ref=e407]
+              - list [ref=e408]:
+                - listitem [ref=e409]:
+                  - generic [ref=e410]: 🎓
+                  - generic [ref=e411]: Web and mobile application development, including modern backends and frontends.
+                - listitem [ref=e412]:
+                  - generic [ref=e413]: 🎓
+                  - generic [ref=e414]: Specialization in software architecture and projects with current technologies.
+                - listitem [ref=e415]:
+                  - generic [ref=e416]: 🎓
+                  - generic [ref=e417]: Concurrent and distributed programming with advanced operating systems.
+                - listitem [ref=e418]:
+                  - generic [ref=e419]: 🎓
+                  - generic [ref=e420]: Intelligent systems, artificial vision and applied robotics/home automation.
+                - listitem [ref=e421]:
+                  - generic [ref=e422]: 🎓
+                  - generic [ref=e423]: Design and optimization of databases, networks and high-performance computing.
+            - generic [ref=e424]:
+              - heading "Academic Projects" [level=4] [ref=e425]
+              - generic [ref=e427]:
+                - heading "Full Stack Web Development" [level=5] [ref=e428]
+                - paragraph [ref=e429]: Degree project implementing modern web architecture with integrated frontend and backend.
+                - generic [ref=e430]:
+                  - generic [ref=e431]: JavaScript
+                  - generic [ref=e432]: React
+                  - generic [ref=e433]: Node.js
+                - link "Code" [ref=e435] [cursor=pointer]:
+                  - /url: https://github.com/Sebas1705/fullstack-project
+          - article [ref=e436]:
+            - generic [ref=e437]:
+              - generic [ref=e438]:
+                - heading "Baccalaureate" [level=3] [ref=e439]
+                - paragraph [ref=e440]: Technology
+                - paragraph [ref=e441]: IES Maestro Matías Bravo
+              - generic [ref=e442]:
+                - generic [ref=e443]: September 2018 - June 2020
+                - generic [ref=e444]: Valdemoro, Madrid, Spain
+            - paragraph [ref=e445]: Pre-university higher secondary education training, based on preparation for and completion of the Spanish university entrance examination (Selectividad/EvAU). This educational program provides a solid foundation of general knowledge with a specific orientation towards engineering disciplines, applied sciences, and information technologies. During this period, the necessary academic competencies are acquired to successfully undertake higher studies in technical and scientific areas, developing analytical skills, logical-mathematical reasoning, and understanding of fundamental technological principles.
+            - generic [ref=e446]:
+              - heading "Key Achievements" [level=4] [ref=e447]
+              - list [ref=e448]:
+                - listitem [ref=e449]:
+                  - generic [ref=e450]: 🎓
+                  - generic [ref=e451]: Learning of digital systems
+                - listitem [ref=e452]:
+                  - generic [ref=e453]: 🎓
+                  - generic [ref=e454]: Establishing programming logic with Processing
+                - listitem [ref=e455]:
+                  - generic [ref=e456]: 🎓
+                  - generic [ref=e457]: Academic mathematics focused on engineering
+                - listitem [ref=e458]:
+                  - generic [ref=e459]: 🎓
+                  - generic [ref=e460]: Advanced physics
+      - generic [ref=e465]:
+        - generic [ref=e466]:
+          - heading "Courses and Certifications" [level=2] [ref=e467]
+          - paragraph [ref=e468]: Continuous training and specialization
+        - generic [ref=e469]:
+          - article [ref=e470]:
+            - generic [ref=e471]:
+              - paragraph [ref=e472]: December 2025
+              - paragraph [ref=e473]: AppCademy
+            - 'heading "Jetpack Compose: Definitive Course from Scratch (2023)" [level=3] [ref=e474]'
+            - paragraph [ref=e475]: Creación de interfaces nativas con Jetpack Compose y patrones modernos.
+            - link "Certificate" [ref=e477] [cursor=pointer]:
+              - /url: https://www.appcademy.dev/certificates/cert_JGzFpajl
+          - article [ref=e478]:
+            - generic [ref=e479]:
+              - paragraph [ref=e480]: December 2025
+              - paragraph [ref=e481]: AppCademy
+            - 'heading "Firebase for Android with Kotlin: Definitive Course from Scratch" [level=3] [ref=e482]'
+            - paragraph [ref=e483]: "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue."
+            - link "Certificate" [ref=e485] [cursor=pointer]:
+              - /url: https://www.appcademy.dev/certificates/cert_ZKrT1jVn
+          - article [ref=e486]:
+            - generic [ref=e487]:
+              - paragraph [ref=e488]: August 2025
+              - paragraph [ref=e489]: Udemy
+            - heading "Master Android from Scratch with Kotlin, Compose, and Gemini AI" [level=3] [ref=e490]
+            - paragraph [ref=e491]: Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.
+            - link "Certificate" [ref=e493] [cursor=pointer]:
+              - /url: https://www.udemy.com/certificate/UC-71fadc11-b2f1-4176-a7d4-a8bd2c316471/
+        - link "View More" [ref=e495] [cursor=pointer]:
+          - /url: /en/courses
+      - generic [ref=e496]:
+        - generic [ref=e497]:
+          - heading "Projects" [level=2] [ref=e498]
+          - paragraph [ref=e499]: Featured work
+        - generic [ref=e504]:
+          - article [ref=e505]:
+            - generic [ref=e506]:
+              - img "Personal Portfolio"
+              - generic [ref=e508]:
+                - link "View Demo" [ref=e509] [cursor=pointer]:
+                  - /url: https://sebastian.dev
+                  - img [ref=e510]
+                  - generic [ref=e514]: View Demo
+                - link "View Code" [ref=e515] [cursor=pointer]:
+                  - /url: https://github.com/Sebas1705/my-portfolio
+                  - img [ref=e516]
+                  - generic [ref=e518]: View Code
+            - generic [ref=e519]:
+              - heading "Personal Portfolio" [level=3] [ref=e520]
+              - paragraph [ref=e521]: My web portfolio built with Astro and clean architecture.
+              - generic [ref=e522]:
+                - generic [ref=e523]: "Technologies Used:"
+                - generic [ref=e524]:
+                  - generic [ref=e525]: Astro
+                  - generic [ref=e526]: TypeScript
+                  - generic [ref=e527]: Tailwind CSS
+                  - generic [ref=e528]: Vitest
+          - article [ref=e529]:
+            - generic [ref=e530]:
+              - img "REST API with Clean Architecture"
+              - link "View Code" [ref=e533] [cursor=pointer]:
+                - /url: https://github.com/Sebas1705/clean-api-template
+                - img [ref=e534]
+                - generic [ref=e536]: View Code
+            - generic [ref=e537]:
+              - heading "REST API with Clean Architecture" [level=3] [ref=e538]
+              - paragraph [ref=e539]: REST API template following clean architecture and DDD principles.
+              - generic [ref=e540]:
+                - generic [ref=e541]: "Technologies Used:"
+                - generic [ref=e542]:
+                  - generic [ref=e543]: Node.js
+                  - generic [ref=e544]: Express
+                  - generic [ref=e545]: TypeScript
+                  - generic [ref=e546]: MongoDB
+                  - generic [ref=e547]: Jest
+          - article [ref=e548]:
+            - generic [ref=e549]:
+              - img "Personal Blog"
+              - generic [ref=e551]:
+                - link "View Demo" [ref=e552] [cursor=pointer]:
+                  - /url: https://blog.sebastian.dev
+                  - img [ref=e553]
+                  - generic [ref=e557]: View Demo
+                - link "View Code" [ref=e558] [cursor=pointer]:
+                  - /url: https://github.com/Sebas1705/tech-blog
+                  - img [ref=e559]
+                  - generic [ref=e561]: View Code
+            - generic [ref=e562]:
+              - heading "Personal Blog" [level=3] [ref=e563]
+              - paragraph [ref=e564]: Technical blog about software development and best practices.
+              - generic [ref=e565]:
+                - generic [ref=e566]: "Technologies Used:"
+                - generic [ref=e567]:
+                  - generic [ref=e568]: Next.js
+                  - generic [ref=e569]: MDX
+                  - generic [ref=e570]: Tailwind CSS
+                  - generic [ref=e571]: Vercel
+      - generic [ref=e572]:
+        - generic [ref=e573]:
+          - heading "Contact" [level=2] [ref=e574]
+          - paragraph [ref=e575]: Let's talk
+        - generic [ref=e580]:
+          - generic [ref=e581]:
+            - paragraph [ref=e582]: Message
+            - generic [ref=e583]:
+              - generic [ref=e584]:
+                - img [ref=e586]
+                - generic [ref=e589]:
+                  - heading "Email" [level=3] [ref=e590]
+                  - link "sebssgarcia502580@gmail.com" [ref=e591] [cursor=pointer]:
+                    - /url: mailto:sebssgarcia502580@gmail.com
+              - generic [ref=e592]:
+                - img [ref=e594]
+                - generic [ref=e597]:
+                  - heading "Location" [level=3] [ref=e598]
+                  - paragraph [ref=e599]: Madrid, Spain
+            - generic [ref=e600]:
+              - heading "Social Media" [level=3] [ref=e601]
+              - generic [ref=e602]:
+                - link "GitHub" [ref=e603] [cursor=pointer]:
+                  - /url: https://github.com/Sebas1705
+                  - img [ref=e604]
+                - link "Codewars" [ref=e606] [cursor=pointer]:
+                  - /url: https://www.codewars.com/users/Sebas1705
+                  - img [ref=e607]
+                - link "LinkedIn" [ref=e610] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/sebastián-ramiro-entrerrios-garcía-b1a713217/
+                  - img [ref=e611]
+                - link "Website" [ref=e613] [cursor=pointer]:
+                  - /url: /
+                  - img [ref=e614]
+          - img [ref=e618]
+    - generic [ref=e629]:
+      - paragraph [ref=e630]: © 2025 Sebastián. All rights reserved.
+      - paragraph [ref=e631]:
+        - text: Built with
+        - link "Astro" [ref=e632] [cursor=pointer]:
+          - /url: https://astro.build
+        - text: and ❤️
+  - generic [ref=e635]:
+    - button "Menu" [ref=e636]:
+      - img [ref=e638]
+      - generic: Menu
+    - button "Inspect" [ref=e642]:
+      - img [ref=e644]
+      - generic: Inspect
+    - button "Audit" [ref=e646]:
+      - img [ref=e648]
+      - generic: Audit
+    - button "Settings" [ref=e651]:
+      - img [ref=e653]
+      - generic: Settings
+```

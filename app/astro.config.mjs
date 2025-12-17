@@ -15,8 +15,8 @@ export default defineConfig({
       alias: {
         '@': '/src',
         '@domain': '/src/domain',
-        '@application': '/src/application',
-        '@infrastructure': '/src/infrastructure',
+        '@data': '/src/data',
+        '@core': '/src/core',
         '@presentation': '/src/presentation'
       }
     }

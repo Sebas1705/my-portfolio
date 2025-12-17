@@ -2,7 +2,7 @@
 import type { Language, CommonLabels } from '@/domain';
 import { translate } from '@/domain';
 import { formatDateRange } from '@/core';
-import Section from './common/Section.astro';
+import Section from '../common/Section.astro';
 
 interface Props {
     lang: Language;
@@ -20,7 +20,7 @@ const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepositor
 ---
 
 <Section id="education" class="bg-white dark:bg-slate-900" title={translate(educationLabels.title, lang)} subtitle={translate(educationLabels.subtitle, lang)}>
-    <div class="grid gap-8 max-w-4xl mx-auto">
+    <div class="grid gap-8 max-w-7xl mx-auto">
         {experiences.map((experience, index) => {
             return (
                 <article class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700" data-index={index}>
@@ -62,7 +62,7 @@ const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepositor
                                         <p class="text-sm text-slate-600 dark:text-slate-300 mb-3">{translate(project.description, lang)}</p>
                                         <div class="flex flex-wrap gap-2 mb-3">
                                             {project.technologies.slice(0, 3).map(tech => (
-                                                <span class="px-2 py-0.5 bg-gray-100 dark:bg-slate-800 text-indigo-600 rounded text-xs font-semibold">{tech}</span>
+                                                <span class="badge-primary px-3 py-1 rounded-sm text-sm font-medium">{tech}</span>
                                             ))}
                                         </div>
                                         <div class="flex gap-4">

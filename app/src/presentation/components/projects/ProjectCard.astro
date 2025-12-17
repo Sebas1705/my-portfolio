@@ -41,15 +41,14 @@ const translate = (obj: any, lang: Language) => obj[lang] || obj.en || Object.va
         </div>
     )}
     
-    <div class="p-6 flex flex-col flex-grow gap-4">
+    <div class="p-6 flex flex-col flex-grow gap-4 items-center text-center md:items-stretch md:text-left">
         <div>
             <h3 class="text-lg md:text-xl font-semibold text-slate-900 dark:text-slate-100 m-0">{translate(project.title, lang)}</h3>
         </div>
-
-        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed flex-grow">{translate(project.description, lang)}</p>
+        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed flex-grow max-w-prose mx-auto md:mx-0">{translate(project.description, lang)}</p>
         
         {showTechnologies && project.technologies && project.technologies.length > 0 && (
-            <div class="flex flex-wrap gap-2 mt-2">
+            <div class="flex flex-wrap gap-2 mt-2 justify-center md:justify-start">
                 {project.technologies.slice(0, maxTech).map((techId: string) => {
                     const skill = skills.find((s: any) => s.id === techId);
                     return (
@@ -68,17 +67,17 @@ const translate = (obj: any, lang: Language) => obj[lang] || obj.en || Object.va
             </div>
         )}
         
-        <div class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
-            <a href={`/${lang}/projects/${project.id}`} class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-blue-500 text-white border border-blue-500 hover:bg-blue-600 hover:-translate-y-0.5 shadow-md">
+        <div class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-slate-700 justify-center md:justify-start">
+            <a href={`/${lang}/projects/${project.id}`} class="btn-primary inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 shadow-md">
                 {translate(commonLabels.viewMore, lang)}
-            </a>
+                </a>
             {project.demoUrl && (
-                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-transparent text-slate-900 dark:text-slate-100 border border-gray-200 dark:border-slate-700 hover:border-blue-500 hover:text-blue-500 hover:-translate-y-0.5">
+                    <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 hover-border-primary">
                     {translate(projectLabels.viewDemo, lang)}
                 </a>
             )}
             {project.repoUrl && (
-                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 bg-transparent text-slate-900 dark:text-slate-100 border border-gray-200 dark:border-slate-700 hover:border-blue-500 hover:text-blue-500 hover:-translate-y-0.5">
+                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-transform duration-150 hover-border-primary">
                     {translate(projectLabels.viewCode, lang)}
                 </a>
             )}
