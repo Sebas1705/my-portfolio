@@ -1,0 +1,92 @@
+---
+import Layout from '@/presentation/layouts/Layout.astro';
+import Header from '@/presentation/components/sections/Header.astro';
+import Footer from '@/presentation/components/sections/Footer.astro';
+
+import type { Language, Skill, Translations } from '@/domain';
+import { supportedLanguages, translate } from '@/domain';
+import { formatMonthYear } from '@/core';
+
+import { InMemoryProjectRepository } from '@/data';
+import { GetAllProjectsUseCase } from '@/domain';
+
+export async function getStaticPaths() {
+    const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
+    const paths = [];
+    for (const l of supportedLanguages) {
+        for (const project of projects) {
+            paths.push({ params: { lang: l, id: project.id } });
+        }
+    }
+    return paths;
+}
+const lang: Language = Astro.params.lang as Language;
+const { id } = Astro.params as { id: string };
+
+import { InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository, InMemorySkillRepository } from '@/data';
+import { GetPersonalInfoUseCase, GetCommonLabelsUseCase, GetProjectLabelsUseCase, GetAllSkillsUseCase } from '@/domain';
+import Section from '@/presentation/components/common/Section.astro';
+import BackLink from '@/presentation/components/ui/BackLink.astro';
+import SkillsGrid from '@/presentation/components/skills/SkillsGrid.astro';
+
+const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
+const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
+const project = projects.find((p: any) => p.id === id);
+if (!project) return Astro.redirect(`/${lang}/`);
+
+const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
+const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
+const skills = await new GetAllSkillsUseCase(new InMemorySkillRepository()).execute();
+
+const typeLabels: Record<string, Translations> = {
+    personal: projectLabels.personalProjects,
+    work: projectLabels.workProjects,
+    academic: projectLabels.academicProjects,
+};
+---
+
+<Layout lang={lang} title={`${translate(project.title, lang)} - ${personalInfo.name}`} description={`${translate(project.description, lang)}`}>
+    <Header lang={lang} personalInfo={personalInfo} />
+    
+    <Section background='dotted' bottomFade>
+        <div class="mx-15 mt-5 w-full flex flex-col gap-5">
+            <BackLink href={`/${lang}/projects`} text={translate(commonLabels.back, lang)} />
+            <div class="flex items-center gap-4 mt-3">
+                <span class="px-3 py-1 rounded-md text-5xl font-semibold uppercase tracking-wide text-primary-v">{translate(typeLabels[project.type], lang)}</span>
+                <span class="text-secondary-v text-4xl">{formatMonthYear(project.startDate, lang)}</span>
+            </div>
+
+            {project.imageUrl && (
+                <div class="bg-accent-v rounded-lg overflow-hidden border border-secondary-v my-5">
+                    <img src={project.imageUrl} alt={translate(project.title, lang)} loading="lazy" class="w-full object-cover" />
+                </div>
+            )}
+
+            <article class="bg-bg-surface-alt-v border border-secondary-v rounded-lg p-8">
+                <h1 class="text-5xl font-bold mb-4 text-primary-v">{translate(project.title, lang)}</h1>
+                <p class="text-bg-inverse-alt-v text-lg leading-relaxed mb-6">{translate(project.description, lang)}</p>
+
+                <div class="flex gap-4 mt-6 pt-6 border-t border-secondary-v">
+                    {project.demoUrl && (
+                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="hover:bg-secondary-v bg-primary-v text-white inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-transform hover:-translate-y-0.5">
+                            {translate(projectLabels.viewDemo, lang)}
+                        </a>
+                    )}
+                    {project.repoUrl && (
+                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="hover:bg-secondary-v bg-primary-v text-white inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline">
+                            {translate(projectLabels.viewCode, lang)}
+                        </a>
+                    )}
+                </div>
+            </article>
+
+            {project.technologies && project.technologies.length > 0 && (
+                <Section title={translate(projectLabels.technologies, lang)}>
+                    <SkillsGrid skillIds={project.technologies} skills={skills.filter((skill: Skill) => project.technologies.includes(skill.id))} columns={4} compact={true} />
+                </Section>
+            )}
+        </div>
+    </Section>
+
+    <Footer lang={lang} />
+</Layout>

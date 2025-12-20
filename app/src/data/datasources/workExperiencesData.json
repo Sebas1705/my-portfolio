@@ -1,0 +1,178 @@
+[
+    {
+        "id": "work-1",
+        "company": "Solusoft",
+        "position": {
+            "es": "Desarrollador Full Stack & Mobile Junior",
+            "en": "Junior Full Stack & Mobile Developer",
+            "fr": "Développeur Full Stack & Mobile Junior",
+            "de": "Junior Full-Stack- und Mobile-Entwickler",
+            "it": "Sviluppatore Full Stack & Mobile Junior",
+            "pt": "Desenvolvedor Full Stack & Mobile Júnior",
+            "nl": "Junior Full-Stack- en Mobile-ontwikkelaar",
+            "pl": "Młodszy Programista Full Stack & Mobile",
+            "ru": "Младший разработчик Full Stack & Mobile",
+            "ja": "ジュニア フルスタック&モバイル開発者"
+        },
+        "description": {
+            "es": "Desarrollo y mantenimiento de aplicaciones full stack y móviles. Participación en la implementación de nuevas features y mejora continua de aplicaciones existentes. Siguiendo metodologías ágiles y arquitecturas modulares, limpias y modernas.",
+            "en": "Development and maintenance of full stack and mobile applications. Participation in implementing new features and continuous improvement of existing applications. Following agile methodologies and modular, clean, and modern architectures.",
+            "fr": "Développement et maintenance d'applications full stack et mobiles. Participation à la mise en œuvre de nouvelles fonctionnalités et à l'amélioration continue des applications existantes. Suivi des méthodologies agiles et des architectures modulaires, propres et modernes.",
+            "de": "Entwicklung und Wartung von Full-Stack- und Mobile-Anwendungen. Teilnahme an der Implementierung neuer Funktionen und kontinuierlichen Verbesserung bestehender Anwendungen. Befolgung agiler Methoden und modularer, sauberer und moderner Architekturen.",
+            "it": "Sviluppo e manutenzione di applicazioni full stack e mobili. Partecipazione all'implementazione di nuove funzionalità e al miglioramento continuo delle applicazioni esistenti. Seguendo metodologie agili e architetture modulari, pulite e moderne.",
+            "pt": "Desenvolvimento e manutenção de aplicativos full stack e móveis. Participação na implementação de novas funcionalidades e melhoria contínua de aplicativos existentes. Seguindo metodologias ágeis e arquiteturas modulares, limpas e modernas.",
+            "nl": "Ontwikkeling en onderhoud van full-stack- en mobiele applicaties. Deelname aan de implementatie van nieuwe functies en continue verbetering van bestaande applicaties. Volgen van agile methodologieën en modulaire, schone en moderne architecturen.",
+            "pl": "Rozwój i utrzymanie aplikacji full stack i mobilnych. Udział w implementacji nowych funkcji i ciągłe doskonalenie istniejących aplikacji. Stosowanie zwinnych metodyk i modularnych, czystych i nowoczesnych architektur.",
+            "ru": "Разработка и обслуживание полнофункциональных и мобильных приложений. Участие в реализации новых функций и постоянное совершенствование существующих приложений. Следование гибким методологиям и модульным, чистым и современным архитектурам.",
+            "ja": "フルスタックおよびモバイルアプリケーションの開発と保守。新機能の実装と既存アプリケーションの継続的な改善への参加。アジャイル手法とモジュラーでクリーンかつモダンなアーキテクチャの採用。"
+        },
+        "startDate": "2025-03-01",
+        "endDate": null,
+        "location": {
+            "es": "Híbrido",
+            "en": "Hybrid",
+            "fr": "Hybride",
+            "de": "Hybrid",
+            "it": "Ibrido",
+            "pt": "Híbrido",
+            "nl": "Hybride",
+            "pl": "Hybrydowy",
+            "ru": "Гибридный",
+            "ja": "ハイブリッド"
+        },
+        "companyUrl": "https://www.solusoft.es/",
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "microsoft-powerbi", "sqlservermagment", "mvc"],
+        "achievements": [
+            {
+                "es": "Mantenimiento y mejora continua del sistema de AGEDI",
+                "en": "Maintenance and continuous improvement of AGEDI system",
+                "fr": "Maintenance et amélioration continue du système AGEDI",
+                "de": "Wartung und kontinuierliche Verbesserung des AGEDI-Systems",
+                "it": "Manutenzione e miglioramento continuo del sistema AGEDI",
+                "pt": "Manutenção e melhoria contínua do sistema AGEDI",
+                "nl": "Onderhoud en continue verbetering van AGEDI-systeem",
+                "pl": "Konserwacja i ciągłe ulepszanie systemu AGEDI",
+                "ru": "Техническое обслуживание и постоянное совершенствование системы АГЕДИ",
+                "ja": "AGEDIシステムの保守と継続的改善"
+            },
+            {
+                "es": "Mantenimiento y mejora continua del proyecto de front y back de Sisley",
+                "en": "Maintenance and continuous improvement of Sisley frontend and backend project",
+                "fr": "Maintenance et amélioration continue du projet frontend et backend Sisley",
+                "de": "Wartung und kontinuierliche Verbesserung des Sisley Frontend- und Backend-Projekts",
+                "it": "Manutenzione e miglioramento continuo del progetto frontend e backend Sisley",
+                "pt": "Manutenção e melhoria contínua do projeto frontend e backend Sisley",
+                "nl": "Onderhoud en continue verbetering van Sisley frontend- en backend-project",
+                "pl": "Konserwacja i ciągłe ulepszanie projektu frontendu i backendu Sisley",
+                "ru": "Техническое обслуживание и постоянное совершенствование проекта переднего и заднего плана Sisley",
+                "ja": "Sisleyフロントエンドおよびバックエンドプロジェクトの保守と継続的改善"
+            },
+            {
+                "es": "Continuación del desarrollo de aplicación móvil para Iberext, ampliando funcionalidades de gestión de Sistemas de prevención de incendios",
+                "en": "Continued development of mobile application for Iberext, expanding fire prevention systems management features",
+                "fr": "Développement continu de l'application mobile pour Iberext, élargissant les fonctionnalités de gestion des systèmes de prévention des incendies",
+                "de": "Fortgesetzte Entwicklung der Mobilanwendung für Iberext mit erweiterten Brandschutzsystemverwaltungsfunktionen",
+                "it": "Sviluppo continuato dell'applicazione mobile per Iberext, espandendo le funzionalità de gestione dei sistemi antincendio",
+                "pt": "Desenvolvimento contínuo de aplicativo móvel para Iberext, expandindo funcionalidades de gerenciamento de sistemas de prevenção de incêndio",
+                "nl": "Voortgezette ontwikkeling van mobiele applicatie voor Iberext, uitbreiding van beheerfuncties van brandpreventiesystemen",
+                "pl": "Dalszy rozwój aplikacji mobilnej dla Iberext, rozszerzenie funkcji zarządzania systemami ochrony przeciwpożarowej",
+                "ru": "Продолжение разработки мобильного приложения для Iberext, расширение функций управления системами пожарной безопасности",
+                "ja": "Iberextモバイルアプリケーション開発の継続、火災予防システム管理機能の拡張"
+            },
+            {
+                "es": "Desarrollo de la aplicación móvil EPDM - Portal de la Música",
+                "en": "Development of EPDM mobile application - Music Portal",
+                "fr": "Développement de l'application mobile EPDM - Portail Musicale",
+                "de": "Entwicklung der mobilen EPDM-Anwendung - Musikportal",
+                "it": "Sviluppo dell'applicazione mobile EPDM - Portale Musicale",
+                "pt": "Desenvolvimento de aplicativo móvel EPDM - Portal da Música",
+                "nl": "Ontwikkeling van EPDM-mobiele applicatie - Muziekportaal",
+                "pl": "Opracowanie aplikacji mobilnej EPDM - Portal Muzyki",
+                "ru": "Разработка мобильного приложения EPDM - Музыкальный портал",
+                "ja": "EDPMモバイルアプリケーション開発 - 音楽ポータル"
+            }
+        ]
+    },
+    {
+        "id": "work-2",
+        "company": "Solusoft",
+        "position": {
+            "es": "Desarrollador Full Stack & Móvil en Prácticas",
+            "en": "Full Stack & Mobile Developer Intern",
+            "fr": "Développeur Full Stack & Mobile Stagiaire",
+            "de": "Full-Stack- und Mobile-Entwickler Praktikant",
+            "it": "Sviluppatore Full Stack & Mobile in Tirocinio",
+            "pt": "Desenvolvedor Full Stack & Mobile Estagiário",
+            "nl": "Full-Stack- en Mobile-ontwikkelaar Stagiair",
+            "pl": "Stażysta Programista Full Stack & Mobile",
+            "ru": "Стажер разработчик Full Stack & Mobile",
+            "ja": "フルスタック&モバイル開発インターン"
+        },
+        "description": {
+            "es": "Aprendizaje y desarrollo bajo supervisión en proyectos full stack y móviles. Contribución en el desarrollo de nuevas features y mantenimiento de aplicaciones.",
+            "en": "Supervised learning and development in full stack and mobile projects. Contribution to feature development and application maintenance.",
+            "fr": "Apprentissage et développement supervisés dans des projets full stack et mobiles. Contribution au développement de nouvelles fonctionnalités et à la maintenance des applications.",
+            "de": "Überwachtes Lernen und Entwicklung in Full-Stack- und Mobile-Projekten. Beitrag zur Funktionsentwicklung und Anwendungswartung.",
+            "it": "Apprendimento e sviluppo supervisionato in progetti full stack e mobili. Contributo allo sviluppo di nuove funzionalità e alla manutenzione delle applicazioni.",
+            "pt": "Aprendizagem e desenvolvimento supervisionados em projetos full stack e móveis. Contribuição para desenvolvimento de novas funcionalidades e manutenção de aplicações.",
+            "nl": "Onder toezicht staand leren en ontwikkelen in full-stack- en mobiele projecten. Bijdrage aan ontwikkeling van nieuwe functies en onderhoud van applicaties.",
+            "pl": "Nadzorowana nauka i rozwój w projektach full stack i mobilnych. Wkład w rozwój nowych funkcji i utrzymanie aplikacji.",
+            "ru": "Контролируемое обучение и разработка в полнофункциональных и мобильных проектах. Вклад в разработку новых функций и обслуживание приложений.",
+            "ja": "監督下でのフルスタックおよびモバイルプロジェクトの学習と開発。新機能開発とアプリケーション保守への貢献。"
+        },
+        "startDate": "2024-10-01",
+        "endDate": "2025-02-28",
+        "location": {
+            "es": "Híbrido",
+            "en": "Hybrid",
+            "fr": "Hybride",
+            "de": "Hybrid",
+            "it": "Ibrido",
+            "pt": "Híbrido",
+            "nl": "Hybride",
+            "pl": "Hybrydowy",
+            "ru": "Гибридный",
+            "ja": "ハイブリッド"
+        },
+        "companyUrl": "https://www.solusoft.es/",
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "microsoft-powerbi", "sqlservermagment", "mvc"],
+        "achievements": [
+            {
+                "es": "Participé en la implementación de nuevas funcionalidades en varios proyectos para AGEDI",
+                "en": "Participated in implementing new features across multiple AGEDI projects",
+                "fr": "Participation à la mise en œuvre de nouvelles fonctionnalités dans plusieurs projets AGEDI",
+                "de": "Teilnahme an der Implementierung neuer Funktionen in mehreren AGEDI-Projekten",
+                "it": "Partecipazione all'implementazione di nuove funzionalità in più progetti AGEDI",
+                "pt": "Participação na implementação de novas funcionalidades em vários projetos AGEDI",
+                "nl": "Deelname aan implementatie van nieuwe functies in meerdere AGEDI-projecten",
+                "pl": "Udział w implementacji nowych funkcji w kilku projektach AGEDI",
+                "ru": "Участие в реализации новых функций в нескольких проектах АГЕДИ",
+                "ja": "複数のAGEDIプロジェクトへの新機能実装への参加"
+            },
+            {
+                "es": "Mantenimiento de proyecto de front y back de Sisley",
+                "en": "Maintenance of Sisley frontend and backend project",
+                "fr": "Maintenance du projet frontend et backend Sisley",
+                "de": "Wartung des Sisley Frontend- und Backend-Projekts",
+                "it": "Manutenzione del proyecto frontend y backend Sisley",
+                "pt": "Manutenção do projeto frontend e backend Sisley",
+                "nl": "Onderhoud van Sisley frontend- en backend-project",
+                "pl": "Konserwacja projektu frontendu i backendu Sisley",
+                "ru": "Техническое обслуживание проекта переднего и заднего плана Sisley",
+                "ja": "Sisleyフロントエンドおよびバックエンドプロジェクトの保守"
+            },
+            {
+                "es": "Desarrollo desde cero de aplicación móvil para Iberext, migrada y ampliada desde versión tablet Windows para gestión de Sistemas de prevención de incendios",
+                "en": "Full development of mobile application for Iberext, migrated and extended from Windows tablet version for fire prevention systems management",
+                "fr": "Développement complet de l'application mobile pour Iberext, migrée et étendue à partir de la version tablette Windows pour la gestion des systèmes de prévention des incendies",
+                "de": "Vollständige Entwicklung der Mobilanwendung für Iberext, migriert und erweitert von der Windows-Tablettenversion für die Brandschutzsystemverwaltung",
+                "it": "Sviluppo completo dell'applicazione mobile per Iberext, migrata e estesa dalla versione tablet Windows per la gestione dei sistemi antincendio",
+                "pt": "Desenvolvimento completo de aplicativo móvel para Iberext, migrado e estendido da versão tablet Windows para gerenciamento de sistemas de prevenção de incêndio",
+                "nl": "Volledige ontwikkeling van mobiele applicatie voor Iberext, gemigreerd en uitgebreid vanaf Windows-tabletversie voor beheer van brandpreventiesystemen",
+                "pl": "Pełny rozwój aplikacji mobilnej dla Iberext, migrowanej i rozszerzonej z wersji tabletu Windows do zarządzania systemami ochrony przeciwpożarowej",
+                "ru": "Полная разработка мобильного приложения для Iberext, перенесенного и расширенного с версии планшета Windows для управления системами пожарной безопасности",
+                "ja": "Iberext向けモバイルアプリケーションの完全開発、Windowsタブレット版から火災予防システム管理用に移行および拡張"
+            }
+        ]
+    }
+]

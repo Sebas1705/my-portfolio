@@ -1,0 +1,50 @@
+{
+    "title": {
+        "es": "Experiencia Laboral",
+        "en": "Work Experience",
+        "fr": "Expérience Professionnelle",
+        "de": "Berufserfahrung",
+        "it": "Esperienza Lavorativa",
+        "pt": "Experiência Profissional",
+        "nl": "Werkervaring",
+        "pl": "Doświadczenie Zawodowe",
+        "ru": "Опыт Работы",
+        "ja": "職務経歴"
+    },
+    "subtitle": {
+        "es": "Mi trayectoria profesional",
+        "en": "My professional journey",
+        "fr": "Mon parcours professionnel",
+        "de": "Meine berufliche Laufbahn",
+        "it": "Il mio percorso professionale",
+        "pt": "Minha jornada profissional",
+        "nl": "Mijn professionele reis",
+        "pl": "Moja profesjonalna podróż",
+        "ru": "Моя профессиональная карьера",
+        "ja": "プロフェッショナルなキャリア"
+    },
+    "projects": {
+        "es": "Proyectos Relacionados",
+        "en": "Related Projects",
+        "fr": "Projets Connexes",
+        "de": "Verwandte Projekte",
+        "it": "Progetti Correlati",
+        "pt": "Projetos Relacionados",
+        "nl": "Gerelateerde Projecten",
+        "pl": "Powiązane Projekty",
+        "ru": "Связанные Проекты",
+        "ja": "関連プロジェクト"
+    },
+    "achievements": {
+        "es": "Logros Destacados",
+        "en": "Key Achievements",
+        "fr": "Réalisations Clés",
+        "de": "Wichtige Erfolge",
+        "it": "Risultati Chiave",
+        "pt": "Conquistas Principais",
+        "nl": "Belangrijke Prestaties",
+        "pl": "Kluczowe Osiągnięcia",
+        "ru": "Ключевые Достижения",
+        "ja": "主な実績"
+    }
+}

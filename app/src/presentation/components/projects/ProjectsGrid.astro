@@ -1,0 +1,49 @@
+---
+import type { CommonLabels, Language, Project, ProjectLabels, Skill } from '@/domain';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+    projects: Project[];
+    lang: Language;
+    commonLabels: CommonLabels;
+    projectLabels: ProjectLabels;
+    columns?: number;
+    showImages?: boolean;
+    showTechnologies?: boolean;
+    maxTech?: number;
+    skills?: Skill[];
+}
+
+const { 
+    projects, 
+    lang, 
+    commonLabels,
+    projectLabels, 
+    columns = 3,
+    showImages = false,
+    showTechnologies = true,
+    maxTech = 5,
+    skills = []
+} = Astro.props;
+
+const cols = Math.max(1, Number(columns));
+const mdColsClass = `md:grid-cols-${cols}`;
+const gridClass = `w-full grid gap-8 grid-cols-1 sm:grid-cols-2 ${mdColsClass}`;
+---
+<div class="w-full px-6 mt-5">
+    <div class={gridClass}>
+    {projects.map((project) => (
+        <ProjectCard 
+            project={project}
+            lang={lang}
+            commonLabels={commonLabels}
+            projectLabels={projectLabels}
+            showImage={showImages}
+            showTechnologies={showTechnologies}
+            maxTech={maxTech}
+            skills={skills}
+        />
+    ))}
+
+    </div>
+</div>

@@ -1,0 +1,74 @@
+{
+    "title": {
+        "es": "Cursos y Certificaciones",
+        "en": "Courses and Certifications",
+        "fr": "Cours et Certifications",
+        "de": "Kurse und Zertifizierungen",
+        "it": "Corsi e Certificazioni",
+        "pt": "Cursos e Certificações",
+        "nl": "Cursussen en Certificeringen",
+        "pl": "Kursy i Certyfikaty",
+        "ru": "Курсы и Сертификаты",
+        "ja": "コースと認定"
+    },
+    "subtitle": {
+        "es": "Formación continua y especialización",
+        "en": "Continuous training and specialization",
+        "fr": "Formation continue et spécialisation",
+        "de": "Kontinuierliche Weiterbildung und Spezialisierung",
+        "it": "Formazione continua e specializzazione",
+        "pt": "Formação contínua e especialização",
+        "nl": "Continue training en specialisatie",
+        "pl": "Ciągłe szkolenie i specjalizacja",
+        "ru": "Непрерывное обучение и специализация",
+        "ja": "継続的なトレーニングと専門化"
+    },
+    "pageTitle": {
+        "es": "Cursos",
+        "en": "Courses",
+        "fr": "Cours",
+        "de": "Kurse",
+        "it": "Corsi",
+        "pt": "Cursos",
+        "nl": "Cursussen",
+        "pl": "Kursy",
+        "ru": "Курсы",
+        "ja": "コース"
+    },
+    "viewCourse": {
+        "es": "Ver Curso",
+        "en": "View Course",
+        "fr": "Voir le Cours",
+        "de": "Kurs Ansehen",
+        "it": "Visualizza Corso",
+        "pt": "Ver Curso",
+        "nl": "Cursus Bekijken",
+        "pl": "Zobacz Kurs",
+        "ru": "Посмотреть Курс",
+        "ja": "コースを見る"
+    },
+    "certificate": {
+        "es": "Certificado",
+        "en": "Certificate",
+        "fr": "Certificat",
+        "de": "Zertifikat",
+        "it": "Certificato",
+        "pt": "Certificado",
+        "nl": "Certificaat",
+        "pl": "Certyfikat",
+        "ru": "Сертификат",
+        "ja": "証明書"
+    },
+    "skillsLabel": {
+        "es": "Habilidades Adquiridas",
+        "en": "Skills Acquired",
+        "fr": "Compétences Acquises",
+        "de": "Erworbene Fähigkeiten",
+        "it": "Competenze Acquisite",
+        "pt": "Habilidades Adquiridas",
+        "nl": "Verworven Vaardigheden",
+        "pl": "Nabyte Umiejętności",
+        "ru": "Приобретенные Навыки",
+        "ja": "習得したスキル"
+    }
+}

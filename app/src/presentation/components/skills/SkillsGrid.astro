@@ -1,0 +1,21 @@
+---
+import type { Skill } from '@/domain';
+import SkillCard from './SkillCard.astro';
+
+interface Props {
+    skillIds: string[];
+    skills: Skill[];
+    columns?: number;
+    compact?: boolean;
+}
+
+const { skillIds, skills, columns = 4, compact = false } = Astro.props;
+---
+<div class="w-full px-6 mt-5">
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+        {skillIds.map((skillId) => (
+            <SkillCard skillId={skillId} skills={skills} compact={compact} />
+        ))}
+    </div>
+</div>
+</div>

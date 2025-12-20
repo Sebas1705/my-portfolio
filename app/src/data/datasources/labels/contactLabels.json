@@ -1,0 +1,86 @@
+{
+    "title": {
+        "es": "Contacto",
+        "en": "Contact",
+        "fr": "Contact",
+        "de": "Kontakt",
+        "it": "Contatti",
+        "pt": "Contato",
+        "nl": "Contact",
+        "pl": "Kontakt",
+        "ru": "Контакты",
+        "ja": "お問い合わせ"
+    },
+    "subtitle": {
+        "es": "¿Hablamos?",
+        "en": "Let's talk",
+        "fr": "Parlons-en",
+        "de": "Lass uns reden",
+        "it": "Parliamone",
+        "pt": "Vamos conversar",
+        "nl": "Laten we praten",
+        "pl": "Porozmawiajmy",
+        "ru": "Давайте поговорим",
+        "ja": "お話しましょう"
+    },
+    "email": {
+        "es": "Correo Electrónico",
+        "en": "Email",
+        "fr": "E-mail",
+        "de": "E-Mail",
+        "it": "Email",
+        "pt": "E-mail",
+        "nl": "E-mail",
+        "pl": "E-mail",
+        "ru": "Электронная Почта",
+        "ja": "メール"
+    },
+    "phone": {
+        "es": "Teléfono",
+        "en": "Phone",
+        "fr": "Téléphone",
+        "de": "Telefon",
+        "it": "Telefono",
+        "pt": "Telefone",
+        "nl": "Telefoon",
+        "pl": "Telefon",
+        "ru": "Телефон",
+        "ja": "電話"
+    },
+    "location": {
+        "es": "Ubicación",
+        "en": "Location",
+        "fr": "Emplacement",
+        "de": "Standort",
+        "it": "Posizione",
+        "pt": "Localização",
+        "nl": "Locatie",
+        "pl": "Lokalizacja",
+        "ru": "Местоположение",
+        "ja": "場所"
+    },
+    "social": {
+        "es": "Redes Sociales",
+        "en": "Social Media",
+        "fr": "Réseaux Sociaux",
+        "de": "Soziale Medien",
+        "it": "Social Media",
+        "pt": "Redes Sociais",
+        "nl": "Sociale Media",
+        "pl": "Media Społecznościowe",
+        "ru": "Социальные Сети",
+        "ja": "ソーシャルメディア"
+    },
+    "message": {
+        "es": "Mensaje",
+        "en": "Message",
+        "fr": "Message",
+        "de": "Nachricht",
+        "it": "Messaggio",
+        "pt": "Mensagem",
+        "nl": "Bericht",
+        "pl": "Wiadomość",
+        "ru": "Сообщение",
+        "ja": "メッセージ"
+    }
+}

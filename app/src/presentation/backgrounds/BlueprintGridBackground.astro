@@ -1,0 +1,41 @@
+<div class="absolute -z-10 inset-0 bg-bg-surface-alt-v">
+  <div 
+    class="absolute inset-0"
+    style={{
+      backgroundImage: `
+        linear-gradient(to right, rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+      `,
+      backgroundSize: '20px 20px',
+    }}
+  />
+  <div 
+    class="absolute inset-0"
+    style={{
+      backgroundImage: `
+        linear-gradient(to right, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 130, 246, 0.2) 1px, transparent 1px)
+      `,
+      backgroundSize: '100px 100px',
+    }}
+  />
+  <div class="absolute inset-0 opacity-[0.15] dark:opacity-[0.1]">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <pattern id="blueprint-marks" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        <text x="5" y="10" class="text-[6px] fill-blue-500 dark:fill-blue-400">100</text>
+        <text x="105" y="10" class="text-[6px] fill-blue-500 dark:fill-blue-400">200</text>
+        <text x="205" y="10" class="text-[6px] fill-blue-500 dark:fill-blue-400">300</text>
+        
+        <text x="2" y="105" class="text-[6px] fill-blue-500 dark:fill-blue-400">100</text>
+        <text x="2" y="205" class="text-[6px] fill-blue-500 dark:fill-blue-400">200</text>
+        <text x="2" y="305" class="text-[6px] fill-blue-500 dark:fill-blue-400">300</text>
+        
+        <circle cx="100" cy="100" r="2" class="fill-blue-500/30 dark:fill-blue-400/30" />
+        <circle cx="200" cy="200" r="2" class="fill-blue-500/30 dark:fill-blue-400/30" />
+        <circle cx="300" cy="300" r="2" class="fill-blue-500/30 dark:fill-blue-400/30" />
+      </pattern>
+      <rect width="100%" height="100%" fill="url(#blueprint-marks)" />
+    </svg>
+  </div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.1),transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.05),transparent_70%)]" />
+</div>

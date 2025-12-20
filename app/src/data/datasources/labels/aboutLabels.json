@@ -1,0 +1,38 @@
+{
+    "title": {
+        "es": "Sobre Mí",
+        "en": "About Me",
+        "fr": "À Propos de Moi",
+        "de": "Über Mich",
+        "it": "Chi Sono",
+        "pt": "Sobre Mim",
+        "nl": "Over Mij",
+        "pl": "O Mnie",
+        "ru": "Обо Мне",
+        "ja": "自己紹介"
+    },
+    "subtitle": {
+        "es": "¿Quién soy?",
+        "en": "Who am I?",
+        "fr": "Qui suis-je?",
+        "de": "Wer bin ich?",
+        "it": "Chi sono?",
+        "pt": "Quem sou eu?",
+        "nl": "Wie ben ik?",
+        "pl": "Kim jestem?",
+        "ru": "Кто я?",
+        "ja": "私は誰ですか？"
+    },
+    "greeting": {
+        "es": "Hola, soy",
+        "en": "Hi, I'm",
+        "fr": "Salut, je suis",
+        "de": "Hallo, ich bin",
+        "it": "Ciao, sono",
+        "pt": "Olá, eu sou",
+        "nl": "Hoi, ik ben",
+        "pl": "Cześć, jestem",
+        "ru": "Привет, я",
+        "ja": "こんにちは、私は"
+    }
+}

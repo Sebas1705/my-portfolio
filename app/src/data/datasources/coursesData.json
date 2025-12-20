@@ -1,0 +1,338 @@
+[
+    {
+        "id": "android-kotlin-compose-gemini",
+        "title": {
+            "es": "Domina Android desde cero con Kotlin, Compose y Gemini AI",
+            "en": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "fr": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "de": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "it": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "pt": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "nl": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "pl": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "ru": "Master Android from Scratch with Kotlin, Compose, and Gemini AI",
+            "ja": "Master Android from Scratch with Kotlin, Compose, and Gemini AI"
+        },
+        "description": {
+            "es": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "en": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "fr": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "de": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "it": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "pt": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "nl": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "pl": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "ru": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas.",
+            "ja": "Android avanzado con Kotlin, Jetpack Compose y Gemini AI para apps modernas."
+        },
+        "institution": {
+            "es": "Udemy",
+            "en": "Udemy",
+            "fr": "Udemy",
+            "de": "Udemy",
+            "it": "Udemy",
+            "pt": "Udemy",
+            "nl": "Udemy",
+            "pl": "Udemy",
+            "ru": "Udemy",
+            "ja": "Udemy"
+        },
+        "completionDate": "2025-08-15",
+        "certificateUrl": "https://www.udemy.com/certificate/UC-71fadc11-b2f1-4176-a7d4-a8bd2c316471/",
+        "skills": ["kotlin", "androidstudio", "gemini", "jetpack-compose", "xml"]
+    },
+    {
+        "id": "aspnet-core-webapi",
+        "title": {
+            "es": "Master API RESTful con ASP.NET Core Web API (.NET 9)",
+            "en": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "fr": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "de": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "it": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "pt": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "nl": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "pl": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "ru": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)",
+            "ja": "Master RESTful APIs with ASP.NET Core Web API (.NET 9)"
+        },
+        "description": {
+            "es": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "en": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "fr": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "de": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "it": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "pt": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "nl": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "pl": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "ru": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue.",
+            "ja": "Construcción de APIs REST con ASP.NET Core 9, buenas prácticas y despliegue."
+        },
+        "institution": {
+            "es": "Udemy",
+            "en": "Udemy",
+            "fr": "Udemy",
+            "de": "Udemy",
+            "it": "Udemy",
+            "pt": "Udemy",
+            "nl": "Udemy",
+            "pl": "Udemy",
+            "ru": "Udemy",
+            "ja": "Udemy"
+        },
+        "completionDate": "2025-08-12",
+        "certificateUrl": "https://www.udemy.com/certificate/UC-2e061584-9523-4aca-a702-ae19fa3d740f/",
+        "skills": ["dotnet", "csharp", "sqlserver"]
+    },
+    {
+        "id": "ai-gemini-skillshop",
+        "title": {
+            "es": "Domina la IA con Gemini",
+            "en": "Master AI with Gemini",
+            "fr": "Master AI with Gemini",
+            "de": "Master AI with Gemini",
+            "it": "Master AI with Gemini",
+            "pt": "Master AI with Gemini",
+            "nl": "Master AI with Gemini",
+            "pl": "Master AI with Gemini",
+            "ru": "Master AI with Gemini",
+            "ja": "Master AI with Gemini"
+        },
+        "description": {
+            "es": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "en": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "fr": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "de": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "it": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "pt": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "nl": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "pl": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "ru": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA.",
+            "ja": "Fundamentos y práctica con Gemini para crear soluciones asistidas por IA."
+        },
+        "institution": {
+            "es": "Google Skillshop",
+            "en": "Google Skillshop",
+            "fr": "Google Skillshop",
+            "de": "Google Skillshop",
+            "it": "Google Skillshop",
+            "pt": "Google Skillshop",
+            "nl": "Google Skillshop",
+            "pl": "Google Skillshop",
+            "ru": "Google Skillshop",
+            "ja": "Google Skillshop"
+        },
+        "completionDate": "2025-08-01",
+        "certificateUrl": "https://skillshop.exceedlms.com/student/award/AABEEJWZFTCii853HLjNBGsR",
+        "skills": ["gemini", "chatgpt"]
+    },
+    {
+        "id": "cloud-computing-skillshop",
+        "title": {
+            "es": "Cloud Computing",
+            "en": "Cloud Computing",
+            "fr": "Cloud Computing",
+            "de": "Cloud Computing",
+            "it": "Cloud Computing",
+            "pt": "Cloud Computing",
+            "nl": "Cloud Computing",
+            "pl": "Cloud Computing",
+            "ru": "Cloud Computing",
+            "ja": "Cloud Computing"
+        },
+        "description": {
+            "es": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "en": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "fr": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "de": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "it": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "pt": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "nl": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "pl": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "ru": "Conceptos de nube, servicios clave y modelos de despliegue.",
+            "ja": "Conceptos de nube, servicios clave y modelos de despliegue."
+        },
+        "institution": {
+            "es": "Google Skillshop",
+            "en": "Google Skillshop",
+            "fr": "Google Skillshop",
+            "de": "Google Skillshop",
+            "it": "Google Skillshop",
+            "pt": "Google Skillshop",
+            "nl": "Google Skillshop",
+            "pl": "Google Skillshop",
+            "ru": "Google Skillshop",
+            "ja": "Google Skillshop"
+        },
+        "completionDate": "2024-06-09",
+        "certificateUrl": "https://skillshop.exceedlms.com/student/award/uKLeK9o3mMLXUCxotp5xB6S8",
+        "skills": ["firebase", "azure"]
+    },
+    {
+        "id": "mobile-apps-skillshop",
+        "title": {
+            "es": "Curso de Desarrollo de Apps Móviles",
+            "en": "Mobile App Development Course",
+            "fr": "Mobile App Development Course",
+            "de": "Mobile App Development Course",
+            "it": "Mobile App Development Course",
+            "pt": "Mobile App Development Course",
+            "nl": "Mobile App Development Course",
+            "pl": "Mobile App Development Course",
+            "ru": "Mobile App Development Course",
+            "ja": "Mobile App Development Course"
+        },
+        "description": {
+            "es": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "en": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "fr": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "de": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "it": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "pt": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "nl": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "pl": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "ru": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app.",
+            "ja": "Bases del desarrollo de aplicaciones móviles y ciclo de vida de app."
+        },
+        "institution": {
+            "es": "Google Skillshop",
+            "en": "Google Skillshop",
+            "fr": "Google Skillshop",
+            "de": "Google Skillshop",
+            "it": "Google Skillshop",
+            "pt": "Google Skillshop",
+            "nl": "Google Skillshop",
+            "pl": "Google Skillshop",
+            "ru": "Google Skillshop",
+            "ja": "Google Skillshop"
+        },
+        "completionDate": "2024-06-09",
+        "certificateUrl": "https://skillshop.exceedlms.com/student/award/ZSJhx2VgJ4RNYaPHz7DfZaZw",
+        "skills": ["androidstudio", "kotlin", "xml"]
+    },
+    {
+        "id": "ecommerce-skillshop",
+        "title": {
+            "es": "Comercio electrónico",
+            "en": "E-commerce",
+            "fr": "E-commerce",
+            "de": "E-commerce",
+            "it": "E-commerce",
+            "pt": "E-commerce",
+            "nl": "E-commerce",
+            "pl": "E-commerce",
+            "ru": "E-commerce",
+            "ja": "E-commerce"
+        },
+        "description": {
+            "es": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "en": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "fr": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "de": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "it": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "pt": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "nl": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "pl": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "ru": "Estrategias de e-commerce, presencia digital y optimización de catálogo.",
+            "ja": "Estrategias de e-commerce, presencia digital y optimización de catálogo."
+        },
+        "institution": {
+            "es": "Google Skillshop",
+            "en": "Google Skillshop",
+            "fr": "Google Skillshop",
+            "de": "Google Skillshop",
+            "it": "Google Skillshop",
+            "pt": "Google Skillshop",
+            "nl": "Google Skillshop",
+            "pl": "Google Skillshop",
+            "ru": "Google Skillshop",
+            "ja": "Google Skillshop"
+        },
+        "completionDate": "2023-07-22",
+        "certificateUrl": "https://skillshop.exceedlms.com/student/award/jyHmnH2Di4hoWC9LgKDXWKfp",
+        "skills": []
+    },
+    {
+        "id": "jetpack-compose-appcademy",
+        "title": {
+            "es": "Jetpack Compose: Curso definitivo desde 0 (2023)",
+            "en": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "fr": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "de": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "it": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "pt": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "nl": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "pl": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "ru": "Jetpack Compose: Definitive Course from Scratch (2023)",
+            "ja": "Jetpack Compose: Definitive Course from Scratch (2023)"
+        },
+        "description": {
+            "es": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "en": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "fr": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "de": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "it": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "pt": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "nl": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "pl": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "ru": "Creación de interfaces nativas con Jetpack Compose y patrones modernos.",
+            "ja": "Creación de interfaces nativas con Jetpack Compose y patrones modernos."
+        },
+        "institution": {
+            "es": "AppCademy",
+            "en": "AppCademy",
+            "fr": "AppCademy",
+            "de": "AppCademy",
+            "it": "AppCademy",
+            "pt": "AppCademy",
+            "nl": "AppCademy",
+            "pl": "AppCademy",
+            "ru": "AppCademy",
+            "ja": "AppCademy"
+        },
+        "completionDate": "2025-12-11",
+        "certificateUrl": "https://www.appcademy.dev/certificates/cert_JGzFpajl",
+        "skills": ["kotlin", "androidstudio", "jetpack-compose", "xml"]
+    },
+    {
+        "id": "firebase-android-kotlin",
+        "title": {
+            "es": "Firebase para Android con Kotlin: Curso definitivo desde 0",
+            "en": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "fr": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "de": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "it": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "pt": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "nl": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "pl": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "ru": "Firebase for Android with Kotlin: Definitive Course from Scratch",
+            "ja": "Firebase for Android with Kotlin: Definitive Course from Scratch"
+        },
+        "description": {
+            "es": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "en": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "fr": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "de": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "it": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "pt": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "nl": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "pl": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "ru": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue.",
+            "ja": "Integración de Firebase con Android/Kotlin: auth, base de datos y despliegue."
+        },
+        "institution": {
+            "es": "AppCademy",
+            "en": "AppCademy",
+            "fr": "AppCademy",
+            "de": "AppCademy",
+            "it": "AppCademy",
+            "pt": "AppCademy",
+            "nl": "AppCademy",
+            "pl": "AppCademy",
+            "ru": "AppCademy",
+            "ja": "AppCademy"
+        },
+        "completionDate": "2025-12-11",
+        "certificateUrl": "https://www.appcademy.dev/certificates/cert_ZKrT1jVn",
+        "skills": ["firebase", "kotlin", "androidstudio", "xml"]
+    }
+]

@@ -1,0 +1,351 @@
+[
+    {
+        "id": "teamwork",
+        "name": {
+            "es": "Trabajo en Equipo",
+            "en": "Teamwork",
+            "fr": "Travail d'équipe",
+            "de": "Teamarbeit",
+            "it": "Lavoro di Squadra",
+            "pt": "Trabalho em Equipe",
+            "nl": "Teamwerk",
+            "pl": "Praca Zespołowa",
+            "ru": "Командная работа",
+            "ja": "チームワーク"
+        },
+        "description": {
+            "es": "Colaboración efectiva con equipos multidisciplinarios, compartiendo conocimientos y apoyando a compañeros.",
+            "en": "Effective collaboration with multidisciplinary teams, sharing knowledge and supporting colleagues.",
+            "fr": "Collaboration efficace avec des équipes multidisciplinaires, partage de connaissances et soutien aux collègues.",
+            "de": "Effektive Zusammenarbeit mit multidisziplinären Teams, Wissensaustausch und Unterstützung von Kollegen.",
+            "it": "Collaborazione efficace con team multidisciplinari, condivisione di conoscenze e supporto ai colleghi.",
+            "pt": "Colaboração eficaz com equipes multidisciplinares, compartilhando conhecimentos e apoiando colegas.",
+            "nl": "Effectieve samenwerking met multidisciplinaire teams, het delen van kennis en ondersteuning van collega's.",
+            "pl": "Efektywna współpraca z zespołami multidyscyplinarnymi, dzielenie się wiedzą i wspieranie kolegów.",
+            "ru": "Эффективное сотрудничество с многопрофильными командами, обмен знаниями и поддержка коллег.",
+            "ja": "多分野のチームとの効果的なコラボレーション、知識の共有、同僚へのサポート。"
+        },
+        "icon": "🤝",
+        "level": 5
+    },
+    {
+        "id": "communication",
+        "name": {
+            "es": "Comunicación",
+            "en": "Communication",
+            "fr": "Communication",
+            "de": "Kommunikation",
+            "it": "Comunicazione",
+            "pt": "Comunicação",
+            "nl": "Communicatie",
+            "pl": "Komunikacja",
+            "ru": "Коммуникация",
+            "ja": "コミュニケーション"
+        },
+        "description": {
+            "es": "Comunicación clara y efectiva tanto técnica como no técnica, con clientes y equipos.",
+            "en": "Clear and effective communication, both technical and non-technical, with clients and teams.",
+            "fr": "Communication claire et efficace, technique et non technique, avec les clients et les équipes.",
+            "de": "Klare und effektive Kommunikation, sowohl technisch als auch nicht-technisch, mit Kunden und Teams.",
+            "it": "Comunicazione chiara ed efficace, sia tecnica che non tecnica, con clienti e team.",
+            "pt": "Comunicação clara e eficaz, técnica e não técnica, com clientes e equipes.",
+            "nl": "Duidelijke en effectieve communicatie, zowel technisch als niet-technisch, met klanten en teams.",
+            "pl": "Jasna i skuteczna komunikacja, zarówno techniczna, jak i nietechniczna, z klientami i zespołami.",
+            "ru": "Четкая и эффективная коммуникация, как техническая, так и нетехническая, с клиентами и командами.",
+            "ja": "クライアントやチームとの明確で効果的なコミュニケーション（技術的および非技術的）。"
+        },
+        "icon": "💬",
+        "level": 5
+    },
+    {
+        "id": "problem-solving",
+        "name": {
+            "es": "Resolución de Problemas",
+            "en": "Problem Solving",
+            "fr": "Résolution de Problèmes",
+            "de": "Problemlösung",
+            "it": "Risoluzione dei Problemi",
+            "pt": "Resolução de Problemas",
+            "nl": "Probleemoplossing",
+            "pl": "Rozwiązywanie Problemów",
+            "ru": "Решение проблем",
+            "ja": "問題解決"
+        },
+        "description": {
+            "es": "Análisis y resolución práctica de problemas técnicos, depuración y refactorización para mantener y mejorar aplicaciones.",
+            "en": "Practical analysis and resolution of technical issues, debugging and refactoring to maintain and improve applications.",
+            "fr": "Analyse pratique et résolution des problèmes techniques, débogage et refactorisation pour maintenir et améliorer les applications.",
+            "de": "Praktische Analyse und Lösung technischer Probleme, Debugging und Refactoring zur Wartung und Verbesserung von Anwendungen.",
+            "it": "Analisi pratica e risoluzione di problemi tecnici, debugging e refactoring per mantenere e migliorare le applicazioni.",
+            "pt": "Análise prática e resolução de problemas técnicos, depuração e refatoração para manter e melhorar aplicações.",
+            "nl": "Praktische analyse en oplossing van technische problemen, debuggen en refactoren om applicaties te onderhouden en te verbeteren.",
+            "pl": "Praktyczna analiza i rozwiązywanie problemów technicznych, debugowanie i refaktoryzacja w celu utrzymania i poprawy aplikacji.",
+            "ru": "Практический анализ и решение технических проблем, отладка и рефакторинг для поддержания и улучшения приложений.",
+            "ja": "技術的課題の実践的な分析と解決、デバッグおよびリファクタリングによるアプリの保守と改善。"
+        },
+        "icon": "🧩",
+        "level": 5
+    },
+    {
+        "id": "adaptability",
+        "name": {
+            "es": "Adaptabilidad",
+            "en": "Adaptability",
+            "fr": "Adaptabilité",
+            "de": "Anpassungsfähigkeit",
+            "it": "Adattabilità",
+            "pt": "Adaptabilidade",
+            "nl": "Aanpassingsvermogen",
+            "pl": "Adaptacyjność",
+            "ru": "Адаптивность",
+            "ja": "適応性"
+        },
+        "description": {
+            "es": "Adaptación rápida a nuevas tecnologías y migraciones, como portar proyectos desde versiones legacy a móvil.",
+            "en": "Quick adaptation to new technologies and migrations, such as porting legacy projects to mobile.",
+            "fr": "Adaptation rapide aux nouvelles technologies et aux migrations, comme le portage de projets hérités vers le mobile.",
+            "de": "Schnelle Anpassung an neue Technologien und Migrationen, z. B. Portierung von Legacy-Projekten auf Mobile.",
+            "it": "Rapida adattamento a nuove tecnologie e migrazioni, come il porting di progetti legacy su mobile.",
+            "pt": "Rápida adaptação a novas tecnologias e migrações, como portar projetos legados para mobile.",
+            "nl": "Snelle aanpassing aan nieuwe technologieën en migraties, zoals het porten van legacy-projecten naar mobiel.",
+            "pl": "Szybka adaptacja do nowych technologii i migracji, takich jak przenoszenie projektów legacy na mobile.",
+            "ru": "Быстрая адаптация к новым технологиям и миграциям, например, перенос legacy-проектов на мобильные платформы.",
+            "ja": "レガシーからモバイルへの移行など、新しい技術やマイグレーションへの迅速な適応。"
+        },
+        "icon": "🔄",
+        "level": 5
+    },
+    
+    {
+        "id": "proactivity",
+        "name": {
+            "es": "Proactividad",
+            "en": "Proactivity",
+            "fr": "Proactivité",
+            "de": "Proaktivität",
+            "it": "Proattività",
+            "pt": "Proatividade",
+            "nl": "Proactiviteit",
+            "pl": "Proaktywność",
+            "ru": "Проактивность",
+            "ja": "積極性"
+        },
+        "description": {
+            "es": "Iniciativa para proponer mejoras, asumir tareas y anticiparse a problemas sin supervisión constante.",
+            "en": "Initiative to propose improvements, take on tasks and anticipate issues without constant supervision.",
+            "fr": "Initiative pour proposer des améliorations, prendre en charge des tâches et anticiper les problèmes sans supervision constante.",
+            "de": "Initiative zur Vorschlag von Verbesserungen, Übernahme von Aufgaben und Antizipation von Problemen ohne ständige Aufsicht.",
+            "it": "Iniziativa per proporre miglioramenti, assumersi compiti e anticipare problemi senza supervisione costante.",
+            "pt": "Iniciativa para propor melhorias, assumir tarefas e antecipar problemas sem supervisão constante.",
+            "nl": "Initiatief om verbeteringen voor te stellen, taken op zich te nemen en problemen te anticiperen zonder constante supervisie.",
+            "pl": "Inicjatywa w proponowaniu usprawnień, podejmowaniu zadań i przewidywaniu problemów bez stałego nadzoru.",
+            "ru": "Инициатива по предложению улучшений, взятию на себя задач и прогнозированию проблем без постоянного надзора.",
+            "ja": "継続的な監督なしに改善を提案し、タスクを引き受け、問題を予測する主体性。"
+        },
+        "icon": "🚀",
+        "level": 4
+    },
+    {
+        "id": "time-management",
+        "name": {
+            "es": "Gestión del Tiempo",
+            "en": "Time Management",
+            "fr": "Gestion du Temps",
+            "de": "Zeitmanagement",
+            "it": "Gestione del Tempo",
+            "pt": "Gestão do Tempo",
+            "nl": "Tijdmanagement",
+            "pl": "Zarządzanie Czasem",
+            "ru": "Управление временем",
+            "ja": "時間管理"
+        },
+        "description": {
+            "es": "Organización efectiva de tareas, priorización y cumplimiento de deadlines en proyectos múltiples.",
+            "en": "Effective task organization, prioritization, and meeting deadlines across multiple projects.",
+            "fr": "Organisation efficace des tâches, priorisation et respect des délais sur plusieurs projets.",
+            "de": "Effektive Aufgabenorganisation, Priorisierung und Einhaltung von Fristen in mehreren Projekten.",
+            "it": "Organizzazione efficace delle attività, prioritizzazione e rispetto delle scadenze in più progetti.",
+            "pt": "Organização eficaz de tarefas, priorização e cumprimento de prazos em múltiplos projetos.",
+            "nl": "Effectieve taakorganisatie, prioritering en het halen van deadlines voor meerdere projecten.",
+            "pl": "Skuteczna organizacja zadań, priorytetyzacja i dotrzymywanie terminów w wielu projektach.",
+            "ru": "Эффективная организация задач, приоритизация и соблюдение сроков в нескольких проектах.",
+            "ja": "複数のプロジェクトにおける効果的なタスク整理、優先順位付け、締切の遵守。"
+        },
+        "icon": "⏰",
+        "level": 4
+    },
+    {
+        "id": "critical-thinking",
+        "name": {
+            "es": "Pensamiento Crítico",
+            "en": "Critical Thinking",
+            "fr": "Pensée Critique",
+            "de": "Kritisches Denken",
+            "it": "Pensiero Critico",
+            "pt": "Pensamento Crítico",
+            "nl": "Kritisch Denken",
+            "pl": "Myślenie Krytyczne",
+            "ru": "Критическое мышление",
+            "ja": "批判的思考"
+        },
+        "description": {
+            "es": "Análisis profundo de requisitos y evaluación de diferentes enfoques técnicos.",
+            "en": "Deep analysis of requirements and evaluation of different technical approaches.",
+            "fr": "Analyse approfondie des exigences et évaluation de différentes approches techniques.",
+            "de": "Tiefgehende Analyse von Anforderungen und Bewertung verschiedener technischer Ansätze.",
+            "it": "Analisi approfondita dei requisiti e valutazione di diversi approcci tecnici.",
+            "pt": "Análise profunda de requisitos e avaliação de diferentes abordagens técnicas.",
+            "nl": "Diepgaande analyse van vereisten en evaluatie van verschillende technische benaderingen.",
+            "pl": "Głęboka analiza wymagań i ocena różnych podejść technicznych.",
+            "ru": "Глубокий анализ требований и оценка различных технических подходов.",
+            "ja": "要件の深い分析と異なる技術的アプローチの評価。"
+        },
+        "icon": "🤔",
+        "level": 5
+    },
+    {
+        "id": "continuous-learning",
+        "name": {
+            "es": "Aprendizaje Continuo",
+            "en": "Continuous Learning",
+            "fr": "Apprentissage Continu",
+            "de": "Kontinuierliches Lernen",
+            "it": "Apprendimento Continuo",
+            "pt": "Aprendizagem Contínua",
+            "nl": "Continu Leren",
+            "pl": "Ciągłe Uczenie Się",
+            "ru": "Непрерывное обучение",
+            "ja": "継続的学習"
+        },
+        "description": {
+            "es": "Constante actualización en tecnologías emergentes y mejores prácticas del desarrollo.",
+            "en": "Constant updating on emerging technologies and development best practices.",
+            "fr": "Mise à jour constante sur les technologies émergentes et les meilleures pratiques de développement.",
+            "de": "Ständige Aktualisierung über neue Technologien und bewährte Entwicklungspraktiken.",
+            "it": "Aggiornamento costante sulle tecnologie emergenti e le migliori pratiche di sviluppo.",
+            "pt": "Atualização constante sobre tecnologias emergentes e melhores práticas de desenvolvimento.",
+            "nl": "Constante bijscholing over opkomende technologieën en ontwikkelingsbestpraktijken.",
+            "pl": "Ciągła aktualizacja w zakresie nowych technologii i najlepszych praktyk deweloperskich.",
+            "ru": "Постоянное обновление знаний о новых технологиях и лучших практиках разработки.",
+            "ja": "新しいテクノロジーと開発のベストプラクティスに関する継続的な更新。"
+        },
+        "icon": "📚",
+        "level": 5
+    },
+    {
+        "id": "attention-to-detail",
+        "name": {
+            "es": "Atención al Detalle",
+            "en": "Attention to Detail",
+            "fr": "Attention aux Détails",
+            "de": "Liebe zum Detail",
+            "it": "Attenzione ai Dettagli",
+            "pt": "Atenção aos Detalhes",
+            "nl": "Aandacht voor Details",
+            "pl": "Dbałość o Szczegóły",
+            "ru": "Внимание к деталям",
+            "ja": "細部への注意"
+        },
+        "description": {
+            "es": "Cuidado meticuloso en la calidad del código, testing y documentación.",
+            "en": "Meticulous care in code quality, testing, and documentation.",
+            "fr": "Soin méticuleux dans la qualité du code, les tests et la documentation.",
+            "de": "Sorgfältige Beachtung von Codequalität, Testing und Dokumentation.",
+            "it": "Cura meticolosa nella qualità del codice, test e documentazione.",
+            "pt": "Cuidado meticuloso na qualidade do código, testes e documentação.",
+            "nl": "Nauwgezette zorg voor codekwaliteit, testen en documentatie.",
+            "pl": "Skrupulatna dbałość o jakość kodu, testowanie i dokumentację.",
+            "ru": "Тщательная забота о качестве кода, тестировании и документации.",
+            "ja": "コード品質、テスト、ドキュメントにおける細心の注意。"
+        },
+        "icon": "🔍",
+        "level": 5
+    },
+    {
+        "id": "creativity",
+        "name": {
+            "es": "Creatividad",
+            "en": "Creativity",
+            "fr": "Créativité",
+            "de": "Kreativität",
+            "it": "Creatività",
+            "pt": "Criatividade",
+            "nl": "Creativiteit",
+            "pl": "Kreatywność",
+            "ru": "Креативность",
+            "ja": "創造性"
+        },
+        "description": {
+            "es": "Innovación en soluciones técnicas y diseño de experiencias de usuario.",
+            "en": "Innovation in technical solutions and user experience design.",
+            "fr": "Innovation dans les solutions techniques et la conception d'expérience utilisateur.",
+            "de": "Innovation bei technischen Lösungen und Benutzererfahrungsdesign.",
+            "it": "Innovazione nelle soluzioni tecniche e nel design dell'esperienza utente.",
+            "pt": "Inovação em soluções técnicas e design de experiência do usuário.",
+            "nl": "Innovatie in technische oplossingen en gebruikerservaringsontwerp.",
+            "pl": "Innowacyjność w rozwiązaniach technicznych i projektowaniu doświadczeń użytkownika.",
+            "ru": "Инновации в технических решениях и проектировании пользовательского опыта.",
+            "ja": "技術ソリューションとユーザーエクスペリエンスデザインにおける革新。"
+        },
+        "icon": "💡",
+        "level": 4
+    },
+    {
+        "id": "empathy",
+        "name": {
+            "es": "Empatía",
+            "en": "Empathy",
+            "fr": "Empathie",
+            "de": "Empathie",
+            "it": "Empatia",
+            "pt": "Empatia",
+            "nl": "Empathie",
+            "pl": "Empatia",
+            "ru": "Эмпатия",
+            "ja": "共感"
+        },
+        "description": {
+            "es": "Comprensión de las necesidades del usuario y perspectiva del equipo.",
+            "en": "Understanding user needs and team perspective.",
+            "fr": "Compréhension des besoins des utilisateurs et de la perspective de l'équipe.",
+            "de": "Verständnis für Benutzerbedürfnisse und Teamperspektive.",
+            "it": "Comprensione delle esigenze degli utenti e della prospettiva del team.",
+            "pt": "Compreensão das necessidades do usuário e perspectiva da equipe.",
+            "nl": "Begrip van gebruikersbehoeften en teamperspectief.",
+            "pl": "Rozumienie potrzeb użytkowników i perspektywy zespołu.",
+            "ru": "Понимание потребностей пользователей и точки зрения команды.",
+            "ja": "ユーザーのニーズとチームの視点の理解。"
+        },
+        "icon": "❤️",
+        "level": 5
+    },
+    {
+        "id": "resilience",
+        "name": {
+            "es": "Resiliencia",
+            "en": "Resilience",
+            "fr": "Résilience",
+            "de": "Resilienz",
+            "it": "Resilienza",
+            "pt": "Resiliência",
+            "nl": "Veerkracht",
+            "pl": "Odporność",
+            "ru": "Стойкость",
+            "ja": "レジリエンス"
+        },
+        "description": {
+            "es": "Manejo efectivo de la presión y recuperación ante desafíos técnicos.",
+            "en": "Effective handling of pressure and recovery from technical challenges.",
+            "fr": "Gestion efficace de la pression et récupération face aux défis techniques.",
+            "de": "Effektiver Umgang mit Druck und Erholung von technischen Herausforderungen.",
+            "it": "Gestione efficace della pressione e recupero dalle sfide tecniche.",
+            "pt": "Gestão eficaz da pressão e recuperação de desafios técnicos.",
+            "nl": "Effectieve omgang met druk en herstel van technische uitdagingen.",
+            "pl": "Skuteczne radzenie sobie z presją i odzyskiwanie sił po wyzwaniach technicznych.",
+            "ru": "Эффективное управление давлением и восстановление после технических проблем.",
+            "ja": "プレッシャーの効果的な処理と技術的課題からの回復。"
+        },
+        "icon": "💪",
+        "level": 4
+    }
+]

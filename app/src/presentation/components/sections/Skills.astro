@@ -1,0 +1,66 @@
+---
+import type { Language, CommonLabels } from '@domain/models';
+import { translate } from '@/domain';
+import Section from '../common/Section.astro';
+import Button from '../common/ui/Button.astro';
+
+interface Props {
+    lang: Language;
+    featured?: number; // Show top N skills
+    commonLabels: CommonLabels;
+}
+
+const { lang, featured = 12, commonLabels } = Astro.props;
+
+import { InMemorySkillsLabelsRepository, InMemorySkillRepository } from '@/data';
+import { GetSkillsLabelsUseCase, GetSkillsUseCase } from '@/domain';
+import CircuitPatternBackground from '@/presentation/backgrounds/CircuitPatternBackground.astro';
+
+const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRepository()).execute();
+const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
+---
+
+<Section id="skills" topFade bottomFade background='circuit' title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
+    
+    <div class="flex flex-col gap-10 mt-10">
+        <!-- Featured Skills Grid -->
+        <div class="mb-8">
+            <div class="grid gap-6 grid-cols-2 
+            md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
+                {skills
+                .filter((skill) => !['architecture','methodologies'].includes(skill.category))
+                .sort((a, b) => b.level - a.level)
+                .slice(0, featured)
+                .map((skill) => {
+                    return (
+                        <div title={skill.name} class="min-w-40 flex flex-col items-center gap-5 py-5 px-3 
+                        rounded-md transition-transform duration-200 hover:-translate-y-2 
+                        cursor-help bg-bg-surface-alt-v border-primary-dark-v border-3 shadow-secondary-v shadow-md ">
+                            <div class="w-14 h-14 flex">
+                                <img 
+                                    src={skill.iconUrl} 
+                                    alt={skill.name}
+                                    loading="lazy"
+                                    class="size-50 w-full h-full object-contain"
+                                />
+                            </div>
+                            <h3 class="text-md font-semibold text-bg-inverse-alt-v text-center">{skill.name}</h3>
+                            <div class="w-full flex justify-center">
+                                <span class="text-accent-v text-sm" aria-label={`${skill.level} de 5 estrellas`}>{'★'.repeat(skill.level)}</span>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+
+        <!-- Link to Full Skills Page -->
+        <div class="text-center">
+            <a href={`/${lang}/skills`} class="hover:bg-secondary-v
+            font-bold bg-primary-v rounded-md px-4 py-2 text-white" >
+                {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
+            </a>
+        </div>
+    </div>
+</Section>
+

@@ -1,0 +1,74 @@
+{
+    "back": {
+        "es": "Volver",
+        "en": "Back",
+        "fr": "Retour",
+        "de": "Zurück",
+        "it": "Indietro",
+        "pt": "Voltar",
+        "nl": "Terug",
+        "pl": "Wstecz",
+        "ru": "Назад",
+        "ja": "戻る"
+    },
+    "noData": {
+        "es": "Sin datos disponibles",
+        "en": "No data available",
+        "fr": "Aucune donnée disponible",
+        "de": "Keine Daten verfügbar",
+        "it": "Nessun dato disponibile",
+        "pt": "Sem dados disponíveis",
+        "nl": "Geen gegevens beschikbaar",
+        "pl": "Brak dostępnych danych",
+        "ru": "Нет доступных данных",
+        "ja": "利用可能なデータがありません"
+    },
+    "viewMore": {
+        "es": "Ver Más",
+        "en": "View More",
+        "fr": "Voir Plus",
+        "de": "Mehr Anzeigen",
+        "it": "Visualizza Di Più",
+        "pt": "Ver Mais",
+        "nl": "Meer Weergeven",
+        "pl": "Pokaż Więcej",
+        "ru": "Посмотреть Больше",
+        "ja": "さらに表示"
+    },
+    "current": {
+        "es": "Actualidad",
+        "en": "Present",
+        "fr": "Présent",
+        "de": "Gegenwart",
+        "it": "Presente",
+        "pt": "Presente",
+        "nl": "Heden",
+        "pl": "Obecnie",
+        "ru": "Настоящее Время",
+        "ja": "現在"
+    },
+    "code": {
+        "es": "Código",
+        "en": "Code",
+        "fr": "Code",
+        "de": "Code",
+        "it": "Codice",
+        "pt": "Código",
+        "nl": "Code",
+        "pl": "Kod",
+        "ru": "Код",
+        "ja": "コード"
+    },
+    "demo": {
+        "es": "Demo",
+        "en": "Demo",
+        "fr": "Démo",
+        "de": "Demo",
+        "it": "Demo",
+        "pt": "Demo",
+        "nl": "Demo",
+        "pl": "Demo",
+        "ru": "Демо",
+        "ja": "デモ"
+    }
+}
