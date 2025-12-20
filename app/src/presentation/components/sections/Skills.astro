@@ -20,33 +20,33 @@ const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRe
 const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
 ---
 
-<Section id="skills" class="skills" topFade bottomFade background='circuit' title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
+<Section id="skills" topFade bottomFade background='circuit' title={translate(skillsLabels.title, lang)} subtitle={translate(skillsLabels.subtitle, lang)}>
     
-    <div class="max-w-7xl mx-auto px-4 relative z-10">
-
+    <div class="flex flex-col gap-10 mt-10">
         <!-- Featured Skills Grid -->
         <div class="mb-8">
-            <div class="grid gap-6 max-w-3xl mx-auto grid-cols-[repeat(auto-fit,minmax(120px,1fr))]">
+            <div class="grid gap-6 grid-cols-2 
+            md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
                 {skills
                 .filter((skill) => !['architecture','methodologies'].includes(skill.category))
                 .sort((a, b) => b.level - a.level)
                 .slice(0, featured)
                 .map((skill) => {
                     return (
-                        <div title={skill.name} class="flex flex-col items-center gap-3 p-4 rounded-md transition-transform duration-200 hover:-translate-y-2 cursor-help bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700">
-                            <div class="w-14 h-14 flex items-center justify-center">
+                        <div title={skill.name} class="min-w-40 flex flex-col items-center gap-5 py-5 px-3 
+                        rounded-md transition-transform duration-200 hover:-translate-y-2 
+                        cursor-help bg-bg-surface-alt-v border-primary-dark-v border-3 shadow-secondary-v shadow-md ">
+                            <div class="w-14 h-14 flex">
                                 <img 
                                     src={skill.iconUrl} 
                                     alt={skill.name}
-                                    width="56"
-                                    height="56"
                                     loading="lazy"
-                                    class="w-full h-full object-contain"
+                                    class="size-50 w-full h-full object-contain"
                                 />
                             </div>
-                            <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100 text-center">{skill.name}</h3>
+                            <h3 class="text-md font-semibold text-bg-inverse-alt-v text-center">{skill.name}</h3>
                             <div class="w-full flex justify-center">
-                                <span class="text-indigo-600 text-sm" aria-label={`${skill.level} de 5 estrellas`}>{'★'.repeat(skill.level)}</span>
+                                <span class="text-accent-v text-sm" aria-label={`${skill.level} de 5 estrellas`}>{'★'.repeat(skill.level)}</span>
                             </div>
                         </div>
                     );
@@ -56,9 +56,10 @@ const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute
 
         <!-- Link to Full Skills Page -->
         <div class="text-center">
-            <Button href={"/" + lang + "/technologies"} variant="secondary" size="md">
+            <a href={`/${lang}/skills`} class="hover:bg-secondary-v
+            font-bold bg-primary-v rounded-md px-4 py-2 text-white" >
                 {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
-            </Button>
+            </a>
         </div>
     </div>
 </Section>

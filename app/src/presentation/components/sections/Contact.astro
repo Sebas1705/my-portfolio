@@ -19,41 +19,41 @@ import { GetContactLabelsUseCase } from '@/domain';
 const contactLabels = await new GetContactLabelsUseCase(new InMemoryContactLabelsRepository()).execute();
 ---
 
-<Section id="contact" class="bg-slate-50 dark:bg-slate-900/40" title={translate(contactLabels.title, lang)} subtitle={translate(contactLabels.subtitle, lang)}>
+<Section id="contact" class="bg-bg-surface-alt-v" title={translate(contactLabels.title, lang)} subtitle={translate(contactLabels.subtitle, lang)}>
     <div class="grid gap-12 items-center lg:grid-cols-2">
         <div>
-        <p class="text-xl text-slate-600 dark:text-slate-300 mb-8 text-center lg:text-left">{translate(contactLabels.message, lang)}</p>
+        <p class="text-2xl text-secondary-v font-semibold mb-8 text-center lg:text-left">{translate(contactLabels.message, lang)}</p>
 
         <div class="flex flex-col gap-6 mb-8">
             <div class="flex gap-4 items-start">
-                <div class="w-12 h-12 rounded-lg bg-blue-500 text-white flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 rounded-lg bg-primary-v text-white flex items-center justify-center shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                         <polyline points="22,6 12,13 2,6"/>
                     </svg>
                 </div>
                 <div class="flex-1">
-                    <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">{translate(contactLabels.email, lang)}</h3>
-                    <a href={`mailto:${personalInfo.email}`} class="text-blue-500 font-medium hover:text-blue-600 hover:underline">{personalInfo.email}</a>
+                    <h3 class="text-base font-semibold text-bg-inverse-alt-v mb-1">{translate(contactLabels.email, lang)}</h3>
+                    <a href={`mailto:${personalInfo.email}`} class="text-accent-v font-medium hover:text-secondary-v">{personalInfo.email}</a>
                 </div>
             </div>
 
             <div class="flex gap-4 items-start">
-                <div class="w-12 h-12 rounded-lg bg-blue-500 text-white flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 rounded-lg bg-primary-v text-white flex items-center justify-center shrink-0">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                         <circle cx="12" cy="10" r="3"/>
                     </svg>
                 </div>
                 <div class="flex-1">
-                    <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">{translate(contactLabels.location, lang)}</h3>
-                    <p class="text-slate-600 dark:text-slate-300">{translate(personalInfo.location, lang)}</p>
+                    <h3 class="text-base font-semibold text-bg-inverse-alt-v mb-1">{translate(contactLabels.location, lang)}</h3>
+                    <p class="text-secondary-v">{translate(personalInfo.location, lang)}</p>
                 </div>
             </div>
         </div>
 
-        <div class="pt-6 border-t border-gray-200 dark:border-slate-700 text-center lg:text-left">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">{translate(contactLabels.social, lang)}</h3>
+        <div class="pt-6 border-t border-primary-v text-center lg:text-left">
+            <h3 class="text-lg font-semibold text-secondary-v mb-3">{translate(contactLabels.social, lang)}</h3>
             <div class="flex gap-3 justify-center lg:justify-start">
                 {personalInfo.socialLinks.github && (
                     <SocialLink href={personalInfo.socialLinks.github} label="GitHub">
@@ -85,7 +85,7 @@ const contactLabels = await new GetContactLabelsUseCase(new InMemoryContactLabel
         </div>
     </div>
 
-    <div class="hidden lg:block">
+    <div class="hidden lg:block size-150">
         <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="50" y="50" width="300" height="200" rx="10" fill="var(--color-bg-secondary)" stroke="var(--color-primary)" stroke-width="2"/>
             <line x1="50" y1="80" x2="350" y2="80" stroke="var(--color-border)" stroke-width="2"/>

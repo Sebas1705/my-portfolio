@@ -72,16 +72,16 @@
             "ja": "問題解決"
         },
         "description": {
-            "es": "Análisis crítico y solución creativa de problemas complejos con enfoque estructurado.",
-            "en": "Critical analysis and creative solution of complex problems with a structured approach.",
-            "fr": "Analyse critique et résolution créative de problèmes complexes avec une approche structurée.",
-            "de": "Kritische Analyse und kreative Lösung komplexer Probleme mit strukturiertem Ansatz.",
-            "it": "Analisi critica e soluzione creativa di problemi complessi con approccio strutturato.",
-            "pt": "Análise crítica e solução criativa de problemas complexos com abordagem estruturada.",
-            "nl": "Kritische analyse en creatieve oplossing van complexe problemen met een gestructureerde aanpak.",
-            "pl": "Krytyczna analiza i kreatywne rozwiązywanie złożonych problemów ze strukturalnym podejściem.",
-            "ru": "Критический анализ и креативное решение сложных проблем с использованием структурированного подхода.",
-            "ja": "構造化されたアプローチによる複雑な問題の批判的分析と創造的解決。"
+            "es": "Análisis y resolución práctica de problemas técnicos, depuración y refactorización para mantener y mejorar aplicaciones.",
+            "en": "Practical analysis and resolution of technical issues, debugging and refactoring to maintain and improve applications.",
+            "fr": "Analyse pratique et résolution des problèmes techniques, débogage et refactorisation pour maintenir et améliorer les applications.",
+            "de": "Praktische Analyse und Lösung technischer Probleme, Debugging und Refactoring zur Wartung und Verbesserung von Anwendungen.",
+            "it": "Analisi pratica e risoluzione di problemi tecnici, debugging e refactoring per mantenere e migliorare le applicazioni.",
+            "pt": "Análise prática e resolução de problemas técnicos, depuração e refatoração para manter e melhorar aplicações.",
+            "nl": "Praktische analyse en oplossing van technische problemen, debuggen en refactoren om applicaties te onderhouden en te verbeteren.",
+            "pl": "Praktyczna analiza i rozwiązywanie problemów technicznych, debugowanie i refaktoryzacja w celu utrzymania i poprawy aplikacji.",
+            "ru": "Практический анализ и решение технических проблем, отладка и рефакторинг для поддержания и улучшения приложений.",
+            "ja": "技術的課題の実践的な分析と解決、デバッグおよびリファクタリングによるアプリの保守と改善。"
         },
         "icon": "🧩",
         "level": 5
@@ -101,47 +101,48 @@
             "ja": "適応性"
         },
         "description": {
-            "es": "Rápida adaptación a nuevas tecnologías, metodologías y cambios en los proyectos.",
-            "en": "Quick adaptation to new technologies, methodologies, and project changes.",
-            "fr": "Adaptation rapide aux nouvelles technologies, méthodologies et changements de projet.",
-            "de": "Schnelle Anpassung an neue Technologien, Methoden und Projektänderungen.",
-            "it": "Rapido adattamento a nuove tecnologie, metodologie e cambiamenti di progetto.",
-            "pt": "Rápida adaptação a novas tecnologias, metodologias e mudanças de projeto.",
-            "nl": "Snelle aanpassing aan nieuwe technologieën, methodologieën en projectwijzigingen.",
-            "pl": "Szybka adaptacja do nowych technologii, metodologii i zmian w projektach.",
-            "ru": "Быстрая адаптация к новым технологиям, методологиям и изменениям в проектах.",
-            "ja": "新しいテクノロジー、方法論、プロジェクトの変更への迅速な適応。"
+            "es": "Adaptación rápida a nuevas tecnologías y migraciones, como portar proyectos desde versiones legacy a móvil.",
+            "en": "Quick adaptation to new technologies and migrations, such as porting legacy projects to mobile.",
+            "fr": "Adaptation rapide aux nouvelles technologies et aux migrations, comme le portage de projets hérités vers le mobile.",
+            "de": "Schnelle Anpassung an neue Technologien und Migrationen, z. B. Portierung von Legacy-Projekten auf Mobile.",
+            "it": "Rapida adattamento a nuove tecnologie e migrazioni, come il porting di progetti legacy su mobile.",
+            "pt": "Rápida adaptação a novas tecnologias e migrações, como portar projetos legados para mobile.",
+            "nl": "Snelle aanpassing aan nieuwe technologieën en migraties, zoals het porten van legacy-projecten naar mobiel.",
+            "pl": "Szybka adaptacja do nowych technologii i migracji, takich jak przenoszenie projektów legacy na mobile.",
+            "ru": "Быстрая адаптация к новым технологиям и миграциям, например, перенос legacy-проектов на мобильные платформы.",
+            "ja": "レガシーからモバイルへの移行など、新しい技術やマイグレーションへの迅速な適応。"
         },
         "icon": "🔄",
         "level": 5
     },
+    
     {
-        "id": "leadership",
+        "id": "proactivity",
         "name": {
-            "es": "Liderazgo",
-            "en": "Leadership",
-            "fr": "Leadership",
-            "de": "Führung",
-            "it": "Leadership",
-            "pt": "Liderança",
-            "nl": "Leiderschap",
-            "pl": "Przywództwo",
-            "ru": "Лидерство",
-            "ja": "リーダーシップ"
+            "es": "Proactividad",
+            "en": "Proactivity",
+            "fr": "Proactivité",
+            "de": "Proaktivität",
+            "it": "Proattività",
+            "pt": "Proatividade",
+            "nl": "Proactiviteit",
+            "pl": "Proaktywność",
+            "ru": "Проактивность",
+            "ja": "積極性"
         },
         "description": {
-            "es": "Capacidad para guiar equipos técnicos, mentorizar desarrolladores junior y tomar decisiones arquitectónicas.",
-            "en": "Ability to guide technical teams, mentor junior developers, and make architectural decisions.",
-            "fr": "Capacité à guider des équipes techniques, à encadrer des développeurs juniors et à prendre des décisions architecturales.",
-            "de": "Fähigkeit, technische Teams zu leiten, Junior-Entwickler zu betreuen und Architekturentscheidungen zu treffen.",
-            "it": "Capacità di guidare team tecnici, fare da mentore a sviluppatori junior e prendere decisioni architetturali.",
-            "pt": "Capacidade de guiar equipes técnicas, mentorar desenvolvedores júnior e tomar decisões arquiteturais.",
-            "nl": "Vermogen om technische teams te leiden, junior ontwikkelaars te begeleiden en architecturale beslissingen te nemen.",
-            "pl": "Zdolność prowadzenia zespołów technicznych, mentorowania młodszych programistów i podejmowania decyzji architektonicznych.",
-            "ru": "Способность руководить техническими командами, наставлять младших разработчиков и принимать архитектурные решения.",
-            "ja": "技術チームの指導、ジュニア開発者のメンタリング、アーキテクチャ上の意思決定を行う能力。"
+            "es": "Iniciativa para proponer mejoras, asumir tareas y anticiparse a problemas sin supervisión constante.",
+            "en": "Initiative to propose improvements, take on tasks and anticipate issues without constant supervision.",
+            "fr": "Initiative pour proposer des améliorations, prendre en charge des tâches et anticiper les problèmes sans supervision constante.",
+            "de": "Initiative zur Vorschlag von Verbesserungen, Übernahme von Aufgaben und Antizipation von Problemen ohne ständige Aufsicht.",
+            "it": "Iniziativa per proporre miglioramenti, assumersi compiti e anticipare problemi senza supervisione costante.",
+            "pt": "Iniciativa para propor melhorias, assumir tarefas e antecipar problemas sem supervisão constante.",
+            "nl": "Initiatief om verbeteringen voor te stellen, taken op zich te nemen en problemen te anticiperen zonder constante supervisie.",
+            "pl": "Inicjatywa w proponowaniu usprawnień, podejmowaniu zadań i przewidywaniu problemów bez stałego nadzoru.",
+            "ru": "Инициатива по предложению улучшений, взятию на себя задач и прогнозированию проблем без постоянного надзора.",
+            "ja": "継続的な監督なしに改善を提案し、タスクを引き受け、問題を予測する主体性。"
         },
-        "icon": "🎯",
+        "icon": "🚀",
         "level": 4
     },
     {

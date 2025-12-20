@@ -8,7 +8,7 @@ export interface WorkExperience {
     description: Translations;
     startDate: Date;
     endDate?: Date;
-    location: string;
+    location: Translations;
     technologies: string[]; // List of technology IDs used
     achievements: Translations[];
     companyUrl?: string;

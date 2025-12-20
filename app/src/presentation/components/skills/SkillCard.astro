@@ -14,8 +14,8 @@ const displayName = skill?.name ?? skillId;
 const fallbackLabel = displayName.slice(0, 2).toUpperCase();
 ---
 
-<div class={`bg-slate-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-center transition-transform duration-200 flex flex-col items-center justify-center ${compact ? 'min-h-[120px] p-4' : 'min-h-[160px] p-6'} hover:shadow-lg hover:-translate-y-1 hover-border-primary`}>
-    <div class={`grid place-items-center bg-white dark:bg-slate-900 rounded-full border border-gray-200 dark:border-slate-700 ${compact ? 'w-12 h-12 mb-3' : 'w-16 h-16 mb-4'}`}>
+<div class="bg-bg-surface-alt-v border border-primary-v rounded-lg text-center transition-transform duration-200 flex flex-col items-center justify-center hover:shadow-lg hover:-translate-y-1 hover:border-primary-v">
+    <div class='grid place-items-center bg-bg-surface-alt-v rounded-full p-5'>
         {skill?.iconUrl ? (
             <img 
                 src={skill.iconUrl} 
@@ -23,12 +23,12 @@ const fallbackLabel = displayName.slice(0, 2).toUpperCase();
                 width="64" 
                 height="64" 
                 loading="lazy"
-                class={`${compact ? 'w-9 h-9' : 'w-12 h-12'} object-contain`} 
+                class={"object-contain"} 
             />
             ) : (
             <span class={`${compact ? 'text-xl' : 'text-2xl'} font-bold`} style={`color: var(--color-primary)`} aria-hidden="true">{fallbackLabel}</span>
         )}
     </div>
-    <h3 class="text-sm md:text-base font-semibold text-slate-900 dark:text-slate-100 mt-0 line-clamp-2">{displayName}</h3>
+    <h3 class="text-xl font-semibold text-secondary-v mb-5 line-clamp-2">{displayName}</h3>
 </div>
 

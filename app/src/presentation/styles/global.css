@@ -8,8 +8,8 @@
     /* Color palette - Light mode */
     --color-primary: #3b82f6;
     --color-primary-dark: #2563eb;
-    --color-secondary: #8b5cf6;
-    --color-accent: #06b6d4;
+    --color-secondary: #06b6d4;
+    --color-accent: #f6af3b;
     --color-success: #10b981;
     --color-warning: #f59e0b;
     --color-error: #ef4444;
@@ -38,8 +38,8 @@
     /* Color palette - Dark mode */
     --color-primary: #60a5fa;
     --color-primary-dark: #3b82f6;
-    --color-secondary: #a78bfa;
-    --color-accent: #22d3ee;
+    --color-secondary: #22d3ee;
+    --color-accent: #fab560;
     --color-success: #34d399;
     --color-warning: #fbbf24;
     --color-error: #f87171;
@@ -85,25 +85,6 @@
     --color-shadow-v: var(--color-shadow);
 }
 
-
-
-body {
-    @apply font-sans leading-relaxed bg-radial-[at_50%_75%] from-sky-200 via-blue-400 to-indigo-900 to-90%; 
-    /*background-color: #ffffff;
-    background-image:
-        radial-gradient(circle at 100% 100%, var(--color-primary) 50%, transparent 50%),
-        radial-gradient(circle at 0% 100%, var(--color-primary-dark) 50%, transparent 50%),
-        radial-gradient(circle at 100% 0%, var(--color-accent) 50%, transparent 50%),
-        radial-gradient(circle at 0% 0%, var(--color-success) 50%, transparent 50%);
-    background-size: 50px 50px;
-    background-position:
-        0 0, 50px 0, 
-        0 50px, 50px 50px; */
-        
-}
-
-a { @apply hover:text-primary-dark-v transition text-primary-v no-underline; }
-
 /* Utility classes */
 .sr-only {
     position: absolute;
@@ -116,59 +97,6 @@ a { @apply hover:text-primary-dark-v transition text-primary-v no-underline; }
     white-space: nowrap;
     border-width: 0;
 }
-
-/* Small utility helpers that use theme variables */
-.btn-primary {
-    background-color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background-color var(--transition-fast), border-color var(--transition-fast);
-}
-.btn-primary:hover {
-    background-color: var(--color-primary-dark);
-    border-color: var(--color-primary-dark);
-}
-.btn-outline {
-    background-color: transparent;
-    border-color: var(--color-border);
-    color: var(--color-text-primary);
-}
-.btn-outline:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-}
-.badge-primary {
-    background-color: var(--color-primary);
-    color: #ffffff;
-}
-.text-primary { color: var(--color-primary); }
-.border-primary { border-color: var(--color-primary); }
-.hover-border-primary:hover { border-color: var(--color-primary); }
-.card-shadow { box-shadow: var(--shadow-md); }
-.hover-text-primary-dark:hover { color: var(--color-primary-dark); }
-
-/* Navigation link helper to avoid repeating utility classes */
-
-.nav-link:hover { color: var(--color-primary); }
-
-/* Common UI primitives */
-.card {
-    background-color: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
-}
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--color-primary); }
-
-.grid-gap { gap: 1.5rem; }
-
-.centered-content { max-width: 7rem; margin-left: auto; margin-right: auto; }
 
 /* Language selector helpers */
 .language-button {

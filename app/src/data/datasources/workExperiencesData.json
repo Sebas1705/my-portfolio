@@ -28,9 +28,20 @@
         },
         "startDate": "2025-03-01",
         "endDate": null,
-        "location": "Híbrido",
+        "location": {
+            "es": "Híbrido",
+            "en": "Hybrid",
+            "fr": "Hybride",
+            "de": "Hybrid",
+            "it": "Ibrido",
+            "pt": "Híbrido",
+            "nl": "Hybride",
+            "pl": "Hybrydowy",
+            "ru": "Гибридный",
+            "ja": "ハイブリッド"
+        },
         "companyUrl": "https://www.solusoft.es/",
-        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "powerbi", "sqlservermagment", "mvc"],
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "microsoft-powerbi", "sqlservermagment", "mvc"],
         "achievements": [
             {
                 "es": "Mantenimiento y mejora continua del sistema de AGEDI",
@@ -111,9 +122,20 @@
         },
         "startDate": "2024-10-01",
         "endDate": "2025-02-28",
-        "location": "Híbrido",
+        "location": {
+            "es": "Híbrido",
+            "en": "Hybrid",
+            "fr": "Hybride",
+            "de": "Hybrid",
+            "it": "Ibrido",
+            "pt": "Híbrido",
+            "nl": "Hybride",
+            "pl": "Hybrydowy",
+            "ru": "Гибридный",
+            "ja": "ハイブリッド"
+        },
         "companyUrl": "https://www.solusoft.es/",
-        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "powerbi", "sqlservermagment", "mvc"],
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver", "git", "source-tree", "visual-studio", "azure-data-studio", "vscode", "multimodular-mixed", "clean-architecture", "agile", "azure", "microsoft-powerbi", "sqlservermagment", "mvc"],
         "achievements": [
             {
                 "es": "Participé en la implementación de nuevas funcionalidades en varios proyectos para AGEDI",

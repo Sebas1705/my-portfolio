@@ -12,16 +12,16 @@
         "ja": "自己紹介"
     },
     "subtitle": {
-        "es": "Conoce mi historia",
-        "en": "Get to know my story",
-        "fr": "Découvrez mon histoire",
-        "de": "Lernen Sie meine Geschichte kennen",
-        "it": "Scopri la mia storia",
-        "pt": "Conheça minha história",
-        "nl": "Leer mijn verhaal kennen",
-        "pl": "Poznaj moją historię",
-        "ru": "Узнайте мою историю",
-        "ja": "私のストーリーを知る"
+        "es": "¿Quién soy?",
+        "en": "Who am I?",
+        "fr": "Qui suis-je?",
+        "de": "Wer bin ich?",
+        "it": "Chi sono?",
+        "pt": "Quem sou eu?",
+        "nl": "Wie ben ik?",
+        "pl": "Kim jestem?",
+        "ru": "Кто я?",
+        "ja": "私は誰ですか？"
     },
     "greeting": {
         "es": "Hola, soy",

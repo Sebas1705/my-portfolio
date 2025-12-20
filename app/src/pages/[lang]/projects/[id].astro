@@ -3,7 +3,7 @@ import Layout from '@/presentation/layouts/Layout.astro';
 import Header from '@/presentation/components/sections/Header.astro';
 import Footer from '@/presentation/components/sections/Footer.astro';
 
-import type { Language, Translations } from '@/domain';
+import type { Language, Skill, Translations } from '@/domain';
 import { supportedLanguages, translate } from '@/domain';
 import { formatMonthYear } from '@/core';
 
@@ -23,8 +23,11 @@ export async function getStaticPaths() {
 const lang: Language = Astro.params.lang as Language;
 const { id } = Astro.params as { id: string };
 
-import { InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository } from '@/data';
-import { GetPersonalInfoUseCase, GetCommonLabelsUseCase, GetProjectLabelsUseCase } from '@/domain';
+import { InMemoryPersonalInfoRepository, InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository, InMemorySkillRepository } from '@/data';
+import { GetPersonalInfoUseCase, GetCommonLabelsUseCase, GetProjectLabelsUseCase, GetAllSkillsUseCase } from '@/domain';
+import Section from '@/presentation/components/common/Section.astro';
+import BackLink from '@/presentation/components/ui/BackLink.astro';
+import SkillsGrid from '@/presentation/components/skills/SkillsGrid.astro';
 
 const personalInfo = await new GetPersonalInfoUseCase(new InMemoryPersonalInfoRepository()).execute();
 const projects = await new GetAllProjectsUseCase(new InMemoryProjectRepository()).execute();
@@ -33,6 +36,7 @@ if (!project) return Astro.redirect(`/${lang}/`);
 
 const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
 const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
+const skills = await new GetAllSkillsUseCase(new InMemorySkillRepository()).execute();
 
 const typeLabels: Record<string, Translations> = {
     personal: projectLabels.personalProjects,
@@ -44,54 +48,45 @@ const typeLabels: Record<string, Translations> = {
 <Layout lang={lang} title={`${translate(project.title, lang)} - ${personalInfo.name}`} description={`${translate(project.description, lang)}`}>
     <Header lang={lang} personalInfo={personalInfo} />
     
-    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="mb-6">
-                <a href={`/${lang}/#projects`} class="text-[var(--color-primary)] hover:underline">← {translate(commonLabels.back, lang)}</a>
-                <div class="flex items-center gap-4 mt-3">
-                    <span class="px-3 py-1 rounded-md text-sm font-semibold uppercase tracking-wide bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)]" data-type={project.type}>{translate(typeLabels[project.type], lang)}</span>
-                    <span class="text-[var(--color-text-secondary)] text-sm">{formatMonthYear(project.startDate, lang)}</span>
+    <Section background='dotted' bottomFade>
+        <div class="mx-15 mt-5 w-full flex flex-col gap-5">
+            <BackLink href={`/${lang}/projects`} text={translate(commonLabels.back, lang)} />
+            <div class="flex items-center gap-4 mt-3">
+                <span class="px-3 py-1 rounded-md text-5xl font-semibold uppercase tracking-wide text-primary-v">{translate(typeLabels[project.type], lang)}</span>
+                <span class="text-secondary-v text-4xl">{formatMonthYear(project.startDate, lang)}</span>
+            </div>
+
+            {project.imageUrl && (
+                <div class="bg-accent-v rounded-lg overflow-hidden border border-secondary-v my-5">
+                    <img src={project.imageUrl} alt={translate(project.title, lang)} loading="lazy" class="w-full object-cover" />
                 </div>
-            </div>
+            )}
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                {project.imageUrl && (
-                    <div class="bg-[var(--color-bg-tertiary)] rounded-lg overflow-hidden border border-[var(--color-border)]">
-                        <img src={project.imageUrl} alt={translate(project.title, lang)} loading="lazy" class="w-full h-full object-cover" />
-                    </div>
-                )}
+            <article class="bg-bg-surface-alt-v border border-secondary-v rounded-lg p-8">
+                <h1 class="text-5xl font-bold mb-4 text-primary-v">{translate(project.title, lang)}</h1>
+                <p class="text-bg-inverse-alt-v text-lg leading-relaxed mb-6">{translate(project.description, lang)}</p>
 
-                <article class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-8">
-                    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-[var(--color-text-primary)]">{translate(project.title, lang)}</h1>
-                    <p class="text-[var(--color-text-secondary)] text-base leading-relaxed mb-6">{translate(project.description, lang)}</p>
-
-                    {project.technologies && project.technologies.length > 0 && (
-                        <section class="mb-6">
-                            <h2 class="text-xl font-semibold text-[var(--color-primary)] mb-3">{translate(projectLabels.technologies, lang)}</h2>
-                            <div class="flex flex-wrap gap-3">
-                                {project.technologies.map((tech) => (
-                                    <span class="bg-gradient-to-r from-[var(--color-primary-light)] to-[var(--color-primary-lighter)] text-[var(--color-text-primary)] px-3 py-1 rounded-full text-sm font-medium">{tech}</span>
-                                ))}
-                            </div>
-                        </section>
+                <div class="flex gap-4 mt-6 pt-6 border-t border-secondary-v">
+                    {project.demoUrl && (
+                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="hover:bg-secondary-v bg-primary-v text-white inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-transform hover:-translate-y-0.5">
+                            {translate(projectLabels.viewDemo, lang)}
+                        </a>
                     )}
+                    {project.repoUrl && (
+                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="hover:bg-secondary-v bg-primary-v text-white inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline">
+                            {translate(projectLabels.viewCode, lang)}
+                        </a>
+                    )}
+                </div>
+            </article>
 
-                    <div class="flex flex-col sm:flex-row gap-4 mt-6 pt-6 border-t border-[var(--color-border)]">
-                        {project.demoUrl && (
-                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-transform hover:-translate-y-0.5">
-                                {translate(projectLabels.viewDemo, lang)}
-                            </a>
-                        )}
-                        {project.repoUrl && (
-                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]">
-                                {translate(projectLabels.viewCode, lang)}
-                            </a>
-                        )}
-                    </div>
-                </article>
-            </div>
+            {project.technologies && project.technologies.length > 0 && (
+                <Section title={translate(projectLabels.technologies, lang)}>
+                    <SkillsGrid skillIds={project.technologies} skills={skills.filter((skill: Skill) => project.technologies.includes(skill.id))} columns={4} compact={true} />
+                </Section>
+            )}
         </div>
-    </main>
+    </Section>
 
     <Footer lang={lang} />
 </Layout>

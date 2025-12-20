@@ -94,5 +94,17 @@
         "pl": "Projekty Akademickie",
         "ru": "Академические Проекты",
         "ja": "学術プロジェクト"
+    },
+    "noImage": {
+        "es": "Imagen no disponible",
+        "en": "Image not available",
+        "fr": "Image non disponible",
+        "de": "Bild nicht verfügbar",
+        "it": "Immagine non disponibile",
+        "pt": "Imagem não disponível",
+        "nl": "Afbeelding niet beschikbaar",
+        "pl": "Obraz niedostępny",
+        "ru": "Изображение недоступно",
+        "ja": "画像は利用できません"
     }
 }

@@ -3,7 +3,6 @@ import type { Language, CommonLabels } from '@/domain';
 import { translate } from '@/domain';
 import CourseCard from '@/presentation/components/common/cards/CourseCard.astro';
 import Section from '@/presentation/components/common/Section.astro';
-import SectionHeader from '@/presentation/components/common/ui/SectionHeader.astro';
 
 interface Props {
     lang: Language;
@@ -22,24 +21,22 @@ const visibleCourses = courses
     .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
     .slice(0, 3);
 ---
-<Section class="border-t border-gray-200/50">
-    <SectionHeader
-        title={translate(courseLabels.title, lang)}
-        subtitle={translate(courseLabels.subtitle, lang)}
-    />
-
-    {visibleCourses.length > 0 ? (
-        <div class="grid gap-5 mt-8 mb-10">
+<Section id="courses" background="binary-rain" bottomFade topFade title={translate(courseLabels.title, lang)} subtitle={translate(courseLabels.subtitle, lang)}>
+    
+    <div class="flex flex-col gap-5 mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-3
+        gap-5 mt-8 mb-10 mx-15">
             {visibleCourses.map((course) => (
                 <CourseCard course={course} lang={lang} courseLabels={courseLabels} />
             ))}
         </div>
-    ) : (
-        <p class="text-center text-slate-600 my-8">{translate(commonLabels.noData, lang)}</p>
-    )}
 
-    <div class="flex justify-center">
-        <a href={`/${lang}/courses`} class="btn-primary inline-block px-4 py-2 rounded-md font-medium transform hover:-translate-y-0.5 transition">{translate(commonLabels.viewMore, lang)}</a>
+        <div class="text-center">
+            <a href={`/${lang}/courses`} class="hover:bg-secondary-v
+            font-bold bg-primary-v rounded-md px-4 py-2 text-white" >
+                {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
+            </a>
+        </div>
     </div>
 </Section>
 <style>

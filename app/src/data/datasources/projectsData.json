@@ -28,6 +28,7 @@
         "technologies": ["csharp", "dotnet", "sqlserver", "microsoft-powerbi","sqlservermagment", "azure", "azure-data-studio", "mvc"],
         "startDate": "2024-10-01",
         "type": "work",
+        "demoUrl": "https://play.google.com/store/apps/details?id=es.solusoft.epdm&hl=es_419",
         "relatedTo": ["work-1", "work-2"]
     },
     {
@@ -56,7 +57,7 @@
             "ru": "Веб-приложение и бэкэнд для управления контентом Sisley.",
             "ja": "Sisley向けコンテンツ管理用Webアプリケーションおよびバックエンド"
         },
-        "technologies": ["React", "C#", ".NET", "SQLServer"],
+        "technologies": ["react", "csharp", "dotnet", "sqlserver", "azure", "mvc"],
         "startDate": "2024-10-01",
         "type": "work",
         "relatedTo": ["work-1", "work-2"]
@@ -87,7 +88,7 @@
             "ru": "Мобильное приложение для управления системами пожарной безопасности.",
             "ja": "火災予防システム管理用モバイルアプリケーション"
         },
-        "technologies": ["Kotlin", "Jetpack Compose", "C#", ".NET", "SQLServer"],
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver"],
         "startDate": "2024-10-01",
         "type": "work",
         "relatedTo": ["work-1", "work-2"]
@@ -118,7 +119,7 @@
             "ru": "Мобильное приложение для Музыкального портала с управлением музыкальным контентом с правами, управляемыми AGEDI.",
             "ja": "AGEDIが管理する権利を持つ音楽コンテンツの管理を備えた音楽ポータル向けモバイルアプリケーション"
         },
-        "technologies": ["Kotlin", "Jetpack Compose", ".NET", "SQLServer"],
+        "technologies": ["kotlin", "jetpack-compose", "csharp", "dotnet", "sqlserver"],
         "imageUrl": "/projects/epdm.jpg",
         "demoUrl": "https://play.google.com/store/apps/details?id=es.solusoft.epdm&hl=es_419&pli=1",
         "startDate": "2025-03-01",
@@ -151,7 +152,7 @@
             "ru": "Дипломный проект, реализующий современную веб-архитектуру с интегрированным интерфейсом и бэкэндом.",
             "ja": "フロントエンドとバックエンドが統合された最新のWeb Architectureを実装する学位プロジェクト"
         },
-        "technologies": ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
+        "technologies": ["react", "nodejs", "express", "mongodb", "typescript", "docker"],
         "imageUrl": "/projects/fullstack.jpg",
         "repoUrl": "https://github.com/Sebas1705/fullstack-project",
         "startDate": "2023-09-01",
@@ -185,7 +186,7 @@
             "ru": "Магистерский проект, сосредоточенный на разработке приложений с искусственным интеллектом.",
             "ja": "人工知能を使用したアプリケーション開発に焦点を当てたマスタープロジェクト"
         },
-        "technologies": ["Python", "TensorFlow", "FastAPI", "scikit-learn"],
+        "technologies": ["python", "tensorflow", "fastapi", "scikit-learn"],
         "imageUrl": "/projects/ai-app.jpg",
         "startDate": "2025-10-01",
         "type": "academic",
@@ -217,7 +218,7 @@
             "ru": "Мой веб-портфель, созданный с помощью Astro и чистой архитектуры.",
             "ja": "Astroとクリーンアーキテクチャで構築されたWebポートフォリオ"
         },
-        "technologies": ["Astro", "TypeScript", "Tailwind CSS", "Vitest"],
+        "technologies": ["astro", "typescript", "tailwindcss", "vitest"],
         "imageUrl": "/projects/portfolio.jpg",
         "demoUrl": "https://sebastian.dev",
         "repoUrl": "https://github.com/Sebas1705/my-portfolio",
@@ -250,7 +251,7 @@
             "ru": "Шаблон REST API, следующий принципам чистой архитектуры и DDD.",
             "ja": "クリーンアーキテクチャとDDDの原則に従うREST APIテンプレート"
         },
-        "technologies": ["Node.js", "Express", "TypeScript", "MongoDB", "Jest"],
+        "technologies": ["nodejs", "express", "typescript", "mongodb", "jest"],
         "imageUrl": "/projects/api-template.jpg",
         "repoUrl": "https://github.com/Sebas1705/clean-api-template",
         "startDate": "2023-06-01",
@@ -283,7 +284,7 @@
             "ru": "Технический блог о разработке программного обеспечения и лучших практиках.",
             "ja": "ソフトウェア開発とベストプラクティスに関する技術ブログ"
         },
-        "technologies": ["Next.js", "MDX", "Tailwind CSS", "Vercel"],
+        "technologies": ["nextjs", "mdx", "tailwindcss", "vercel"],
         "imageUrl": "/projects/blog.jpg",
         "demoUrl": "https://blog.sebastian.dev",
         "repoUrl": "https://github.com/Sebas1705/tech-blog",

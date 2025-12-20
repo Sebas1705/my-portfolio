@@ -1,7 +1,7 @@
 ---
 import type { Language, WorkExperience, CommonLabels } from '@/domain';
 import { translate } from '@/domain';
-import { formatDateRange, COMPANY_LINKS } from '@/core';
+import { formatDateRange, COMPANY_LINKS, linkify } from '@/core';
 import Section from '../common/Section.astro';
 
 interface Props {
@@ -11,99 +11,63 @@ interface Props {
 
 const { lang, commonLabels } = Astro.props;
 
-import { InMemoryWorkLabelsRepository, InMemoryProjectLabelsRepository, InMemoryWorkExperienceRepository, InMemoryProjectRepository } from '@/data';
-import { GetWorkLabelsUseCase, GetProjectLabelsUseCase, GetWorkExperiencesUseCase, GetProjectsByTypeUseCase } from '@/domain';
+import { InMemoryWorkLabelsRepository, InMemoryWorkExperienceRepository } from '@/data';
+import { GetWorkLabelsUseCase, GetWorkExperiencesUseCase } from '@/domain';
 
 const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsRepository()).execute();
-const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
 const experiences  = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
-const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepository()).execute('work');
 ---
 
-<Section id="work" class="work-section bg-gray-50 dark:bg-gray-900" title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
-    <div class="relative max-w-full pl-7 space-y-20">
-        {experiences.map((experience, index) => {
-            const relatedProjects = projects.filter(project =>
-                project.relatedTo?.includes(experience.id)
-            );
-
-            return (
-                <div class="relative mb-20 pl-20" data-index={index}>
-                    <div class="absolute left-2 top-0 w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 border-4 border-white dark:border-gray-900 z-30 flex items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110"></div>
-
-                    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md relative overflow-hidden border-l-4 border-blue-500 hover:border-indigo-500 transform transition-transform duration-200 hover:translate-x-2 hover:-translate-y-1">
+<Section id="work" background="binary-code" title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
+    
+    
+    <div class="relative my-5 mx-10">
+        {experiences.map((experience) => 
+            (
+                <div class="relative mb-15">
+                    <div class="bg-bg-surface-alt-v rounded-lg p-6 shadow-md relative overflow-hidden border-l-4 border-primary-dark-v hover:border-primary-v transform transition-transform duration-200 hover:translate-x-2 hover:-translate-y-1">
                         <div class="flex flex-col gap-4 mb-6 md:flex-row md:justify-between md:items-start">
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{experience.position ?? index}</h3>
-                                <p class="text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-transparent hover:border-blue-500">
-                                    {experience.companyUrl ? (
-                                        <a href={experience.companyUrl} target="_blank" rel="noopener noreferrer">
-                                            {experience.company}
-                                        </a>
-                                    ) : (
-                                        experience.company
-                                    )}
+                                <h3 class="text-2xl font-semibold text-primary-v">{translate(experience.position, lang)}</h3>
+                                <p class="text-secondary-v text-xl font-semibold mt-3">
+                                    <a href={experience.companyUrl} target="_blank" rel="noopener noreferrer"
+                                    class="hover:underline hover:text-secondary-v transition-colors duration-200">
+                                        {experience.company}
+                                    </a>
                                 </p>
                             </div>
-                            <div class="flex flex-col gap-1 text-sm text-gray-500">
+                            <div class="flex flex-col gap-1 text-md text-bg-inverse-alt-v">
                                 <span>
                                     {formatDateRange(experience.startDate, experience.endDate, lang, translate(commonLabels.current, lang))}
                                 </span>
-                                <span class="text-gray-500">{experience.location}</span>
+                                <span class="text-bg-inverse-v">{translate(experience.location, lang)}</span>
                             </div>
                         </div>
 
-                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">{experience.description}</p>
-
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            {experience.technologies.map(tech => (
-                                <span class="badge-primary px-3 py-1 rounded-sm text-sm font-medium">{tech}</span>
-                            ))}
-                        </div>
+                        <p class="text-bg-inverse-alt-v leading-relaxed w-[60%]">{translate(experience.description, lang)}</p>
 
                         {experience.achievements.length > 0 && (
-                            <div class="mb-4">
-                                <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200">{translate(workLabels.achievements, lang)}</h4>
-                                <ul class="list-none p-0 mt-2">
+                            <div class="mb-5">
+                                <h4 class="text-lg font-semibold text-secondary-v my-5">{translate(workLabels.achievements, lang)}</h4>
+                                <ul class="p-0 mt-2 list-none">
                                     {experience.achievements.map((achievement: any) => (
-                                        <li set:html={COMPANY_LINKS[achievement]} class="text-gray-600 dark:text-gray-300 mb-2 pl-5 relative"></li>
+                                        <li set:html={linkify(translate(achievement, lang))} class="relative pl-5 before:content-['•'] before:absolute 
+                                        before:left-0 before:top-0 before:text-accent-v
+                                        before:text-xl text-bg-inverse-alt-v mb-2"></li>
                                     ))}
                                 </ul>
                             </div>
                         )}
 
-                        {relatedProjects.length > 0 && (
-                            <div>
-                                <h4 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3">{translate(workLabels.projects, lang)}</h4>
-                                <div class="grid gap-4 md:grid-cols-2">
-                                    {relatedProjects.map(project => (
-                                        <div class="p-6 bg-gray-100 dark:bg-gray-700 rounded-md border-l-4 border-blue-500">
-                                            <h5 class="font-semibold text-gray-900 dark:text-gray-100">{translate(project.title, lang)}</h5>
-                                            <p class="text-gray-600 dark:text-gray-300 mt-2">{translate(project.description, lang)}</p>
-                                            <div class="flex gap-4 mt-4">
-                                                {project.demoUrl && (
-                                                    <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="text-blue-600 font-semibold hover:underline">
-                                                        {translate(projectLabels.viewDemo, lang)}
-                                                    </a>
-                                                )}
-                                                {project.repoUrl && (
-                                                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-blue-600 font-semibold hover:underline">
-                                                        {translate(projectLabels.viewCode, lang)}
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        <div class="flex justify-end">
+                            <a href={`/${lang}/work/${experience.id}`} class="hover:bg-secondary-v
+                            font-bold bg-primary-v rounded-md px-4 py-2 text-white" >
+                                {translate(commonLabels.viewMore, lang)}<span class="ml-2 transition-transform">→</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            );
-        })}
+            )
+        )}
     </div>
 </Section>
-<style>
-    .timeline::before{content:'';position:absolute;left:1.75rem;top:2rem;bottom:0;width:2px;background:linear-gradient(180deg,#3b82f6,#7c3aed,transparent)}
-    .timeline-marker::after{content:'';width:0.5rem;height:0.5rem;border-radius:9999px;background-color:#ffffff;display:block}
-</style>

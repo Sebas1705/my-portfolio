@@ -10,12 +10,9 @@ interface Props {
 }
 
 const { skillIds, skills, columns = 4, compact = false } = Astro.props;
-const cols = Math.max(1, Number(columns));
-    const lgColsClass = `lg:grid-cols-${cols}`;
-    const gridClass = `w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ${lgColsClass}`;
 ---
-<div class="w-full max-w-7xl mx-auto px-6">
-    <div class={gridClass}>
+<div class="w-full px-6 mt-5">
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
         {skillIds.map((skillId) => (
             <SkillCard skillId={skillId} skills={skills} compact={compact} />
         ))}

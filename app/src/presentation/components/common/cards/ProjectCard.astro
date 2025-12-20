@@ -14,7 +14,7 @@ const { project, lang, projectLabels } = Astro.props;
     {project.imageUrl && project.imageUrl !== '' && (
         <div class="relative w-full h-48 md:h-56 overflow-hidden bg-slate-200">
             <img src={project.imageUrl} alt={translate(project.title, lang)} loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-            <div class="absolute inset-0 bg-black/70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="absolute inset-0 bg-black/70 flex items-center justify-center opacity-100 transition-opacity">
                 <div class="flex gap-4">
                     {project.demoUrl && (
                         <a 

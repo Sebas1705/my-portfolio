@@ -14,6 +14,9 @@ const lang: Language = Astro.params.lang as Language;
 
 import { InMemoryCourseRepository, InMemoryPersonalInfoRepository, InMemoryCourseLabelsRepository, InMemoryCommonLabelsRepository, InMemorySkillRepository } from '@/data';
 import { GetAllCoursesUseCase, GetPersonalInfoUseCase, GetCourseLabelsUseCase, GetCommonLabelsUseCase, GetAllSkillsUseCase } from '@/domain';
+import Section from '@/presentation/components/common/Section.astro';
+import BackLink from '@/presentation/components/ui/BackLink.astro';
+import PageHeader from '@/presentation/components/ui/PageHeader.astro';
 
 const courses = await new GetAllCoursesUseCase(new InMemoryCourseRepository()).execute();
 const skills = await new GetAllSkillsUseCase(new InMemorySkillRepository()).execute();
@@ -25,80 +28,82 @@ const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRe
 <Layout lang={lang} title={`${translate(coursesLabels.pageTitle, lang)} - ${personalInfo.name}`} description={translate(coursesLabels.pageTitle, lang)}>
     <Header lang={lang} personalInfo={personalInfo} />
     
-    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="mb-8 text-center">
-            <a href={`/${lang}/`} class="text-primary hover:underline">← {translate(commonLabels.back, lang)}</a>
-            <h1 class="text-3xl font-bold mt-4">{translate(coursesLabels.pageTitle, lang)}</h1>
-            <p class="text-[var(--color-text-secondary)] mt-2">{translate(coursesLabels.subtitle, lang)}</p>
-        </div>
+    <Section background='circuit' bottomFade >
+        <div class="w-full px-15 mt-8">
+            <BackLink href={`/${lang}/#courses`} text={translate(commonLabels.back, lang)} />
+            <PageHeader 
+                title={translate(coursesLabels.title, lang)}
+                subtitle={translate(coursesLabels.subtitle, lang)}
+            />
 
-        <div class="flex flex-col gap-6 w-full">
-            {courses
-                .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
-                .map((course) => (
-                    <article class="bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] rounded-lg p-6 transition-all duration-200 hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-1">
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
-                            <div>
-                                <h3 class="text-xl font-semibold text-[var(--color-text-primary)] mb-1">{translate(course.title, lang)}</h3>
-                                <p class="text-sm text-[var(--color-text-secondary)] font-medium">{translate(course.institution, lang)}</p>
-                            </div>
-                            <span class="text-[var(--color-primary)] font-semibold whitespace-nowrap text-sm">{formatMonthYear(new Date(course.completionDate), lang)}</span>
-                        </div>
-
-                        <p class="text-[var(--color-text-secondary)] my-4 leading-relaxed">{translate(course.description, lang)}</p>
-                        {course.skills && course.skills.length > 0 && (
-                            <div class="flex items-center gap-4 my-4 flex-wrap">
-                                <span class="font-semibold">{translate(coursesLabels.skillsLabel, lang)}</span>
-                                <div class="flex flex-wrap gap-2">
-                                    {course.skills.map((skillId) => {
-                                        const skill = skills.find((s) => s.id === skillId);
-                                        return (
-                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] shadow-sm" title={skill?.name || skillId}>
-                                                {skill ? (
-                                                    <img
-                                                        src={skill.iconUrl}
-                                                        alt={skill.name}
-                                                        loading="lazy"
-                                                        class="w-7 h-7 object-contain"
-                                                        width="28"
-                                                        height="28"
-                                                    />
-                                                ) : (
-                                                    <span class="font-semibold text-[var(--color-primary)] text-sm">{skillId}</span>
-                                                )}
-                                            </span>
-                                        );
-                                    })}
+            <div class="flex flex-col gap-6 w-full">
+                {courses
+                    .sort((a, b) => new Date(b.completionDate).getTime() - new Date(a.completionDate).getTime())
+                    .map((course) => (
+                        <article class="bg-bg-surface-alt-v border border-primary-v rounded-lg p-6 transition-all duration-200 hover:border-primary-v hover:shadow-lg hover:-translate-y-1">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-4">
+                                <div>
+                                    <h3 class="text-3xl font-semibold text-primary-v mb-3">{translate(course.title, lang)}</h3>
+                                    <p class="text-xl text-secondary-v font-medium">{translate(course.institution, lang)}</p>
                                 </div>
+                                <span class="text-bg-inverse-alt-v font-semibold whitespace-nowrap text-sm">{formatMonthYear(new Date(course.completionDate), lang)}</span>
                             </div>
-                        )}
 
-                        <div class="flex flex-col md:flex-row gap-4 mt-4">
-                                    {course.url && (
-                                <a
-                                    href={course.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="btn-primary inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all hover:-translate-y-0.5"
-                                >
-                                        {translate(coursesLabels.viewCourse, lang)}
-                                </a>
+                            <p class="text-bg-inverse-alt-v my-4 leading-relaxed">{translate(course.description, lang)}</p>
+                            {course.skills && course.skills.length > 0 && (
+                                <div class="flex items-center gap-4 my-4 flex-wrap">
+                                    <span class="font-semibold text-secondary-v">{translate(coursesLabels.skillsLabel, lang)}</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        {course.skills.map((skillId) => {
+                                            const skill = skills.find((s) => s.id === skillId);
+                                            return (
+                                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-bg-secondary-v border border-border-v shadow-sm" title={skill?.name || skillId}>
+                                                    {skill ? (
+                                                        <img
+                                                            src={skill.iconUrl}
+                                                            alt={skill.name}
+                                                            loading="lazy"
+                                                            class="w-7 h-7 object-contain"
+                                                            width="28"
+                                                            height="28"
+                                                        />
+                                                    ) : (
+                                                        <span class="font-semibold text-primary-v text-sm">{skillId}</span>
+                                                    )}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                             )}
-                            {course.certificateUrl && (
-                                <a
-                                    href={course.certificateUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="btn-outline inline-flex items-center px-4 py-3 rounded-md font-semibold no-underline transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                                >
-                                        {translate(coursesLabels.certificate, lang)}
-                                </a>
-                            )}
-                        </div>
-                    </article>
-                ))}
+
+                            <div class="flex flex-col md:flex-row gap-4 mt-4">
+                                        {course.url && (
+                                    <a
+                                        href={course.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-xl text-accent-v hover:text-secondary-v transition-colors inline-flex items-center px-4 py-3 rounded-md font-semibold"
+                                    >
+                                            {translate(coursesLabels.viewCourse, lang)}
+                                    </a>
+                                )}
+                                {course.certificateUrl && (
+                                    <a
+                                        href={course.certificateUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-xl text-accent-v hover:text-secondary-v transition-colors inline-flex items-center px-4 py-3 rounded-md font-semibold"
+                                    >
+                                            {translate(coursesLabels.certificate, lang)}
+                                    </a>
+                                )}
+                            </div>
+                        </article>
+                    ))}
+            </div>
         </div>
-    </main>
+    </Section>
 
     <Footer lang={lang} />
 </Layout>

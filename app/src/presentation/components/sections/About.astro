@@ -14,39 +14,23 @@ import { InMemoryAboutLabelsRepository } from '@/data';
 import { GetAboutLabelsUseCase } from '@/domain';
 
 const aboutLabels = await new GetAboutLabelsUseCase(new InMemoryAboutLabelsRepository()).execute();
+const paragraphs = translate(personalInfo.description, lang).split('\n\n');
 ---
 
-<Section id="about" class="relative" title={translate(aboutLabels.title, lang)} subtitle={translate(aboutLabels.subtitle, lang)}>
-    <div class="relative bg-slate-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 md:p-12 overflow-hidden transition-all duration-200 shadow-md hover:shadow-lg hover:border-blue-500 animate-fadeInUp">
-    <!-- animated border -->
-    <div class="animated-border pointer-events-none absolute inset-0 rounded-xl opacity-0 hover:opacity-100"></div>
-
-        <div class="grid md:grid-cols-2 gap-6 md:gap-8 relative z-10">
-            <div class="md:pr-8 md:border-r md:border-gray-200 dark:md:border-slate-700 md:pb-0 pb-4">
-                <div class="leading-relaxed text-slate-600 dark:text-slate-300">
-                    {(() => {
-                        const paragraphs = translate(personalInfo.description, lang).split('\n\n');
-                        return <p class="m-0 text-[1.05rem] opacity-0 animate-slideIn text-slate-900 dark:text-slate-100 font-medium" style="animation-delay: 0s">{paragraphs[0]}</p>;
-                    })()}
-                </div>
-            </div>
-
-            <div class="flex flex-col gap-4">
-                <div class="leading-relaxed text-slate-600 dark:text-slate-300">
-                    {(() => {
-                        const paragraphs = translate(personalInfo.description, lang).split('\n\n');
-                        return (
-                            <>
-                                {paragraphs.slice(1).map((paragraph, index) => (
-                                    <p class="m-0 text-sm opacity-0 animate-slideIn text-slate-600 dark:text-slate-300" style={`animation-delay: ${(index + 1) * 0.15}s`}>{paragraph}</p>
-                                ))}
-                            </>
-                        );
-                    })()}
-                </div>
-            </div>
-        </div>
+<Section id="about" class="relative" background='pixel-rain' bottomFade topFade title={translate(aboutLabels.subtitle, lang)} subtitle={paragraphs[0]}>
+   
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+    gap-6 md:gap-8 relative z-10 mx-10">
+        {paragraphs.slice(1).map((paragraph, index) => (
+            <p class="font-semibold text-lg opacity-0 animate-slideIn 
+            bg-bg-surface-alt-v text-text-primary-v rounded-2xl p-5 text-justify leading-10
+            shadow-md shadow-secondary-v" 
+            style={`animation-delay: ${(index + 1) * 0.15}s`}>
+                {paragraph}
+            </p>
+        ))}
     </div>
+        
 </Section>
 
 <style>

@@ -10,7 +10,7 @@ import ProjectsGrid from '@/presentation/components/projects/ProjectsGrid.astro'
 
 import type { Language } from '@domain/models/Language';
 import { supportedLanguages, translate } from '@domain/models/Language';
-import { formatDateRange, COMPANY_LINKS } from '@/core';
+import { formatDateRange, linkify } from '@/core';
 
 import { InMemoryWorkExperienceRepository, InMemoryProjectRepository, InMemoryPersonalInfoRepository, InMemorySkillRepository } from '@/data';
 import { GetWorkExperiencesUseCase, GetProjectsByTypeUseCase, GetPersonalInfoUseCase, GetSkillsUseCase  } from '@/domain';
@@ -43,19 +43,9 @@ const relatedProjects = projects.filter((project: any) =>
     project.relatedTo?.includes(workExperience.id)
 );
 
-// Helper to linkify company names with URLs from constants
-const linkifyCompanies = (text: string): string => {
-    let result = text;
-    for (const [company, url] of Object.entries(COMPANY_LINKS)) {
-        const regex = new RegExp(`\\b${company}\\b`, 'g');
-        result = result.replace(regex, `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-[var(--color-primary)] font-semibold no-underline border-b-2 border-transparent transition-colors duration-150 hover:text-[var(--color-primary-dark)] hover:border-b-[var(--color-primary)]">${company}</a>`);
-    }
-    return result;
-};
-
-
 import { InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository, InMemoryWorkLabelsRepository } from '@/data';
 import { GetCommonLabelsUseCase, GetProjectLabelsUseCase, GetWorkLabelsUseCase } from '@/domain';
+import BinaryRainBackground from '@/presentation/backgrounds/BinaryRainBackground.astro';
 
 const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
 const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
@@ -64,44 +54,44 @@ const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsReposito
 
 <Layout lang={lang} title={`${translate(workExperience.position, lang)} - ${personalInfo.name}`} description={translate(workExperience.description, lang)}>
     <Header lang={lang} personalInfo={personalInfo} />
-    
-    <main class="min-h-screen py-16 bg-gradient-to-br from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)]">
-        <div class="max-w-6xl mx-auto px-4">
+
+    <Section background="binary-rain" class="my-15">
+        <div class="mx-15">
             <BackLink href={`/${lang}/#work`} text={translate(commonLabels.back, lang)} />
-            <section class="mb-12">
-                <div class="bg-[var(--color-bg-primary)]/40 border border-[var(--color-primary)] rounded-2xl p-9 shadow-[0_16px_36px_rgba(0,0,0,0.08)]">
+            <section class="mb-5 mt-5">
+                <div class="bg-bg-surface-alt-v border border-primary-v rounded-2xl p-9">
                     <div class="flex flex-col gap-2 mb-4">
-                        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-[var(--color-text-primary)]">{translate(workExperience.position, lang)}</h1>
+                        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-primary-v">{translate(workExperience.position, lang)}</h1>
                     </div>
 
                     <div class="flex flex-wrap gap-3 mb-4">
                         <MetaPill variant="primary" href={workExperience.companyUrl} target="_blank" rel="noopener noreferrer">
                             {workExperience.company}
                         </MetaPill>
-                        <MetaPill variant="subtle">{workExperience.location}</MetaPill>
+                        <MetaPill variant="subtle">{translate(workExperience.location, lang)}</MetaPill>
                         <MetaPill variant="subtle">{formatDateRange(workExperience.startDate, workExperience.endDate, lang, translate(commonLabels.current, lang))}</MetaPill>
                     </div>
 
-                    <p class="text-[var(--color-text-primary)] text-base leading-relaxed">{translate(workExperience.description, lang)}</p>
+                    <p class="text-bg-inverse-alt-v text-md leading-relaxed">{translate(workExperience.description, lang)}</p>
                 </div>
             </section>
 
-            <Section title={translate(projectLabels.technologies, lang)} class="mb-8">
+            <Section title={translate(projectLabels.technologies, lang)}>
                 <SkillsGrid skillIds={workExperience.technologies} skills={skills.filter(skill => workExperience.technologies.includes(skill.id))} columns={4} compact={true} />
             </Section>
 
             {workExperience.achievements.length > 0 && (
-                <Section title={translate(workLabels.achievements, lang)} class="mb-8">
-                    <ul class="list-none p-0 m-0 space-y-3">
+                <Section title={translate(workLabels.achievements, lang)}>
+                    <ul class="list-none space-y-3 mt-5">
                         {workExperience.achievements.map((achievement) => (
-                                <li class="p-4 bg-[var(--color-bg-primary)] border-l-4 border-[var(--color-primary)] rounded-md text-[var(--color-text-primary)] leading-relaxed" set:html={linkifyCompanies(translate(achievement, lang))}></li>
-                            ))}
+                            <li class="p-5 bg-bg-surface-v border-l-4 border-primary-v rounded-md text-bg-inverse-alt-v leading-relaxed" set:html={linkify(translate(achievement, lang))}></li>
+                        ))}
                     </ul>
                 </Section>
             )}
 
             {relatedProjects.length > 0 && (
-                <Section title={translate(workLabels.projects, lang)} class="mb-8">
+                <Section title={translate(workLabels.projects, lang)}>
                     <ProjectsGrid 
                         projects={relatedProjects}
                         lang={lang}
@@ -114,7 +104,7 @@ const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsReposito
                 </Section>
             )}
         </div>
-    </main>
+    </Section>
 
     <Footer lang={lang} />
 </Layout>

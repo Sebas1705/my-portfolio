@@ -9,4 +9,5 @@ export interface ProjectLabels {
     personalProjects: Translations;
     workProjects: Translations;
     academicProjects: Translations;
+    noImage: Translations;
 }

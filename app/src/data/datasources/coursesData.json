@@ -81,7 +81,7 @@
         },
         "completionDate": "2025-08-12",
         "certificateUrl": "https://www.udemy.com/certificate/UC-2e061584-9523-4aca-a702-ae19fa3d740f/",
-        "skills": [".net", "cs", "sqlserver"]
+        "skills": ["dotnet", "csharp", "sqlserver"]
     },
     {
         "id": "ai-gemini-skillshop",
