@@ -52,22 +52,22 @@ const { lang, personalInfo } = Astro.props;
 
         <ul id="nav-links" class="hidden lg:flex gap-4 items-center">
             <li>
-                <a href="/#home" class="nav-link">{translate(navigationLabels.home, lang)}</a>
+                <a href={`/${lang}/#home`} class="nav-link">{translate(navigationLabels.home, lang)}</a>
             </li>
             <li>
-                <a href="/#about" class="nav-link">{translate(navigationLabels.about, lang)}</a>
+                <a href={`/${lang}/#about`} class="nav-link">{translate(navigationLabels.about, lang)}</a>
             </li>
             <li>
-                <a href="/#work" class="nav-link">{translate(navigationLabels.work, lang)}</a>
+                <a href={`/${lang}/#work`} class="nav-link">{translate(navigationLabels.work, lang)}</a>
             </li>
             <li>
-                <a href="/#education" class="nav-link">{translate(navigationLabels.education, lang)}</a>
+                <a href={`/${lang}/#education`} class="nav-link">{translate(navigationLabels.education, lang)}</a>
             </li>
             <li>
-                <a href="/#projects" class="nav-link">{translate(navigationLabels.projects, lang)}</a>
+                <a href={`/${lang}/#projects`} class="nav-link">{translate(navigationLabels.projects, lang)}</a>
             </li>
             <li>
-                <a href="/#contact" class="nav-link">{translate(navigationLabels.contact, lang)}</a>
+                <a href={`/${lang}/#contact`} class="nav-link">{translate(navigationLabels.contact, lang)}</a>
             </li>
         </ul>
 
