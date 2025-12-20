@@ -21,7 +21,7 @@ const experiences  = await new GetWorkExperiencesUseCase(new InMemoryWorkExperie
 <Section id="work" background="binary-code" title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
     
     
-    <div class="relative my-5 mx-10">
+    <div class="relative mx-10">
         {experiences.map((experience) => 
             (
                 <div class="relative mb-15">
