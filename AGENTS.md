@@ -145,29 +145,6 @@ Usuario → Presentación → Casos de Uso → Repositorios → Datos
 // Script (TypeScript)
 import type { Props } from './types';
 
-interface Props {
-    data: string;
-}
-
-const { data } = Astro.props;
----
-
-<!-- Template (HTML) -->
-<div class="component">
-    {data}
-</div>
-
-<style>
-    /* Estilos con scope local */
-    .component {
-        color: var(--color-primary);
-    }
-</style>
-
-<script>
-    // JavaScript del cliente
-    console.log('Hydrated');
-</script>
 ```
 
 **Mejores Prácticas**:
@@ -177,6 +154,70 @@ const { data } = Astro.props;
 - ✅ Usar componentes .astro para contenido estático
 - ✅ Extraer lógica compleja a funciones
 
+## 🧪 Testing
+
+### Estrategia de Testing
+
+**Cobertura mínima**: 80%
+
+El proyecto usa dos capas de tests principales:
+
+- **Unit / Integration tests**: escritos con **Vitest** y ubicados en `app/src/**` (archivos `*.test.ts`). Cubren casos de uso (`domain/use-cases`), utilidades (`core`) y repositorios `InMemory`.
+- **E2E tests**: escritos con **Playwright** y ubicados en `app/tests/e2e`. Cubren navegación, accesibilidad básica, interacciones (tema, idioma, menú) y validaciones de meta/SEO.
+
+**Tipos de Tests (ejemplos)**:
+
+1. Tests Unitarios (Use Cases y Repositorios)
+
+```typescript
+describe('GetProjectsUseCase', () => {
+    it('returns all projects', async () => {
+        const repository = new InMemoryProjectRepository();
+        const useCase = new GetAllProjectsUseCase(repository);
+
+        const projects = await useCase.execute();
+
+        expect(projects).toBeDefined();
+        expect(projects.length).toBeGreaterThan(0);
+    });
+});
+```
+
+2. Tests E2E (Playwright)
+
+```ts
+import { test, expect } from '@playwright/test';
+
+test('home shows header and hero', async ({ page }) => {
+    await page.goto('/en/');
+    await expect(page.locator('header')).toBeVisible();
+    await expect(page.locator('h1')).toContainText(/Sebasti/);
+});
+```
+
+### Ejecutar Tests
+
+```bash
+# Ir al workspace del frontend
+cd app
+
+# Tests unitarios / integración (Vitest)
+pnpm test
+pnpm run test:coverage
+
+# Tests E2E (Playwright)
+pnpm run test:e2e
+```
+
+### Cobertura y exclusiones
+
+El reporte de cobertura se genera con `v8` (configurado en `vitest.config.ts`). Para obtener métricas útiles se excluyen intencionalmente archivos de solo datos y modelos tipo-only que distorsionan el porcentaje (por ejemplo `src/data/datasources/**` y `src/domain/models/**`). Si deseas incluirlos, elimina esas rutas de la propiedad `coverage.exclude` en `vitest.config.ts`.
+
+### Estado actual (resumen)
+
+- Tests E2E adaptados a nuevas interfaces y ampliados para cubrir páginas principales (`app/tests/e2e/*`).
+- Nuevos unit tests añadidos para utilidades (`core/linkify`, `core/date`) y validación de datasources (`app/src/data/datasources/datasources.test.ts`).
+- Ejecuciones locales muestran: **~38 tests E2E** y **~36 archivos de test unitarios**, con cobertura global de Statements 100%, Functions 100%, Lines 100% y Branches ~91.66% (valor obtenido en ejecución local de ejemplo).
 ### 2. Routing
 
 ```
@@ -186,13 +227,22 @@ src/pages/
     blog/
         index.astro        → /blog
         [slug].astro       → /blog/:slug
-```
+## 🤝 Contribuir
 
-### 3. Importaciones
+Las contribuciones son bienvenidas. Flujo recomendado:
 
-**Aliases configurados**:
-```typescript
-@/              → src/
+1. Fork / crear rama (`git checkout -b feat/mi-cambio`)
+2. Implementar cambios y tests
+3. Ejecutar `pnpm test` y `pnpm run test:coverage`
+4. Crear PR a `develop`
+
+### Checklist antes de PR
+
+- [ ] Tests pasan (`pnpm test`)
+- [ ] Cobertura >= 80% (`pnpm run test:coverage`)
+- [ ] Build exitoso (`pnpm run build`)
+- [ ] Sin errores de TypeScript (`npm run astro check`)
+- [ ] Documentación actualizada si aplica
 @domain/        → src/domain/
 @data/          → src/data/
 @presentation/  → src/presentation/

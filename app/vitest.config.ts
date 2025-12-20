@@ -20,7 +20,12 @@ export default defineConfig({
                 'docs/',
                 'tests/e2e/**',
                 '**/*.astro',
-                '**/pages/**'
+                '**/pages/**',
+                // Excluir datasources JSON y carpetas de sólo tipos que no aportan código ejecutable
+                'src/data/datasources/**',
+                'src/data/datasources/**/*.json',
+                'src/domain/i-repositories/**',
+                'src/domain/models/**'
             ],
             thresholds: {
                 lines: 80,

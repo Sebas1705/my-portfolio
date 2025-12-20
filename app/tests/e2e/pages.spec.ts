@@ -87,4 +87,18 @@ test.describe('Site Pages', () => {
             expect(bodyText.toLowerCase()).toContain('404');
         }
     });
+
+    test('root should redirect to a supported language', async ({ page }) => {
+        // Navegar a la raíz y esperar redirección por cliente (script) o por servidor
+        await page.goto('/');
+        // esperar un poco para que el script de redirección se ejecute
+        await page.waitForTimeout(500);
+        const url = page.url();
+        // Debe redirigir a /es/ (por defecto) o a alguno de los supported languages
+        const ok = /\/(es|en)\//.test(url);
+        expect(ok).toBe(true);
+        // Verificar que el enlace de fallback exista
+        const link = page.locator('#link');
+        if (await link.count() > 0) await expect(link).toBeVisible();
+    });
 });

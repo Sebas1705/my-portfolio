@@ -16,60 +16,54 @@ Portfolio web profesional construido con **Astro** y **Clean Architecture**, dis
 
 ### Prerrequisitos
 
-- Node.js 18+ 
-- npm o yarn
+- Node.js 18+ (recomendado 18–22)
+- pnpm (recomendado) o npm
 
-### Instalación
+### Instalación y arranque
 
 ```bash
 # Clonar el repositorio
 git clone https://github.com/Sebas1705/my-portfolio.git
 
-# Navegar al directorio
-cd my-portfolio
+# Ir al workspace del frontend (carpeta app)
+cd my-portfolio/app
 
-# Instalar dependencias
-npm install
+# Instalar dependencias (pnpm recomendado)
+pnpm install
 
 # Iniciar servidor de desarrollo
-npm run dev
+pnpm run dev
 ```
 
-El sitio estará disponible en `http://localhost:4321`
+El sitio estará disponible en `http://localhost:4321` (o el puerto que indique Astro).
 
 ## 📜 Scripts Disponibles
 
 ```bash
-npm run dev          # Inicia servidor de desarrollo
-npm run build        # Genera build de producción
-npm run preview      # Previsualiza el build
-npm test             # Ejecuta tests unitarios
-npm run test:watch   # Tests en modo watch
-npm run test:coverage # Genera reporte de cobertura
+pnpm run dev             # Inicia servidor de desarrollo
+pnpm run build           # Genera build de producción
+pnpm run preview         # Previsualiza el build
+pnpm test                # Ejecuta tests unitarios (Vitest)
+pnpm run test:watch      # Tests en modo watch (Vitest)
+pnpm run test:coverage   # Genera reporte de cobertura (Vitest v8)
+pnpm run test:e2e        # Ejecuta tests E2E (Playwright)
 ```
 
 ## 🏗️ Estructura del Proyecto
 
 ```
 my-portfolio/
-├── src/
-│   ├── domain/              # Entidades y contratos
-│   │   ├── entities/        # Modelos de datos
-│   │   └── repositories/    # Interfaces de repositorios
-│   ├── application/         # Casos de uso
-│   │   └── use-cases/       # Lógica de negocio
-│   ├── infrastructure/      # Implementaciones
-│   │   ├── data/            # Datos estáticos
-│   │   ├── repositories/    # Implementación de repositorios
-│   │   └── i18n/            # Traducciones
-│   ├── presentation/        # Capa de UI
-│   │   ├── components/      # Componentes Astro
-│   │   ├── layouts/         # Layouts
-│   │   └── styles/          # Estilos globales
-│   └── pages/               # Páginas de Astro
-├── public/                  # Assets estáticos
-├── docs/                    # Documentación adicional
-├── AGENTS.md               # Normas y arquitectura
+├── app/                    # Código del sitio (Astro workspace)
+│   ├── src/
+│   │   ├── core/           # Utilidades y helpers (date, linkify, constants)
+│   │   ├── data/           # Datasources y repositorios (InMemory)
+│   │   ├── domain/         # Modelos y casos de uso
+│   │   └── presentation/   # Componentes, layouts y páginas (.astro)
+│   ├── tests/              # Tests E2E (Playwright)
+│   └── package.json        # Scripts y dependencias del frontend
+├── public/                 # Assets estáticos (imágenes, etc.)
+├── docs/                   # Documentación adicional
+├── AGENTS.md               # Normas y arquitectura (detallado)
 └── README.md               # Este archivo
 ```
 
@@ -115,12 +109,14 @@ npm run test:coverage
 npm run test:watch
 ```
 
-### Cobertura Actual
+### Cobertura actual (ejecución local)
 
-- ✅ Use Cases: 100%
-- ✅ Repositorios: 100%
-- ✅ i18n: 100%
-- 📊 **Cobertura Total**: >80%
+- ✅ Statements: 100%
+- ✅ Functions: 100%
+- ✅ Lines: 100%
+- ⚖️ Branches: 91.66%
+
+Nota: Para evitar que archivos de solo datos (JSON/datasources) y tipos puro aparezcan con 0% y contaminen el reporte, `vitest.config.ts` incluye exclusiones para `src/data/datasources/**` y `src/domain/models/**`. Ajusta estas exclusiones en `vitest.config.ts` si quieres incluirlos explícitamente en la cobertura.
 
 ## 🚢 Deploy
 
@@ -189,13 +185,13 @@ Asegúrate de que:
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](./LICENSE) para más detalles.
 
+
 ## 👤 Autor
 
-**Sebastián**
+**Sebastián Ramiro Entrerrios García**
 
 - GitHub: [@Sebas1705](https://github.com/Sebas1705)
-- LinkedIn: [Sebastian](https://linkedin.com/in/sebastian)
-- Email: sebastian@example.com
+- Email: sebssgarcia502580@gmail.com
 
 ## 🙏 Agradecimientos
 
