@@ -82,7 +82,7 @@ const typeLabels: Record<string, Translations> = {
 
             {project.technologies && project.technologies.length > 0 && (
                 <Section title={translate(projectLabels.technologies, lang)}>
-                    <SkillsGrid skillIds={project.technologies} skills={skills.filter((skill: Skill) => project.technologies.includes(skill.id))} columns={4} compact={true} />
+                    <SkillsGrid skillIds={project.technologies} skills={skills.filter((skill: Skill) => project.technologies.includes(skill.id))} />
                 </Section>
             )}
         </div>

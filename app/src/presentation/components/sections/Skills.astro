@@ -2,7 +2,7 @@
 import type { Language, CommonLabels } from '@domain/models';
 import { translate } from '@/domain';
 import Section from '../common/Section.astro';
-import Button from '../common/ui/Button.astro';
+// Button import removed (unused)
 
 interface Props {
     lang: Language;
@@ -14,7 +14,6 @@ const { lang, featured = 12, commonLabels } = Astro.props;
 
 import { InMemorySkillsLabelsRepository, InMemorySkillRepository } from '@/data';
 import { GetSkillsLabelsUseCase, GetSkillsUseCase } from '@/domain';
-import CircuitPatternBackground from '@/presentation/backgrounds/CircuitPatternBackground.astro';
 
 const skillsLabels = await new GetSkillsLabelsUseCase(new InMemorySkillsLabelsRepository()).execute();
 const skills = await new GetSkillsUseCase(new InMemorySkillRepository()).execute();
