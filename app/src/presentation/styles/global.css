@@ -4,6 +4,9 @@
 @plugin "@tailwindcss/typography";
 
 
+:root, :root * { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+
 :root {
     /* Color palette - Light mode */
     --color-primary: #3b82f6;
@@ -19,19 +22,6 @@
     --color-bg-surface-alt: #ffffff;
     --color-bg-inverse: #000000;
     --color-bg-inverse-alt: #000000;
-    
-    
-    --color-text-primary: #0f172a;
-    --color-text-secondary: #475569;
-    --color-text-tertiary: #94a3b8;
-    
-    --color-border: #e2e8f0;
-    --color-shadow: rgba(0, 0, 0, 0.1);
-
-    --breakpoint-xs: 480px;
-
-
-    /* Header palettes */
 }
 
 [data-theme="dark"] {
@@ -49,17 +39,6 @@
     --color-bg-surface-alt: #061020;
     --color-bg-inverse: #ffffff;
     --color-bg-inverse-alt: #ffffffff;
-    
-    --color-text-primary: #f1f5f9;
-    --color-text-secondary: #cbd5e1;
-    --color-text-tertiary: #64748b;
-    
-    --color-border: #334155;
-    --color-shadow: rgba(0, 0, 0, 0.3);
-
-    /* Header palettes */
-    --color-header-bg: #061020;
-    --color-inverse-header-bg: #ffffffff;
 }
 
 @theme {
@@ -77,44 +56,21 @@
     --color-bg-inverse-v: var(--color-bg-inverse);
     --color-bg-inverse-alt-v: var(--color-bg-inverse-alt);
 
-    --color-text-primary-v: var(--color-text-primary);
-    --color-text-secondary-v: var(--color-text-secondary);
-    --color-text-tertiary-v: var(--color-text-tertiary);
-    
-    --color-border-v: var(--color-border);
-    --color-shadow-v: var(--color-shadow);
+    --breakpoint-xs: 480px;
 }
 
-/* Utility classes */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
 
-/* Language selector helpers */
-.language-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.375rem;
-    background-color: rgba(148,163,184,0.06);
-    color: var(--color-primary);
-    border: 2px solid var(--color-primary);
-    font-weight: 600;
-}
-.language-button:hover { background-color: var(--color-primary); color: #fff; }
-.language-dropdown { min-width: 12rem; max-height: 18rem; overflow-y: auto; }
-.language-option { display:flex; align-items:center; gap:0.75rem; width:100%; padding:0.75rem 1rem; background:transparent; border:none; cursor:pointer; }
-.language-option:hover { background-color: rgba(59,130,246,0.06); }
-.language-option[data-active="true"] { background-color: var(--color-primary); color: #fff; font-weight:600; }
+.responsive-header-h { @apply h-6 xs:h-8 sm:h-10 md:h-12 }
+.sr-only { @apply absolute w-1 h-1 p-0 -m-px overflow-hidden whitespace-nowrap border-0 }
+.language-button { @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-bg-surface-alt-v text-primary-v border-2 border-primary-v font-semibold }
+.language-button:hover { @apply bg-primary-v text-white }
+.language-button[data-active="true"] { @apply bg-primary-v text-white }
+.lang-code[data-active="true"] { @apply text-white }
+.lang-name[data-active="true"] { @apply text-white }
+.language-dropdown { @apply min-w-48 max-h-72 overflow-y-auto }
+.language-option { @apply flex items-center gap-3 px-4 py-3 bg-transparent border-0 cursor-pointer }
+.language-option:hover { @apply bg-primary-v/10 }
+.language-option[data-active="true"] {  @apply bg-primary-v text-white font-semibold }
 
 /* Navs */
 

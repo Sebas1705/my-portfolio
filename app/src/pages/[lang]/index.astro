@@ -28,25 +28,15 @@ const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRe
 ---
 
 <Layout lang={lang} title={`${personalInfo.name} - ${translate(personalInfo.title, lang)}`} description={translate(personalInfo.bio, lang)}>
-    <!-- Outer scroller: enables horizontal scroll when viewport < inner min width -->
-    <div class="w-full overflow-x-auto">
-        <!-- Inner content with enforced minimum width -->
-        <div class="min-w-125 overflow-x-auto">
-            <Header lang={lang} personalInfo={personalInfo} />
-
-            <main>
-                <Hero lang={lang} personalInfo={personalInfo} />
-                <Skills commonLabels={commonLabels} lang={lang}/>
-                <SoftSkills lang={lang} />
-                <About lang={lang} personalInfo={personalInfo} />
-                <WorkExperience commonLabels={commonLabels} lang={lang} />
-                <Education commonLabels={commonLabels} lang={lang} />
-                <Courses commonLabels={commonLabels} lang={lang} />
-                <Projects lang={lang} />
-                <Contact lang={lang} personalInfo={personalInfo} />
-            </main>
-
-            <Footer lang={lang} />
-        </div>
-    </div>
+    <Header lang={lang} personalInfo={personalInfo} />
+    <Hero lang={lang} personalInfo={personalInfo} />
+    <Skills commonLabels={commonLabels} lang={lang}/>
+    <SoftSkills lang={lang} />
+    <About lang={lang} personalInfo={personalInfo} />
+    <WorkExperience commonLabels={commonLabels} lang={lang} />
+    <Education commonLabels={commonLabels} lang={lang} />
+    <Courses commonLabels={commonLabels} lang={lang} />
+    <Projects lang={lang} />
+    <Contact lang={lang} personalInfo={personalInfo} />
+    <Footer lang={lang} />
 </Layout>

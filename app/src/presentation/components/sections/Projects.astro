@@ -18,7 +18,7 @@ const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepositor
 ---
 
 <Section id="projects" background='blueprint' bottomFade topFade title={translate(projectLabels.title, lang)} subtitle={translate(projectLabels.subtitle, lang)}>
-    <div class="flex flex-col gap-x-15 gap-y-5 mx-15">
+    <div class="flex flex-col gap-x-15 gap-y-5 px-5 md:px-10 lg:px-15">
         <div class="w-full grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, index) => {
                 return (
