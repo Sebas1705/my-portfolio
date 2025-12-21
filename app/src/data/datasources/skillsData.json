@@ -450,7 +450,7 @@
     {
         "id": "jetpack-compose",
         "name": "Jetpack Compose",
-        "iconUrl": "https://logo.svgcdn.com/devicon/jetpackcompose-original.png",
+        "iconUrl": "https://developer.android.com/static/images/spot-icons/jetpack-compose.svg",
         "level": 4,
         "category": "frameworks"
     },

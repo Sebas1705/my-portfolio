@@ -23,9 +23,9 @@ const visibleCourses = courses
 ---
 <Section id="courses" background="binary-rain" bottomFade topFade title={translate(courseLabels.title, lang)} subtitle={translate(courseLabels.subtitle, lang)}>
     
-    <div class="flex flex-col gap-5 mt-10">
+    <div class="flex flex-col gap-5 mt-10 px-5 md:px-10 lg:px-15">
         <div class="grid grid-cols-1 md:grid-cols-3
-        gap-5 mt-8 mb-10 mx-15">
+        gap-5 mt-8 mb-10">
             {visibleCourses.map((course) => (
                 <CourseCard course={course} lang={lang} courseLabels={courseLabels} />
             ))}

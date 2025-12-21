@@ -29,7 +29,7 @@ const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRe
     <Header lang={lang} personalInfo={personalInfo} />
     
     <Section background='circuit' bottomFade >
-        <div class="w-full px-15 mt-8">
+        <div class="w-full px-5 md:px-10 lg:px-15 mt-8">
             <BackLink href={`/${lang}/#courses`} text={translate(commonLabels.back, lang)} />
             <PageHeader 
                 title={translate(coursesLabels.title, lang)}

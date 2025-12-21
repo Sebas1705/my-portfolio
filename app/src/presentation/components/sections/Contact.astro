@@ -20,7 +20,7 @@ const contactLabels = await new GetContactLabelsUseCase(new InMemoryContactLabel
 ---
 
 <Section id="contact" class="bg-bg-surface-alt-v" title={translate(contactLabels.title, lang)} subtitle={translate(contactLabels.subtitle, lang)}>
-    <div class="grid gap-12 items-center lg:grid-cols-2">
+    <div class="grid gap-12 items-center lg:grid-cols-2 px-5 md:px-10 lg:px-15">
         <div>
         <p class="text-2xl text-secondary-v font-semibold mb-8 text-center lg:text-left">{translate(contactLabels.message, lang)}</p>
 

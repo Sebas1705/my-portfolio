@@ -46,14 +46,14 @@ const categoryLabels: Record<string, string> = {
 <Layout lang={lang} title={`${translate(skillsLabels.title, lang)} - ${personalInfo.name}`} description={translate(skillsLabels.title, lang)}>
     <Header lang={lang} personalInfo={personalInfo} />
     
-    <Section class="mt-15" background='circuit'>
-        <div class="w-full px-15">
+    <Section class="mt-10" background='circuit'>
+        <div class="w-full px-5">
             <BackLink href={`/${lang}/#skills`} text={translate(commonLabels.back, lang)} />
 
             <div class="bg-bg-surface-alt-v border-2 border-primary-v rounded-3xl p-8 my-15 text-center mx-auto max-w-4xl">
-                <h1 class="text-5xl text-primary-v font-bold mt-4">{translate(skillsLabels.title, lang)}</h1>
+                <h1 class="text-3xl xs:text-5xl text-primary-v font-bold mt-4">{translate(skillsLabels.title, lang)}</h1>
                 <p class="text-2xl text-secondary-v my-5">{translate(skillsLabels.subtitle, lang)}</p>
-                <div class="flex flex-wrap justify-center gap-8 items-center mt-10 mb-5">
+                <div class="flex flex-col xs:flex-row justify-center gap-8 items-center mt-10 mb-5">
                     <div class="flex flex-col items-center gap-2">
                         <span class="text-accent-v text-lg tracking-wider">★</span>
                         <span class="text-sm font-medium text-bg-inverse-alt-v">{translate(skillsLabels.tierBasic, lang)}</span>
@@ -80,7 +80,7 @@ const categoryLabels: Record<string, string> = {
             {Object.entries(groupedSkills).map(([category, categorySkills]) => (
                 <section class="mb-16 w-full">
                     <h2 class="text-3xl font-semibold text-secondary-v mb-8 pb-4 border-b-2 border-primary-v">{categoryLabels[category]}</h2>
-                    <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
+                    <div class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-5">
                         {categorySkills
                             .sort((a, b) => b.level - a.level)
                             .map((skill) => (
@@ -89,7 +89,7 @@ const categoryLabels: Record<string, string> = {
                                         <img src={skill.iconUrl} alt={skill.name} loading="lazy" class="size-26 object-contain" />
                                     </div>
                                     )}
-                                    <h3 class="mb-5 overflow-hidden line-clamp-3 text-2xl text-secondary-v">{skill.name}</h3>
+                                    <h3 class="mb-5 overflow-hidden line-clamp-3 text-xl xs:text-2xl text-secondary-v">{skill.name}</h3>
                                     
                                     <div class="mt-2 mb-4 text-accent-v font-extrabold">
                                         <span class="tracking-wide" title={`${skill.level}/5`}>

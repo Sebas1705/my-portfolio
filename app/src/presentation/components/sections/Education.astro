@@ -20,7 +20,7 @@ const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepositor
 ---
 
 <Section id="education" bottomFade topFade background='diagonal' title={translate(educationLabels.title, lang)} subtitle={translate(educationLabels.subtitle, lang)}>
-    <div class="grid gap-8 mx-15 mt-5">
+    <div class="grid gap-8 px-5 md:px-10 lg:px-15 mt-5">
         {experiences.map((experience, index) => {
             return (
                 <article class="bg-bg-surface-alt-v rounded-2xl p-6 shadow-md transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl border border-primary-v" data-index={index}>
@@ -62,10 +62,10 @@ const projects = await new GetProjectsByTypeUseCase(new InMemoryProjectRepositor
                                         <p class="text-md text-bg-inverse-alt-v mb-3">{translate(project.description, lang)}</p>
                                         <div class="flex gap-4">
                                             {project.demoUrl && (
-                                                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-accent-v hover:text-secondary-v">{translate(commonLabels.demo, lang)}</a>
+                                                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" class="text-md font-semibold text-accent-v hover:text-secondary-v">{translate(commonLabels.demo, lang)}</a>
                                             )}
                                             {project.repoUrl && (
-                                                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-accent-v hover:text-secondary-v">{translate(commonLabels.code, lang)}</a>
+                                                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-md font-semibold text-accent-v hover:text-secondary-v">{translate(commonLabels.code, lang)}</a>
                                             )}
                                         </div>
                                         <div class="flex justify-end">

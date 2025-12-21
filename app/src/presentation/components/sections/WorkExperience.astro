@@ -18,10 +18,9 @@ const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsReposito
 const experiences  = await new GetWorkExperiencesUseCase(new InMemoryWorkExperienceRepository()).execute();
 ---
 
-<Section id="work" background="binary-code" title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
+<Section id="work" background="binary-code" topFade bottomFade title={translate(workLabels.title, lang)} subtitle={translate(workLabels.subtitle, lang)}>
     
-    
-    <div class="relative mx-10">
+    <div class="relative px-5 md:px-10 lg:px-15">
         {experiences.map((experience) => 
             (
                 <div class="relative mb-15">

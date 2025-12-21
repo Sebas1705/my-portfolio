@@ -17,12 +17,12 @@ const orderedLanguages = [
 
 <div class="language-selector relative inline-block">
     <button
-        class="language-button w-24 h-14"
+        class="language-button w-18 xs:w-22 responsive-header-h"
         aria-label="Change language"
         title="Change language"
     >
-        <span class="current-lang text-xl">{currentLang.toUpperCase()}</span>
-        <svg class="size-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <span class="current-lang text-sm xs:text-xl">{currentLang.toUpperCase()}</span>
+        <svg class="h-4 xs:h-6 sm:h-8 md:h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"/>
         </svg>
     </button>
@@ -30,8 +30,8 @@ const orderedLanguages = [
     <div class="language-dropdown absolute top-full right-0 mt-2 bg-bg-surface-alt-v border-2 border-primary-v rounded-md shadow-lg" hidden>
         {orderedLanguages.map((lng) => (
             <button class="language-option" data-lang={lng} data-active={lng === currentLang ? 'true' : 'false'}>
-                <span class="lang-code">{lng.toUpperCase()}</span>
-                <span class="lang-name">{languageNames[lng]}</span>
+                <span class="lang-code" data-active={lng === currentLang ? 'true' : 'false'}>{lng.toUpperCase()}</span>
+                <span class="lang-name" data-active={lng === currentLang ? 'true' : 'false'}>{languageNames[lng]}</span>
                 {lng === currentLang ? (
                     <svg class="w-4 h-4" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="20 6 9 17 4 12"/>
