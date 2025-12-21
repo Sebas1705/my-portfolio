@@ -45,7 +45,6 @@ const relatedProjects = projects.filter((project: any) =>
 
 import { InMemoryCommonLabelsRepository, InMemoryProjectLabelsRepository, InMemoryWorkLabelsRepository } from '@/data';
 import { GetCommonLabelsUseCase, GetProjectLabelsUseCase, GetWorkLabelsUseCase } from '@/domain';
-import BinaryRainBackground from '@/presentation/backgrounds/BinaryRainBackground.astro';
 
 const commonLabels = await new GetCommonLabelsUseCase(new InMemoryCommonLabelsRepository()).execute();
 const projectLabels = await new GetProjectLabelsUseCase(new InMemoryProjectLabelsRepository()).execute();
@@ -55,8 +54,8 @@ const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsReposito
 <Layout lang={lang} title={`${translate(workExperience.position, lang)} - ${personalInfo.name}`} description={translate(workExperience.description, lang)}>
     <Header lang={lang} personalInfo={personalInfo} />
 
-    <Section background="binary-rain" class="my-15">
-        <div class="mx-15">
+    <Section background="binary-rain">
+        <div class="px-5 md:px-10 lg:px-15 mt-5">
             <BackLink href={`/${lang}/#work`} text={translate(commonLabels.back, lang)} />
             <section class="mb-5 mt-5">
                 <div class="bg-bg-surface-alt-v border border-primary-v rounded-2xl p-9">
@@ -77,7 +76,7 @@ const workLabels = await new GetWorkLabelsUseCase(new InMemoryWorkLabelsReposito
             </section>
 
             <Section title={translate(projectLabels.technologies, lang)}>
-                <SkillsGrid skillIds={workExperience.technologies} skills={skills.filter(skill => workExperience.technologies.includes(skill.id))} columns={4} compact={true} />
+                <SkillsGrid skillIds={workExperience.technologies} skills={skills.filter(skill => workExperience.technologies.includes(skill.id))}/>
             </Section>
 
             {workExperience.achievements.length > 0 && (

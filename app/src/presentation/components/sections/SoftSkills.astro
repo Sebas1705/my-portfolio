@@ -17,8 +17,8 @@ const softSkills = await new GetSoftSkillsUseCase(new InMemorySoftSkillRepositor
 ---
 
 <Section id="soft-skills" background='notebook' title={translate(softSkillsLabels.title, lang)} subtitle={translate(softSkillsLabels.subtitle, lang)}>
-    <div class="grid gap-6 grid-cols-2 
-            md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mx-30 mt-10 ">
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 px-5 md:px-10 lg:px-15
+            md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-10 ">
         {softSkills.map((skill) => (
             <div class={`soft-skill-card fade-in bg-bg-surface-alt-v border-3 border-primary-v rounded-2xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg flex flex-col gap-4`} title={translate(skill.name, lang)}>
                 <div class="text-5xl text-accent-v">~{skill.icon}~</div>
