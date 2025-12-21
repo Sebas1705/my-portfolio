@@ -2,9 +2,6 @@
 import Layout from '@/presentation/layouts/Layout.astro';
 import { supportedLanguages } from '@/domain';
 
-// Enable server-side detection and redirect when headers are present
-export const prerender = false;
-
 const defaultLang = 'es';
 const req = Astro.request;
 if (req && req.headers) {

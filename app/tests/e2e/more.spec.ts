@@ -37,7 +37,7 @@ test.describe('More E2E checks', () => {
                 const title = (await card.locator('h2, h3, h1').first().innerText()).trim();
                 expect(title.length).toBeGreaterThan(0);
                 // alt should contain some part of title
-                expect(alt.toLowerCase()).toContain(title.split(' ')[0].toLowerCase());
+                expect(alt!.toLowerCase()).toContain(title.split(' ')[0].toLowerCase());
             }
         }
     });
@@ -73,7 +73,6 @@ test.describe('More E2E checks', () => {
         // estado inicial: hamburger visible, close hidden
         if (await hamburger.count() > 0 && await close.count() > 0) {
             const hHidden = (await hamburger.getAttribute('class')) || '';
-            const cHidden = (await close.getAttribute('class')) || '';
             // hamburger no debe tener 'hidden' en mobile
             expect(hHidden.includes('hidden') || true).toBeTruthy();
 
@@ -83,7 +82,6 @@ test.describe('More E2E checks', () => {
 
             // tras abrir, hamburger debe tener clase 'hidden' y close no
             const hAfter = (await hamburger.getAttribute('class')) || '';
-            const cAfter = (await close.getAttribute('class')) || '';
             expect(hAfter.includes('hidden') || true).toBeTruthy();
         }
     });
