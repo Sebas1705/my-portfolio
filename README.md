@@ -1,11 +1,11 @@
-> ⚠️ **LEGACY** — This is the v1 portfolio (Astro + GitHub Pages). The current active portfolio is **[carreerV2](https://github.com/Sebas1705/carreerV2)**. This repo is kept for reference only and is no longer maintained.
+> ⚠️ **LEGACY** — This is the v1 portfolio (Astro + GitHub Pages). The current active portfolio is **[carreerV2](https://github.com/Sebas1705Carreer/carreerV2)**. This repo is kept for reference only and is no longer maintained.
 
 ---
 # carreerV1 - Personal Portfolio
 
 Personal portfolio built with **Astro 4**, **TypeScript**, and **Clean Architecture**. Fully static site (SSG) deployed on GitHub Pages, with live data fetched from the career API at build time.
 
-**Live site:** https://sebas1705.github.io/carreerV1/
+**Live site:** https://sebas1705carreer.github.io/carreerV1/
 
 ---
 
@@ -77,7 +77,7 @@ carreerV1/
 Prerequisites: Node.js 18+, pnpm
 
 ```bash
-git clone https://github.com/Sebas1705/carreerV1.git
+git clone https://github.com/Sebas1705Carreer/carreerV1.git
 cd carreerV1/app
 pnpm install
 pnpm run dev
@@ -142,6 +142,6 @@ Runs on every push to `main`:
 
 | Repo | Description |
 |---|---|
-| [career-api](https://github.com/Sebas1705/career-api) | Hono + Cloudflare Workers API powering the data |
-| [carreerV2](https://github.com/Sebas1705/carreerV2) | Portfolio v2 - React 19, Vite, Tailwind, PDF CV generator |
-| [career-editor-kmp](https://github.com/Sebas1705/career-editor-kmp) | KMP desktop/Android editor for career-api data |
+| [career-api-worker](https://github.com/Sebas1705Carreer/career-api-worker) | Cloudflare Workers + KV API powering the data |
+| [carreerV2](https://github.com/Sebas1705Carreer/carreerV2) | Portfolio v2 - React 19, Vite, Tailwind, PDF CV generator |
+| [career-editor-kmp](https://github.com/Sebas1705Carreer/career-editor-kmp) | KMP desktop/Android editor for career-api data |

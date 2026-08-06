@@ -223,7 +223,7 @@
         },
         "technologies": ["astro", "nodejs", "typescript", "docker", "docker-compose", "tailwindcss", "vitest", "playright"],
         "imageUrl": "/projects/portfolio.webp",
-        "repoUrl": "https://github.com/Sebas1705/my-portfolio",
+        "repoUrl": "https://github.com/Sebas1705Carreer/carreerV1",
         "startDate": "2025-12-20",
         "type": "academic",
         "relatedTo": ["master-ia"]

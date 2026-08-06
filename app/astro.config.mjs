@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sebas1705.github.io',
+  site: 'https://sebas1705carreer.github.io',
   base: '/carreerV1',
   output: 'static',
   build: {
