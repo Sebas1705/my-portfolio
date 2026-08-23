@@ -1,4 +1,4 @@
-// API Repositories (live data from career-api.sebas1705.workers.dev)
+// API Repositories (live data from api.sebas1705.dev)
 export { ApiWorkExperienceRepository } from './api/ApiWorkExperienceRepository';
 export { ApiProjectRepository } from './api/ApiProjectRepository';
 export { ApiSkillRepository } from './api/ApiSkillRepository';

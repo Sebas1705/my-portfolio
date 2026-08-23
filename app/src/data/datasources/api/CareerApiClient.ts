@@ -1,4 +1,4 @@
-const BASE_URL = 'https://career-api.sebas1705.workers.dev';
+const BASE_URL = 'https://api.sebas1705.dev';
 
 export async function apiGet<T>(path: string): Promise<T> {
     const res = await fetch(`${BASE_URL}${path}`);
